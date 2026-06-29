@@ -15,9 +15,17 @@
 #
 # Usage:
 #   bash examples/qwen/train_qwen3_30b_a3b_a100.sh \
-#       <checkpoint_path> <tokenizer_path> <data_path>
+#       [checkpoint_path] [tokenizer_path] [data_path]
 #
-# Example:
+# Defaults:
+#   checkpoint_path : /mnt/si002365wekc/zwx/checkpoints/qwen
+#   tokenizer_path  : /mnt/si002365wekc/zwx/models/Qwen3-30B-A3B-tokenizer
+#   data_path       : /mnt/si002365wekc/zwx/datasets/wikitext-103/wikitext_qwen3_text_document
+#
+# Example (with defaults):
+#   bash examples/qwen/train_qwen3_30b_a3b_a100.sh
+#
+# Example (custom paths):
 #   bash examples/qwen/train_qwen3_30b_a3b_a100.sh \
 #       /path/to/checkpoints \
 #       /path/to/qwen3-tokenizer \
@@ -42,9 +50,13 @@ export NCCL_SOCKET_IFNAME=${NCCL_SOCKET_IFNAME:-ib0}  # Adjust for your cluster
 ###############################################################################
 # Paths (positional arguments)
 ###############################################################################
-CHECKPOINT_PATH=${1:?"Error: checkpoint path is required"}
-TOKENIZER_PATH=${2:?"Error: tokenizer path is required"}
-DATA_PATH=${3:?"Error: data path is required"}
+DEFAULT_CHECKPOINT_PATH="/mnt/si002365wekc/zwx/checkpoints/qwen"
+DEFAULT_TOKENIZER_PATH="/mnt/si002365wekc/zwx/models/Qwen3-30B-A3B-tokenizer"
+DEFAULT_DATA_PATH="/mnt/si002365wekc/zwx/datasets/wikitext-103/wikitext_qwen3_text_document"
+
+CHECKPOINT_PATH=${1:-$DEFAULT_CHECKPOINT_PATH}
+TOKENIZER_PATH=${2:-$DEFAULT_TOKENIZER_PATH}
+DATA_PATH=${3:-$DEFAULT_DATA_PATH}
 
 TENSORBOARD_LOGS_PATH=${TENSORBOARD_LOGS_PATH:-"${CHECKPOINT_PATH}/tensorboard"}
 
