@@ -66,6 +66,21 @@ class ProfilingConfig:
     """Enable NVTX range annotations for profiling. When enabled, inserts NVTX markers
     to categorize execution in profiler output."""
 
+    memory_profile_mode: Literal["none", "light", "deep"] = "none"
+    """Collect rank-local GPU memory samples. ``deep`` also records a memory breakdown."""
+
+    memory_profile_warmup_iters: int = 5
+    """Number of training iterations to run before GPU memory profiling starts."""
+
+    memory_profile_iters: int = 3
+    """Number of training iterations to profile before training exits."""
+
+    memory_profile_dir: str = "memory_profile"
+    """Directory for per-rank JSONL samples and deep-profile allocator snapshots."""
+
+    memory_profile_history_max_entries: int = 100000
+    """Maximum number of allocator history entries retained per rank in deep mode."""
+
 
 @dataclass(kw_only=True)
 class DistributedInitConfig:

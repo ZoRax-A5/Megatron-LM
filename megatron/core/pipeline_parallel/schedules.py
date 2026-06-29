@@ -303,6 +303,15 @@ def forward_step_calc_loss(
 
     from megatron.core.transformer.multi_token_prediction import MTPLossAutoScaler
 
+    memory_profiler = getattr(config, "memory_profiler", None)
+    if memory_profiler is not None:
+        memory_profiler.sample(
+            "forward_start",
+            microbatch=current_microbatch,
+            vp_stage=vp_stage,
+            communication_tensors=input_tensor,
+        )
+
     model_vp_stage = getattr(model, "vp_stage", None)
     if vp_stage is not None and model_vp_stage is not None:
         assert (
@@ -524,6 +533,14 @@ def forward_step(
         is_last_stage,
     )
 
+    if memory_profiler is not None:
+        memory_profiler.sample(
+            "forward_end",
+            microbatch=current_microbatch,
+            vp_stage=vp_stage,
+            communication_tensors=output_tensor,
+        )
+
     if unwrap_output_tensor:
         return output_tensor, num_tokens
     return [output_tensor], num_tokens
@@ -540,6 +557,12 @@ def backward_step(input_tensor, output_tensor, output_tensor_grad, config):
     # NOTE: This code currently can handle at most one skip connection. It
     # needs to be modified slightly to support arbitrary numbers of skip
     # connections.
+
+    memory_profiler = getattr(config, "memory_profiler", None)
+    if memory_profiler is not None:
+        memory_profiler.sample(
+            "backward_start", communication_tensors=[input_tensor, output_tensor_grad]
+        )
 
     if config.timers is not None:
         config.timers('backward-compute', log_level=2).start()
@@ -588,6 +611,9 @@ def backward_step(input_tensor, output_tensor, output_tensor_grad, config):
 
     if config.timers is not None:
         config.timers('backward-compute').stop()
+
+    if memory_profiler is not None:
+        memory_profiler.sample("backward_end", communication_tensors=input_tensor_grad)
 
     return input_tensor_grad
 

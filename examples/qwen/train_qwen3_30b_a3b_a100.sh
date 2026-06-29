@@ -180,7 +180,7 @@ GLOBAL_BATCH_SIZE=${GLOBAL_BATCH_SIZE:-$DEFAULT_GLOBAL_BATCH_SIZE}
 TRAINING_ARGS=(
     --micro-batch-size 1
     --global-batch-size $GLOBAL_BATCH_SIZE
-    --train-iters 500000
+    --train-iters ${TRAIN_ITERS:-500000}
     --lr 1.0e-4
     --min-lr 1.0e-5
     --lr-decay-style cosine
@@ -212,12 +212,15 @@ TRAINING_ARGS=(
 #   - 32 GPUs: EP=8, DP=4  (or EP=16, DP=2)
 
 EXPERT_PARALLEL_SIZE=${EXPERT_PARALLEL_SIZE:-8}
+TENSOR_PARALLEL_SIZE=${TENSOR_PARALLEL_SIZE:-1}
+PIPELINE_PARALLEL_SIZE=${PIPELINE_PARALLEL_SIZE:-1}
+CONTEXT_PARALLEL_SIZE=${CONTEXT_PARALLEL_SIZE:-1}
 
 MODEL_PARALLEL_ARGS=(
-    --tensor-model-parallel-size 1
-    --pipeline-model-parallel-size 1
+    --tensor-model-parallel-size $TENSOR_PARALLEL_SIZE
+    --pipeline-model-parallel-size $PIPELINE_PARALLEL_SIZE
     --expert-model-parallel-size $EXPERT_PARALLEL_SIZE
-    --context-parallel-size 1
+    --context-parallel-size $CONTEXT_PARALLEL_SIZE
     --sequence-parallel
     --use-distributed-optimizer
     --overlap-grad-reduce
@@ -296,4 +299,5 @@ torchrun "${DISTRIBUTED_ARGS[@]}" \
     "${TRAINING_ARGS[@]}" \
     "${MODEL_PARALLEL_ARGS[@]}" \
     "${DATA_ARGS[@]}" \
-    "${EVAL_AND_LOGGING_ARGS[@]}"
+    "${EVAL_AND_LOGGING_ARGS[@]}" \
+    "${@:4}"

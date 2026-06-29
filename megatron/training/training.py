@@ -148,6 +148,7 @@ from megatron.training.initialize import (
     set_jit_fusion_options,
     write_args_to_tensorboard,
 )
+from megatron.training.memory_profile import TrainingMemoryProfiler
 from megatron.training.utils import is_hybrid_model
 
 # Local.
@@ -2246,6 +2247,9 @@ def train_step(forward_step_func, data_iterator, model, optimizer, opt_param_sch
     """
     args = get_args()
     timers = get_timers()
+    memory_profiler = getattr(config, "memory_profiler", None)
+    if memory_profiler is not None:
+        memory_profiler.sample("train_step_start")
 
     rerun_state_machine = get_rerun_state_machine()
     save_params_in_this_iteration = (args.save_params_interval is not None and
@@ -2265,6 +2269,8 @@ def train_step(forward_step_func, data_iterator, model, optimizer, opt_param_sch
             # If saving main_grads in this iteration, then all-reduce instead of reduce-scatter.
             model_chunk.force_all_reduce = save_wgrads_in_this_iteration
         optimizer.zero_grad()
+        if memory_profiler is not None:
+            memory_profiler.sample("zero_grad_end")
 
         if has_nvidia_modelopt and getattr(args, "modelopt_enabled", False):
             # Distillation shape-adjust reads parallel_state; only for modelopt-enabled runs.
@@ -2307,20 +2313,28 @@ def train_step(forward_step_func, data_iterator, model, optimizer, opt_param_sch
             enable_tokens_per_expert_logging(model, args.save)
         if save_dgrads_in_this_iteration:
             enable_dgrad_logging(model, args.save)
-        losses_reduced = forward_backward_func(
-            forward_step_func=forward_step_func,
-            data_iterator=data_iterator,
-            model=model,
-            num_microbatches=get_num_microbatches(),
-            seq_length=args.seq_length,
-            micro_batch_size=args.micro_batch_size,
-            decoder_seq_length=args.decoder_seq_length,
-            forward_only=False,
-            adjust_tensor_shapes_fn=adjust_tensor_shapes_fn,
-            force_all_reduce=save_wgrads_in_this_iteration,
-            p2p_communicator=p2p_communicator,
-            pg_collection=schedule_pg_collection,
+        if memory_profiler is not None:
+            memory_profiler.sample("forward_backward_start")
+        saved_tensors_context = (
+            memory_profiler.saved_tensors_context() if memory_profiler is not None else nullcontext()
         )
+        with saved_tensors_context:
+            losses_reduced = forward_backward_func(
+                forward_step_func=forward_step_func,
+                data_iterator=data_iterator,
+                model=model,
+                num_microbatches=get_num_microbatches(),
+                seq_length=args.seq_length,
+                micro_batch_size=args.micro_batch_size,
+                decoder_seq_length=args.decoder_seq_length,
+                forward_only=False,
+                adjust_tensor_shapes_fn=adjust_tensor_shapes_fn,
+                force_all_reduce=save_wgrads_in_this_iteration,
+                p2p_communicator=p2p_communicator,
+                pg_collection=schedule_pg_collection,
+            )
+        if memory_profiler is not None:
+            memory_profiler.sample("forward_backward_end")
         if save_activations_in_this_iteration:
             save_activations(iteration + 1)
             disable_activation_logging()
@@ -2369,7 +2383,11 @@ def train_step(forward_step_func, data_iterator, model, optimizer, opt_param_sch
     # Update parameters.
 
     timers('optimizer', log_level=1).start(barrier=args.barrier_with_L1_time)
+    if memory_profiler is not None:
+        memory_profiler.sample("optimizer_step_start")
     update_successful, grad_norm, num_zeros_in_grad = optimizer.step()
+    if memory_profiler is not None:
+        memory_profiler.sample("optimizer_step_end")
 
     # get max attention logit for logging and run clip_qk()
     # Part of MuonClip Optimizer step
@@ -3395,6 +3413,31 @@ def train(
             config.param_sync_func = config.param_sync_func[0]
     config.finalize_model_grads_func = finalize_model_grads
 
+    memory_profiler = None
+    if args.memory_profile_mode != "none":
+        if args.cuda_graph_impl != "none" or args.optimizer_cuda_graph:
+            raise ValueError("Memory profiling requires CUDA graphs to be disabled")
+        rank_metadata = {
+            "rank": torch.distributed.get_rank(),
+            "local_rank": args.local_rank,
+            "tp_rank": mpu.get_tensor_model_parallel_rank(),
+            "pp_rank": mpu.get_pipeline_model_parallel_rank(),
+            "ep_rank": mpu.get_expert_model_parallel_rank(),
+            "dp_rank": mpu.get_data_parallel_rank(),
+        }
+        memory_profiler = TrainingMemoryProfiler(
+            mode=args.memory_profile_mode,
+            warmup_iters=args.memory_profile_warmup_iters,
+            profile_iters=args.memory_profile_iters,
+            output_dir=args.memory_profile_dir,
+            start_iteration=iteration,
+            model=model,
+            optimizer=optimizer,
+            rank_metadata=rank_metadata,
+            history_max_entries=args.memory_profile_history_max_entries,
+        )
+        config.memory_profiler = memory_profiler
+
     if args.log_energy:
         energy_monitor.setup()
         energy_monitor.resume()
@@ -3638,6 +3681,8 @@ def train(
             continue
 
         args.curr_iteration = iteration
+        if memory_profiler is not None:
+            memory_profiler.begin_iteration(iteration)
         # For GRPO, we keep the data for a few epochs. DeepSeekMath paper calls this number $\mu$.
         # It is similar to a PPO epoch.
 
@@ -3688,6 +3733,8 @@ def train(
                 p2p_communicator=p2p_communicator, schedule_pg_collection=schedule_pg_collection
             )
             ft_integration.on_training_step_end()
+            if memory_profiler is not None:
+                memory_profiler.end_iteration(iteration)
             if _maybe_raise_workload_exception is not None and iteration != start_iteration:
                 _maybe_raise_workload_exception()
             # Fault delay timing can start at the end of iteration N. Self-firing faults
@@ -3830,6 +3877,13 @@ def train(
         )
         is_first_iteration = False
 
+        if memory_profiler is not None and memory_profiler.finished:
+            print_rank_0(
+                f"> memory profile complete after iteration {iteration}; "
+                f"data written to {args.memory_profile_dir}"
+            )
+            break
+
         # Evaluation.
         if args.eval_interval and iteration % args.eval_interval == 0 and args.do_valid \
                 and (args.start_eval_at_iter is None or iteration >= args.start_eval_at_iter):
@@ -3930,6 +3984,10 @@ def train(
     # Call OptimizerCudaGraph destructor to destroy optimizer CUDA graph
     if args.optimizer_cuda_graph:
         del optimizer.step
+
+    if memory_profiler is not None:
+        memory_profiler.close()
+        delattr(config, "memory_profiler")
 
     one_logger_utils.track_e2e_metrics()
 

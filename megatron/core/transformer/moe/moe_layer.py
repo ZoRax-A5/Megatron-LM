@@ -209,6 +209,13 @@ class BaseMoELayer(MegatronModule, ABC):
         self.layer_number = layer_number
         self.router.set_layer_number(layer_number)
 
+    def _memory_profile(self, event: str, communication_tensors=None) -> None:
+        profiler = getattr(self.config, "memory_profiler", None)
+        if profiler is not None:
+            profiler.sample(
+                event, layer=self.layer_number, communication_tensors=communication_tensors
+            )
+
 
 class MoELayer(BaseMoELayer):
     """Mixture of Experts layer.
@@ -441,7 +448,9 @@ class MoELayer(BaseMoELayer):
         This method uses the router to determine which experts to send each token to,
         producing routing probabilities and a mapping.
         """
+        self._memory_profile("moe_route_start")
         probs, routing_map = apply_module(self.router)(hidden_states, padding_mask)
+        self._memory_profile("moe_route_end")
         return probs, routing_map
 
     @maybe_skip_or_early_return_by_cudagraph("preprocess")
@@ -453,6 +462,7 @@ class MoELayer(BaseMoELayer):
         This method preprocesses the hidden states and routing probabilities for the token
         dispatcher.
         """
+        self._memory_profile("moe_preprocess_start")
         # Latent-MoE + NVLS-inference shared-expert overlap: launch the shared
         # expert on its side stream BEFORE fc1_latent_proj so it sees the full
         # hidden_states. The corresponding join+add runs in postprocess after
@@ -484,6 +494,7 @@ class MoELayer(BaseMoELayer):
         hidden_states, probs = self.token_dispatcher.dispatch_preprocess(
             hidden_states, routing_map, probs
         )
+        self._memory_profile("moe_preprocess_end", communication_tensors=[hidden_states, probs])
         return hidden_states, probs
 
     def dispatch(self, hidden_states: torch.Tensor, probs: torch.Tensor):
@@ -493,9 +504,12 @@ class MoELayer(BaseMoELayer):
         tokens and their associated probabilities to the devices hosting their assigned
         experts.
         """
+        self._memory_profile("moe_dispatch_start", communication_tensors=[hidden_states, probs])
         if self.config.overlap_dispatch_backward_with_experts_wgrad:
             hidden_states = _RegisterDelayedWgradForExperts.apply(self, hidden_states)
-        return self.token_dispatcher.token_dispatch(hidden_states, probs)
+        output = self.token_dispatcher.token_dispatch(hidden_states, probs)
+        self._memory_profile("moe_dispatch_end", communication_tensors=output)
+        return output
 
     @maybe_skip_or_early_return_by_cudagraph("shared_experts_compute")
     def shared_experts_compute(self, hidden_states: torch.Tensor):
@@ -533,6 +547,9 @@ class MoELayer(BaseMoELayer):
         for each expert. It then passes the tokens through the local experts.
         The output from the experts is preprocessed for the combine step.
         """
+        self._memory_profile(
+            "moe_expert_compute_start", communication_tensors=[hidden_states, probs]
+        )
         if self.config.overlap_dispatch_backward_with_experts_wgrad:
             hidden_states = _RecordExpertDgradCompletion.apply(
                 self._delayed_wgrad_event, hidden_states
@@ -552,6 +569,8 @@ class MoELayer(BaseMoELayer):
         assert mlp_bias is None, f"mlp_bias is not supported for {type(self.token_dispatcher)}"
         output = self.token_dispatcher.combine_preprocess(expert_output)
 
+        self._memory_profile("moe_expert_compute_end", communication_tensors=output)
+
         return output, mlp_bias
 
     def combine(self, output: torch.Tensor):
@@ -560,7 +579,9 @@ class MoELayer(BaseMoELayer):
         This method uses the token dispatcher to combine the outputs from different
         experts (e.g., via an All-to-All communication).
         """
+        self._memory_profile("moe_combine_start", communication_tensors=output)
         output = self.token_dispatcher.token_combine(output)
+        self._memory_profile("moe_combine_end", communication_tensors=output)
         return output
 
     def postprocess(self, output: torch.Tensor, shared_expert_output: Optional[torch.Tensor]):
@@ -571,6 +592,7 @@ class MoELayer(BaseMoELayer):
         shared-expert overlap). It is populated in preprocess and joined here, after
         fc2_latent_proj, so the dimensions match the full hidden dim."""
 
+        self._memory_profile("moe_postprocess_start", communication_tensors=output)
         output = self.token_dispatcher.combine_postprocess(output)
         if self.config.moe_latent_size:
             output, _ = self.fc2_latent_proj(output)
@@ -586,6 +608,7 @@ class MoELayer(BaseMoELayer):
             torch.cuda.current_stream().wait_stream(SharedExpertMLP.stream)
             output = output + self._latent_shared_expert_output
             self._latent_shared_expert_output = None
+        self._memory_profile("moe_postprocess_end")
         return output
 
     def router_and_preprocess(self, hidden_states: torch.Tensor):

@@ -1277,6 +1277,12 @@ def validate_args(args, defaults={}):
             assert not args.overlap_param_gather
     if args.log_memory_interval is not None:
         assert args.log_memory_interval % args.log_interval == 0
+    if args.memory_profile_mode != "none":
+        assert args.memory_profile_warmup_iters >= 0
+        assert args.memory_profile_iters > 0
+        assert args.memory_profile_history_max_entries > 0
+        assert args.cuda_graph_impl == "none", "Memory profiling requires CUDA graphs disabled"
+        assert not args.optimizer_cuda_graph, "Memory profiling requires optimizer CUDA graph disabled"
     # Mixed precision checks.
     if args.fp16_lm_cross_entropy:
         assert args.fp16, 'lm cross entropy in fp16 only support in fp16 mode.'
