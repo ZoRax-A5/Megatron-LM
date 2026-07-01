@@ -26,6 +26,11 @@ export CONTEXT_PARALLEL_SIZE=${CONTEXT_PARALLEL_SIZE:-1}
 export GLOBAL_BATCH_SIZE=${GLOBAL_BATCH_SIZE:-1}
 export TRAIN_ITERS=${TRAIN_ITERS:-20}
 
+# eval_global_batch_size must be divisible by (eval_micro_batch_size * data_parallel_size).
+# With TP=1, PP=1, DP defaults to GPUS_PER_NODE (8 here).
+DATA_PARALLEL_SIZE=$(( GPUS_PER_NODE / TENSOR_PARALLEL_SIZE / PIPELINE_PARALLEL_SIZE ))
+EVAL_GLOBAL_BATCH_SIZE=$(( GLOBAL_BATCH_SIZE > DATA_PARALLEL_SIZE ? GLOBAL_BATCH_SIZE : DATA_PARALLEL_SIZE ))
+
 MEMORY_PROFILE_DIR=${MEMORY_PROFILE_DIR:-"${CHECKPOINT_PATH}/memory_profile_smoke"}
 MEMORY_PROFILE_MODE=${MEMORY_PROFILE_MODE:-light}
 MEMORY_PROFILE_WARMUP_ITERS=${MEMORY_PROFILE_WARMUP_ITERS:-1}
@@ -53,6 +58,7 @@ bash "${SCRIPT_DIR}/train_qwen3_30b_a3b_a100.sh" \
     --lr-decay-iters 20 \
     --lr-warmup-iters 1 \
     --eval-iters 0 \
+    --eval-global-batch-size "${EVAL_GLOBAL_BATCH_SIZE}" \
     --memory-profile-mode "${MEMORY_PROFILE_MODE}" \
     --memory-profile-warmup-iters "${MEMORY_PROFILE_WARMUP_ITERS}" \
     --memory-profile-iters "${MEMORY_PROFILE_ITERS}" \
