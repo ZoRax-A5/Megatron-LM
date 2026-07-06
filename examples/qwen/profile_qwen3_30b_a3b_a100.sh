@@ -3,9 +3,13 @@
 
 set -e
 
-CHECKPOINT_PATH=${1:?"Error: checkpoint path is required"}
-TOKENIZER_PATH=${2:?"Error: tokenizer path is required"}
-DATA_PATH=${3:?"Error: data path is required"}
+DEFAULT_CHECKPOINT_PATH="/mnt/si002365wekc/zwx/checkpoints/qwen"
+DEFAULT_TOKENIZER_PATH="/mnt/si002365wekc/zwx/models/Qwen3-30B-A3B-tokenizer"
+DEFAULT_DATA_PATH="/mnt/si002365wekc/zwx/datasets/wikitext-103/wikitext_qwen3_text_document"
+
+CHECKPOINT_PATH=${1:-$DEFAULT_CHECKPOINT_PATH}
+TOKENIZER_PATH=${2:-$DEFAULT_TOKENIZER_PATH}
+DATA_PATH=${3:-$DEFAULT_DATA_PATH}
 
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 PROFILE_DIR=${MEMORY_PROFILE_DIR:-"${CHECKPOINT_PATH}/memory_profile"}
