@@ -23,13 +23,17 @@ export PIPELINE_PARALLEL_SIZE=${PIPELINE_PARALLEL_SIZE:-1}
 export EXPERT_PARALLEL_SIZE=${EXPERT_PARALLEL_SIZE:-8}
 export CONTEXT_PARALLEL_SIZE=${CONTEXT_PARALLEL_SIZE:-1}
 
-export GLOBAL_BATCH_SIZE=${GLOBAL_BATCH_SIZE:-1}
+# global_batch_size must be divisible by (micro_batch_size * data_parallel_size).
+# data_parallel_size = world_size / (TP * PP * CP).
+# Default GBS = MBS * DP ensures the minimum valid training batch size.
+DATA_PARALLEL_SIZE=$(( GPUS_PER_NODE / TENSOR_PARALLEL_SIZE / PIPELINE_PARALLEL_SIZE / CONTEXT_PARALLEL_SIZE ))
+MICRO_BATCH_SIZE=${MICRO_BATCH_SIZE:-1}
+export GLOBAL_BATCH_SIZE=${GLOBAL_BATCH_SIZE:-$(( MICRO_BATCH_SIZE * DATA_PARALLEL_SIZE ))}
 export TRAIN_ITERS=${TRAIN_ITERS:-20}
 
 # eval_global_batch_size must be divisible by (eval_micro_batch_size * data_parallel_size).
-# With TP=1, PP=1, DP defaults to GPUS_PER_NODE (8 here).
-DATA_PARALLEL_SIZE=$(( GPUS_PER_NODE / TENSOR_PARALLEL_SIZE / PIPELINE_PARALLEL_SIZE ))
-EVAL_GLOBAL_BATCH_SIZE=$(( GLOBAL_BATCH_SIZE > DATA_PARALLEL_SIZE ? GLOBAL_BATCH_SIZE : DATA_PARALLEL_SIZE ))
+# eval_micro_batch_size defaults to micro_batch_size, so same constraint applies.
+EVAL_GLOBAL_BATCH_SIZE=$(( GLOBAL_BATCH_SIZE > MICRO_BATCH_SIZE * DATA_PARALLEL_SIZE ? GLOBAL_BATCH_SIZE : MICRO_BATCH_SIZE * DATA_PARALLEL_SIZE ))
 
 MEMORY_PROFILE_DIR=${MEMORY_PROFILE_DIR:-"${CHECKPOINT_PATH}/memory_profile_smoke"}
 MEMORY_PROFILE_MODE=${MEMORY_PROFILE_MODE:-light}
@@ -52,7 +56,7 @@ bash "${SCRIPT_DIR}/train_qwen3_30b_a3b_a100.sh" \
     --moe-router-topk 2 \
     --moe-ffn-hidden-size 256 \
     --moe-shared-expert-intermediate-size 512 \
-    --micro-batch-size 1 \
+    --micro-batch-size "${MICRO_BATCH_SIZE}" \
     --global-batch-size "${GLOBAL_BATCH_SIZE}" \
     --train-iters "${TRAIN_ITERS}" \
     --lr-decay-iters 20 \
