@@ -298,6 +298,8 @@ def forward_step_calc_loss(
     forward_data_store,
     cp_group_size=None,
     is_last_stage=None,
+    current_microbatch=None,
+    input_tensor=None,
 ):
     """Calculate the loss and number of tokens for forward_step()"""
 
@@ -493,6 +495,8 @@ def forward_step(
     """
     from megatron.core.transformer.multi_token_prediction import MTPLossAutoScaler
 
+    memory_profiler = getattr(config, "memory_profiler", None)
+
     if config.timers is not None:
         config.timers('forward-compute', log_level=2).start()
 
@@ -531,6 +535,8 @@ def forward_step(
         forward_data_store,
         cp_group_size,
         is_last_stage,
+        current_microbatch=current_microbatch,
+        input_tensor=input_tensor,
     )
 
     if memory_profiler is not None:
