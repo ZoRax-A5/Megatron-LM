@@ -24,6 +24,8 @@ from .mappings import (
     copy_to_tensor_model_parallel_region,
     gather_from_sequence_parallel_region,
     gather_from_tensor_model_parallel_region,
+    launch_all_gather_from_sequence_parallel_region,
+    launch_reduce_scatter_to_sequence_parallel_region,
     reduce_from_tensor_model_parallel_region,
     reduce_scatter_last_dim_to_tensor_parallel_region,
     reduce_scatter_to_sequence_parallel_region,
@@ -39,6 +41,11 @@ from .random import (
     get_expert_parallel_rng_tracker_name,
     is_graph_safe_cuda_rng_tracker,
     model_parallel_cuda_manual_seed,
+)
+from .recompute_comm_overlap import (
+    TensorParallelRecomputeCommOverlapConfig,
+    overlap_with_pending_tensor_parallel_collective,
+    tensor_parallel_recompute_comm_overlap,
 )
 from .utils import (
     gather_split_1d_tensor,
@@ -68,6 +75,12 @@ __all__ = [
     "reduce_scatter_to_sequence_parallel_region",
     "scatter_to_tensor_model_parallel_region",
     "scatter_to_sequence_parallel_region",
+    "launch_all_gather_from_sequence_parallel_region",
+    "launch_reduce_scatter_to_sequence_parallel_region",
+    # recompute_comm_overlap.py
+    "TensorParallelRecomputeCommOverlapConfig",
+    "tensor_parallel_recompute_comm_overlap",
+    "overlap_with_pending_tensor_parallel_collective",
     # random.py
     "checkpoint",
     "convert_cuda_rng_state",

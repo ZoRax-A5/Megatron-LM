@@ -51,6 +51,11 @@ class DistributedDataParallel(_BaseDataParallel):
         full_param_layout: Optional[FullParamLayout] = None,
     ):
         super().__init__(config=config, module=module)
+        if ddp_config.recompute_grad_sync_overlap:
+            assert config.recompute_comm_overlap, (
+                "recompute_grad_sync_overlap requires recompute_comm_overlap=True."
+            )
+
         if has_config_logger_enabled(config):
             log_config_to_disk(config, locals(), prefix=type(self).__name__)
 

@@ -260,10 +260,24 @@ class TransformerLayerSchedulePlan:
             with f_layer.get_fp8_context():
                 f_input = f_layer.attn.forward(f_input)
 
+        # Communication-aware recompute launches dispatch first. CUDA launches are asynchronous,
+        # and the forward and backward microbatches own independent dependency events, so the
+        # previous microbatch's expert backward (including selective recomputation it triggers)
+        # can execute while EP All-to-All is in flight. Keep the legacy compute-first order unless
+        # explicitly requested to preserve existing performance characteristics.
+        communication_first = (
+            f_layer is not None
+            and b_layer is not None
+            and f_layer.config.recompute_comm_overlap
+        )
+        if communication_first:
+            with f_layer.get_fp8_context():
+                f_input = f_layer.moe_dispatch.forward(f_input)
+
         if b_layer is not None:
             b_grad = b_layer.mlp.backward(b_grad)
 
-        if f_layer is not None:
+        if f_layer is not None and not communication_first:
             with f_layer.get_fp8_context():
                 f_input = f_layer.moe_dispatch.forward(f_input)
 

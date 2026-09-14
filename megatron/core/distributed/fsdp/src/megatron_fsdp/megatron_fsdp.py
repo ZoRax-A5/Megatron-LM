@@ -273,6 +273,7 @@ class MegatronFSDP(torch.nn.Module):
             enable_fine_grained_param_gather_backward_hook
         )
         self.report_nan_in_param_grad = report_nan_in_param_grad
+        self.recompute_ag_overlap = self.ddp_config.megatron_fsdp_recompute_ag_overlap
 
         # FSDPDistributedIndex stores the process groups and meshes used by Megatron-FSDP.
         # If not provided, Megatron-FSDP will default to a simple data parallel index
@@ -500,6 +501,22 @@ class MegatronFSDP(torch.nn.Module):
             # we want to overwrite the `main_grad` which is enabled by this
             # attribute.
             param.overwrite_main_grad = True
+
+    def _prefetch_params_for_recompute(self, params: List[torch.Tensor]) -> None:
+        """Start backward-order parameter all-gather prefetch during recomputation."""
+        self.all_gather_pipeline.all_gather_params(
+            params=params,
+            prefetch=True,
+            prefetch_order=PrefetchOrder.BACKWARD_PASS_ORDER,
+            # Bound overlap to one adjacent backward-order bucket group; deeper
+            # prefetch can erase recomputation's memory savings.
+            suggested_AG_prefetch_size=1,
+            outer_fsdp_group_param_gather=(
+                self.dist_index.use_hybrid_fsdp
+                and self.ddp_config.outer_dp_sharding_strategy != "no_shard"
+                and (self.microbatch_count == 0 or self.model_auto_sync)
+            ),
+        )
 
     def _register_fsdp_hooks(self, root_module):
         """Register necessary hooks for Fully Sharded Data Parallel (FSDP) execution on the model.
@@ -730,7 +747,8 @@ class MegatronFSDP(torch.nn.Module):
             # Unshard the parameters before the forward pass.
             input_training_state = module._training_state
             fsdp_forward_prefetch = True
-            if input_training_state == TrainingState.PRE_BACKWARD:
+            activation_recompute = input_training_state == TrainingState.PRE_BACKWARD
+            if activation_recompute:
                 # In activation recomputation case, we need to cancel forward prefetch.
                 fsdp_forward_prefetch = False
             else:
@@ -753,6 +771,9 @@ class MegatronFSDP(torch.nn.Module):
                 prefetch=fsdp_forward_prefetch,
                 prefetch_order=PrefetchOrder.FORWARD_PASS_ORDER,
             )
+
+            if self.recompute_ag_overlap and activation_recompute:
+                self._prefetch_params_for_recompute(param_list)
             return None
 
         @torch.compiler.disable

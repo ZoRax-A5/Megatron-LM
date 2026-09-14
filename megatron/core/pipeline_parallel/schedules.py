@@ -12,7 +12,10 @@ from megatron.core.pipeline_parallel.fine_grained_activation_offload import (
     FineGrainedActivationOffloadingInterface as off_interface,
 )
 from megatron.core.pipeline_parallel.multimodule_communicator import MultiModulePipelineCommunicator
-from megatron.core.pipeline_parallel.p2p_communication import P2PCommunicator
+from megatron.core.pipeline_parallel.p2p_communication import (
+    P2PCommunicator,
+    is_pp_recompute_comm_overlap_enabled,
+)
 from megatron.core.pipeline_parallel.utils import (
     is_pp_first_stage,
     is_pp_last_stage,
@@ -1095,7 +1098,13 @@ def forward_backward_pipelining_with_interleaving(
     if getattr(config, "moe_paged_stash", False):
         paged_stash_reset(enabled=not forward_only, config=config)
 
-    if config.overlap_p2p_comm and config.batch_p2p_comm:
+    pp_recompute_comm_overlap = is_pp_recompute_comm_overlap_enabled(config)
+    # The PP-specific mode reuses the existing asynchronous request protocol,
+    # but only for interleaved schedules. In particular, it must not silently
+    # turn on batch P2P communication, whose requests are synchronously waited
+    # on and cannot provide a recompute window.
+    overlap_p2p_comm = config.overlap_p2p_comm or pp_recompute_comm_overlap
+    if overlap_p2p_comm and config.batch_p2p_comm:
         raise ValueError("Can not use both overlap_p2p_comm and batch_p2p_comm")
 
     # Needed only when gradients are finalized in M-Core
@@ -1645,7 +1654,7 @@ def forward_backward_pipelining_with_interleaving(
         if not config.overlap_p2p_comm_warmup_flush:
             if (
                 k == (num_warmup_microbatches - 1)
-                and not config.overlap_p2p_comm
+                and not overlap_p2p_comm
                 and not forward_only
                 and not are_all_microbatches_in_warmup
             ):
@@ -1706,7 +1715,7 @@ def forward_backward_pipelining_with_interleaving(
                 )
                 fwd_recv_buffer[(k + 1) % fwd_recv_buffer_size] = None
 
-        if config.overlap_p2p_comm:
+        if overlap_p2p_comm:
             if (
                 k == (num_warmup_microbatches - 1)
                 and not forward_only
@@ -1756,7 +1765,7 @@ def forward_backward_pipelining_with_interleaving(
             checkpoint_activations_microbatch = None
 
         cur_model_chunk_id = get_model_chunk_id(forward_k, forward=True)
-        if config.overlap_p2p_comm:
+        if overlap_p2p_comm:
 
             backward_k = k
 
@@ -1802,6 +1811,9 @@ def forward_backward_pipelining_with_interleaving(
 
                 # Send activation tensor to the next stage and receive activation tensor from the
                 # previous stage
+                # In PP recompute-overlap mode this launch intentionally stays
+                # asynchronous: selective backward recomputation starts immediately
+                # after forward, while the forward activation P2P request is in flight.
                 fwd_recv_buffer[forward_k % fwd_recv_buffer_size], fwd_wait_handles = (
                     p2p_communicator.send_forward_recv_forward(
                         output_tensor,
@@ -2190,7 +2202,8 @@ def forward_backward_pipelining_without_interleaving(
         data_iterator = data_iterator[0]
 
     config = get_model_config(model)
-    if config.overlap_p2p_comm:
+    pp_recompute_comm_overlap = is_pp_recompute_comm_overlap_enabled(config)
+    if config.overlap_p2p_comm or pp_recompute_comm_overlap:
         raise ValueError(
             "Non-interleaved pipeline parallelism does not support overlapping p2p communication"
         )

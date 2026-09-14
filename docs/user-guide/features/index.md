@@ -16,6 +16,7 @@ Guides for Megatron Core training features.
 
 cuda_graph
 fine_grained_activation_offloading
+recompute_comm_overlap
 moe
 context_parallel
 megatron_fsdp

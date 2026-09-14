@@ -36,11 +36,17 @@ from .mappings import (
     copy_to_tensor_model_parallel_region,
     gather_from_sequence_parallel_region,
     gather_from_tensor_model_parallel_region,
+    launch_all_gather_from_sequence_parallel_region,
+    launch_reduce_scatter_to_sequence_parallel_region,
     reduce_from_tensor_model_parallel_region,
     reduce_scatter_to_sequence_parallel_region,
     scatter_to_tensor_model_parallel_region,
 )
 from .random import get_cuda_rng_tracker, get_expert_parallel_rng_tracker_name
+from .recompute_comm_overlap import (
+    finish_tensor_parallel_collective_with_active_recompute,
+    is_tensor_parallel_recompute_overlap_active,
+)
 from .utils import VocabUtility
 
 _grad_accum_fusion_available = True
@@ -449,7 +455,10 @@ def linear_with_frozen_weight(
 
     tp_group = get_tensor_model_parallel_group_if_none(tp_group)
 
-    if sequence_parallel:
+    if sequence_parallel and is_tensor_parallel_recompute_overlap_active("all_gather"):
+        pending_input = launch_all_gather_from_sequence_parallel_region(input, group=tp_group)
+        input = finish_tensor_parallel_collective_with_active_recompute(pending_input)
+    elif sequence_parallel:
         input = gather_from_sequence_parallel_region(
             input, tensor_parallel_output_grad=True, group=tp_group
         )
@@ -496,7 +505,10 @@ class LinearWithGradAccumulationAndAsyncCommunication(torch.autograd.Function):
         ctx.grad_output_buffer = grad_output_buffer
         ctx.tp_group = tp_group
 
-        if sequence_parallel:
+        if sequence_parallel and is_tensor_parallel_recompute_overlap_active("all_gather"):
+            pending_input = launch_all_gather_from_sequence_parallel_region(input, group=tp_group)
+            total_input = finish_tensor_parallel_collective_with_active_recompute(pending_input)
+        elif sequence_parallel:
             dim_size = list(input.size())
             dim_size[0] = dim_size[0] * tp_group.size()
 
@@ -1349,6 +1361,13 @@ class RowParallelLinear(torch.nn.Module):
         if self.explicit_expert_comm:
             assert self.skip_bias_add
             output_ = output_parallel
+        elif self.sequence_parallel and is_tensor_parallel_recompute_overlap_active(
+            "reduce_scatter"
+        ):
+            pending_output = launch_reduce_scatter_to_sequence_parallel_region(
+                output_parallel, group=self.tp_group
+            )
+            output_ = finish_tensor_parallel_collective_with_active_recompute(pending_output)
         elif self.sequence_parallel:
             output_ = reduce_scatter_to_sequence_parallel_region(
                 output_parallel, group=self.tp_group

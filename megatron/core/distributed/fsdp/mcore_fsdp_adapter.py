@@ -177,6 +177,28 @@ class FullyShardedDataParallel(_BaseDataParallel):
                 "EP overlap with FSDP currently requires fsdp_unit_modules "
                 f"to be [TransformerLayer], got {self.fsdp_unit_modules}."
             )
+        if ddp_config.recompute_grad_sync_overlap:
+            assert config.recompute_comm_overlap, (
+                "recompute_grad_sync_overlap requires recompute_comm_overlap=True."
+            )
+        if ddp_config.megatron_fsdp_recompute_ag_overlap:
+            assert config.recompute_comm_overlap, (
+                "Megatron-FSDP recompute all-gather overlap requires "
+                "recompute_comm_overlap=True."
+            )
+            assert ddp_config.data_parallel_sharding_strategy == "optim_grads_params", (
+                "Megatron-FSDP recompute all-gather overlap requires "
+                "data_parallel_sharding_strategy='optim_grads_params'."
+            )
+            assert not ddp_config.fsdp_double_buffer, (
+                "Megatron-FSDP recompute all-gather overlap is incompatible with "
+                "fsdp_double_buffer because recompute prefetch can require a third FSDP unit."
+            )
+            assert not (config.fp8_recipe == "mxfp8" and ddp_config.fp8_param_gather), (
+                "Megatron-FSDP recompute all-gather overlap does not yet support "
+                "MXFP8 parameter all-gather."
+            )
+
         super().__init__(
             config=config,
             module=MegatronFSDP(

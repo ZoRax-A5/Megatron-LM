@@ -264,6 +264,20 @@ class ModelParallelConfig:
     tp_comm_bootstrap_backend: Literal['nccl', 'mpi', 'gloo'] = 'nccl'
     """Set the bootstrapping backend of Tensor parallel communications."""
 
+    recompute_comm_overlap: bool = False
+    """Globally enable communication-aware activation recomputation scheduling.
+
+    Communication-domain-specific flags select which asynchronous collectives may be moved ahead
+    of independent backward recomputation. This flag does not enable recomputation by itself.
+    """
+
+    pp_recompute_comm_overlap: bool = False
+    """Enable PP P2P communication overlap with activation recomputation.
+
+    This requires recompute_comm_overlap and uses the interleaved pipeline schedule's existing
+    asynchronous P2P request protocol. Non-interleaved and batched P2P schedules are unsupported.
+    """
+
     overlap_moe_expert_parallel_comm: bool = False
     """Overlap EP A2A communications with independent computations of different micro-batches
     in 1f1b phase of pipelining or non-pipelining schedule.

@@ -14,6 +14,37 @@ from megatron.core.utils import nvtx_decorator
 Shape = Union[List[int], torch.Size]
 
 
+def is_pp_recompute_comm_overlap_enabled(config: ModelParallelConfig) -> bool:
+    """Return whether the PP-specific recompute communication mode is enabled.
+
+    ``recompute_comm_overlap`` is the global opt-in for communication-aware
+    recomputation. The PP mode is intentionally a second opt-in because it
+    uses asynchronous point-to-point requests and therefore has stricter
+    schedule and backend requirements than the default pipeline path.
+
+    The dedicated flag is read with ``getattr`` so older configuration
+    objects keep their existing behavior until the field is explicitly wired
+    into their public configuration surface.
+
+    Args:
+        config: Model-parallel configuration for the current schedule.
+
+    Returns:
+        ``True`` when both the global and PP-specific opt-ins are enabled.
+
+    Raises:
+        ValueError: If the PP-specific flag is enabled without the global
+            recompute communication opt-in.
+    """
+
+    pp_opt_in = bool(getattr(config, "pp_recompute_comm_overlap", False))
+    if pp_opt_in and not bool(getattr(config, "recompute_comm_overlap", False)):
+        raise ValueError(
+            "pp_recompute_comm_overlap requires recompute_comm_overlap to be enabled"
+        )
+    return pp_opt_in
+
+
 def _batched_p2p_ops(
     *,
     tensor_send_prev: Optional[torch.Tensor],

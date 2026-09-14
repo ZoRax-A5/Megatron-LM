@@ -2528,6 +2528,35 @@ class TransformerConfig(ModelParallelConfig):
             assert (
                 not self.moe_shared_expert_overlap
             ), 'disable moe_shared_expert_overlap when enabling overlap_moe_expert_parallel_comm'
+
+        if self.recompute_comm_overlap and self.overlap_moe_expert_parallel_comm:
+            assert self.recompute_granularity == 'selective', (
+                'EP recompute communication overlap requires selective recomputation'
+            )
+            assert self.recompute_modules, (
+                'recompute_modules must contain at least one module when enabling '
+                'recompute_comm_overlap'
+            )
+        elif self.recompute_comm_overlap:
+            assert self.recompute_granularity is not None, (
+                'recompute_comm_overlap requires activation recomputation to be enabled'
+            )
+
+        if self.pp_recompute_comm_overlap:
+            assert self.recompute_comm_overlap, (
+                'pp_recompute_comm_overlap requires recompute_comm_overlap to be enabled'
+            )
+            assert self.pipeline_model_parallel_size > 1, (
+                'pp_recompute_comm_overlap requires pipeline_model_parallel_size > 1'
+            )
+            assert self.virtual_pipeline_model_parallel_size is not None, (
+                'pp_recompute_comm_overlap currently requires an interleaved pipeline schedule'
+            )
+            assert not self.batch_p2p_comm, (
+                'pp_recompute_comm_overlap is incompatible with batch_p2p_comm'
+            )
+
+        if self.overlap_moe_expert_parallel_comm:
             assert (
                 self.mtp_num_layers is None or self.mtp_num_layers == 1
             ), 'MTP layernum only supports 1 when enabling overlap_moe_expert_parallel_comm.'

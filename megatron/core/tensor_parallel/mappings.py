@@ -1,10 +1,15 @@
 # Copyright (c) 2025 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
 
+from __future__ import annotations
+
+from typing import Any, Literal
+
 import torch
 
 from megatron.core.parallel_state import get_global_memory_buffer
 from megatron.core.utils import get_tensor_model_parallel_group_if_none, is_torch_min_version
 
+from .recompute_comm_overlap import assert_tensor_parallel_recompute_is_collective_free
 from .utils import split_tensor_along_last_dim
 
 try:
@@ -21,6 +26,7 @@ except:
 
 def _reduce(input_, group):
     """All-reduce the input tensor across model parallel group."""
+    assert_tensor_parallel_recompute_is_collective_free()
     assert group is not None, "group should not be None"
 
     # Bypass the function if we are using only 1 GPU.
@@ -80,6 +86,7 @@ def _split_along_first_dim(input_, group):
 def _gather_along_last_dim(input_, group):
     """Gather tensors and concatinate along the last dimension."""
 
+    assert_tensor_parallel_recompute_is_collective_free()
     world_size = group.size()
     # Bypass the function if we are using only 1 GPU.
     if world_size == 1:
@@ -125,6 +132,7 @@ def _gather_along_first_dim(input_, group, output_split_sizes=None, use_global_b
         torch.Tensor: Gathered tensor.
     """
 
+    assert_tensor_parallel_recompute_is_collective_free()
     assert group is not None, "group should not be None"
     world_size = group.size()
     # Bypass the function if we are using only 1 GPU.
@@ -161,6 +169,7 @@ def _reduce_scatter_along_first_dim(input_, group, input_split_sizes=None, use_g
             the input splits along the first dimension for each rank. If None,
             equal splitting is assumed. Default: None.
     """
+    assert_tensor_parallel_recompute_is_collective_free()
     assert group is not None, "group should not be None"
     world_size = group.size()
     # Bypass the function if we are using only 1 GPU.
@@ -192,6 +201,136 @@ def _reduce_scatter_along_first_dim(input_, group, input_split_sizes=None, use_g
             output = torch.empty_like(input_tensor_list[rank])
         torch.distributed.reduce_scatter(output, input_tensor_list, group=group)
     return output
+
+
+class PendingTensorParallelCollective:
+    """A dedicated-buffer TP collective split into launch and autograd-safe wait phases.
+
+    The input, the contiguous communication input, and the output are retained until
+    ``wait`` completes. Dedicated output storage is intentional: the global memory
+    buffer is unsafe when collectives from different microbatches overlap.
+    """
+
+    def __init__(
+        self,
+        collective: Literal["all_gather", "reduce_scatter"],
+        input_: torch.Tensor,
+        communication_input: torch.Tensor,
+        output: torch.Tensor,
+        work: Any,
+        group: torch.distributed.ProcessGroup,
+    ) -> None:
+        self.collective = collective
+        self._input = input_
+        self._communication_input = communication_input
+        self._output = output
+        self._work = work
+        self._group = group
+        self._wait_started = False
+
+        try:
+            backend = str(torch.distributed.get_backend(group)).lower()
+        except (RuntimeError, TypeError, ValueError):
+            backend = ""
+        self.supports_compute_overlap = work is not None and input_.is_cuda and "nccl" in backend
+
+    @property
+    def group(self) -> torch.distributed.ProcessGroup:
+        """Process group used by this collective."""
+
+        return self._group
+
+    def _wait_for_output(self) -> torch.Tensor:
+        if self._work is not None:
+            self._work.wait()
+        self._work = None
+        self._communication_input = None
+        return self._output
+
+    def wait(self) -> torch.Tensor:
+        """Wait once and return an output with the inverse collective in backward."""
+
+        if self._wait_started:
+            raise RuntimeError("a pending tensor-parallel collective can only be waited once")
+        self._wait_started = True
+
+        if self._work is None and self._output is self._input:
+            return self._input
+        return _WaitForPendingTensorParallelCollective.apply(self._input, self)
+
+
+class _WaitForPendingTensorParallelCollective(torch.autograd.Function):
+    """Attach autograd semantics when a two-phase TP collective is finished."""
+
+    @staticmethod
+    def forward(ctx, input_, pending):
+        ctx.collective = pending.collective
+        ctx.group = pending.group
+        return pending._wait_for_output()
+
+    @staticmethod
+    def backward(ctx, grad_output):
+        if ctx.collective == "all_gather":
+            grad_input = _reduce_scatter_along_first_dim(grad_output, ctx.group)
+        elif ctx.collective == "reduce_scatter":
+            grad_input = _gather_along_first_dim(grad_output, ctx.group)
+        else:
+            raise RuntimeError(f"unsupported pending TP collective: {ctx.collective}")
+        return grad_input, None
+
+
+def launch_all_gather_from_sequence_parallel_region(
+    input_: torch.Tensor, group: torch.distributed.ProcessGroup | None = None
+) -> PendingTensorParallelCollective:
+    """Launch equal-split sequence-parallel All-Gather without waiting.
+
+    The returned handle must be finished with ``wait`` on every rank, in the same
+    collective order. Unlike ``gather_from_sequence_parallel_region``, this API
+    always uses dedicated output storage so multiple microbatches cannot alias.
+    """
+
+    assert_tensor_parallel_recompute_is_collective_free()
+    group = get_tensor_model_parallel_group_if_none(group)
+    world_size = group.size()
+    if world_size == 1:
+        return PendingTensorParallelCollective("all_gather", input_, input_, input_, None, group)
+
+    output_shape = list(input_.shape)
+    output_shape[0] *= world_size
+    output = input_.new_empty(output_shape)
+    communication_input = input_.contiguous()
+    work = dist_all_gather_func(output, communication_input, group=group, async_op=True)
+    return PendingTensorParallelCollective(
+        "all_gather", input_, communication_input, output, work, group
+    )
+
+
+def launch_reduce_scatter_to_sequence_parallel_region(
+    input_: torch.Tensor, group: torch.distributed.ProcessGroup | None = None
+) -> PendingTensorParallelCollective:
+    """Launch equal-split sequence-parallel Reduce-Scatter without waiting."""
+
+    assert_tensor_parallel_recompute_is_collective_free()
+    group = get_tensor_model_parallel_group_if_none(group)
+    world_size = group.size()
+    if world_size == 1:
+        return PendingTensorParallelCollective(
+            "reduce_scatter", input_, input_, input_, None, group
+        )
+
+    if input_.shape[0] % world_size != 0:
+        raise ValueError(
+            "the first dimension of a sequence-parallel Reduce-Scatter input "
+            "must be divisible by the tensor-parallel world size"
+        )
+    output_shape = list(input_.shape)
+    output_shape[0] //= world_size
+    output = input_.new_empty(output_shape)
+    communication_input = input_.contiguous()
+    work = dist_reduce_scatter_func(output, communication_input, group=group, async_op=True)
+    return PendingTensorParallelCollective(
+        "reduce_scatter", input_, communication_input, output, work, group
+    )
 
 
 class _CopyToModelParallelRegion(torch.autograd.Function):
@@ -421,6 +560,7 @@ class _AllToAll(torch.autograd.Function):
     @staticmethod
     def forward(ctx, group, input, output_split_sizes, input_split_sizes, use_nccl_stream=False):
         """Forward function."""
+        assert_tensor_parallel_recompute_is_collective_free()
         ctx.group = group
         ctx.output_split_sizes = output_split_sizes
         ctx.input_split_sizes = input_split_sizes

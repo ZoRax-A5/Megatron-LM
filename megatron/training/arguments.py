@@ -2797,6 +2797,10 @@ def _add_distributed_args(parser):
                        dest='overlap_p2p_comm')
     group.add_argument('--overlap-grad-reduce', action='store_true',
                        default=False, help='If set, overlap DDP grad reduce.')
+    group.add_argument('--recompute-grad-sync-overlap', action='store_true',
+                       default=False,
+                       help='Overlap async gradient all-reduce/reduce-scatter with activation recomputation. '
+                            'Requires --recompute-comm-overlap.')
     group.add_argument('--ddp-num-buckets', type=int, default=None,
                        help='Number of buckets for data-parallel communication')
     group.add_argument('--ddp-bucket-size', type=int, default=None,
@@ -2867,6 +2871,11 @@ def _add_distributed_args(parser):
                         "Double-buffering the communication memory improves memory management efficiency by "
                         "reusing previously allocated buffers, rather than creating new buffers for each FSDP communication. "
                         "This is required for user buffer registration and is enabled by default when using NCCL user buffers.")
+    group.add_argument('--megatron-fsdp-recompute-ag-overlap', action='store_true',
+                       default=False,
+                       help='Prefetch one backward-order Megatron-FSDP parameter all-gather during activation '
+                            'recomputation. Requires full parameter sharding, --recompute-comm-overlap, and '
+                            'is incompatible with FSDP double buffering.')
     group.add_argument('--suggested-communication-unit-size', type=int, default=None,
                    help='Specifies the number of elements to communicate at once during FSDP (Fully Sharded Data Parallel) operations. '
                         'This flag also affects FSDP all-gather prefetch behavior. Setting a larger value increases the communication buffer size, '

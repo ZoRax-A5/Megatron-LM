@@ -301,7 +301,9 @@ def core_transformer_config_from_args(args, config_class=None):
     kw_args['persist_layer_norm'] = not args.no_persist_layer_norm
     kw_args['deallocate_pipeline_outputs'] = True
     kw_args['pipeline_dtype'] = args.params_dtype
-    kw_args['batch_p2p_comm'] = not args.overlap_p2p_comm
+    kw_args['batch_p2p_comm'] = not (
+        args.overlap_p2p_comm or args.pp_recompute_comm_overlap
+    )
     kw_args['num_moe_experts'] = args.num_experts
     kw_args['rotary_interleaved'] = args.rotary_interleaved
     kw_args['num_layers_in_first_pipeline_stage']= args.decoder_first_pipeline_num_layers

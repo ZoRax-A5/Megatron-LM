@@ -18,6 +18,15 @@ class DistributedDataParallelConfig:
     overlap_grad_reduce: bool = False
     """If true, overlap grad all-reduce / reduce-scatter with backward compute."""
 
+    recompute_grad_sync_overlap: bool = False
+    """Explicitly overlap gradient synchronization with activation recomputation.
+
+    Enabling this option also enables overlap_grad_reduce. Once a gradient bucket is ready, its
+    asynchronous all-reduce or reduce-scatter can run while earlier layers execute backward,
+    including any activation recomputation triggered by those layers. The first training batch
+    retains the existing bucket-readiness warmup behavior.
+    """
+
     overlap_param_gather: bool = False
     """If true, overlap param all-gather with forward compute."""
 
@@ -237,10 +246,24 @@ class DistributedDataParallelConfig:
       will be unsharded.
     """
 
+    megatron_fsdp_recompute_ag_overlap: bool = False
+    """If true, prefetch the next backward-order FSDP parameter all-gather while an
+    activation-recompute forward executes.
+
+    This is an opt-in Megatron-FSDP specialization of ``recompute_comm_overlap``.
+    It is only supported with fully sharded parameters and without FSDP double
+    buffering. The normal forward-order prefetch remains disabled during recompute:
+    recompute runs in backward order, so a forward-order prefetch would prepare the
+    wrong FSDP unit and can increase peak memory without hiding communication.
+    """
+
     def __post_init__(self):
         import os
 
         """Check the validity of the config."""
+        if self.recompute_grad_sync_overlap:
+            self.overlap_grad_reduce = True
+
         if self.reuse_grad_buf_for_mxfp8_param_ag:
             assert self.fp8_param_gather, "Reuse grad buffer only when keeping params in MXFP8."
 
