@@ -5,7 +5,12 @@
 from __future__ import annotations
 
 import contextlib
+import functools
+import itertools
+import json
 import logging
+import time
+import weakref
 from collections.abc import Callable
 from typing import Any, Optional, TypeVar, Union
 
@@ -88,13 +93,15 @@ except ModuleNotFoundError:
 
 
 # Default name for the model parallel rng tracker.
-_MODEL_PARALLEL_RNG_TRACKER_NAME = 'model-parallel-rng'
-_EXPERT_PARALLEL_RNG_TRACKER_NAME = 'expert-parallel-rng'
-_DATA_PARALLEL_RNG_TRACKER_NAME = 'data-parallel-rng'
+_MODEL_PARALLEL_RNG_TRACKER_NAME = "model-parallel-rng"
+_EXPERT_PARALLEL_RNG_TRACKER_NAME = "expert-parallel-rng"
+_DATA_PARALLEL_RNG_TRACKER_NAME = "data-parallel-rng"
 
 
 def _get_cuda_rng_state(
-    device: Union[int, str, torch.device] = "cuda", clone: bool = False, graph_safe: bool = False
+    device: Union[int, str, torch.device] = "cuda",
+    clone: bool = False,
+    graph_safe: bool = False,
 ) -> torch.Tensor:
     """Return the random number generator state of the specified GPU.
 
@@ -124,7 +131,9 @@ def _get_cuda_rng_state(
     return default_generator.graphsafe_get_state()
 
 
-def _set_cuda_rng_state(new_state: torch.Tensor, device: int = -1, graph_safe: bool = False):
+def _set_cuda_rng_state(
+    new_state: torch.Tensor, device: int = -1, graph_safe: bool = False
+):
     """Sets the random number generator state of the current GPU.
 
     Arguments:
@@ -136,7 +145,7 @@ def _set_cuda_rng_state(new_state: torch.Tensor, device: int = -1, graph_safe: b
     with a single change: the input state is not cloned. Cloning caused
     major performance issues for +4 GPU cases.
     """
-    if hasattr(_C, '_cuda_setRNGState') and callable(_C._cuda_setRNGState):
+    if hasattr(_C, "_cuda_setRNGState") and callable(_C._cuda_setRNGState):
         # older PyTorch
         def cb():
             with device_ctx_manager(device):
@@ -145,11 +154,11 @@ def _set_cuda_rng_state(new_state: torch.Tensor, device: int = -1, graph_safe: b
     else:
         # newer PyTorch
         if device == -1:
-            device = torch.device('cuda')
+            device = torch.device("cuda")
         elif isinstance(device, str):
             device = torch.device(device)
         elif isinstance(device, int):
-            device = torch.device('cuda', device)
+            device = torch.device("cuda", device)
 
         def cb():
             idx = device.index
@@ -274,11 +283,11 @@ class CudaRNGStatesTracker:
         self._is_initialized = True
         # Check seed is not already used.
         if seed in self.seeds_:
-            raise Exception('seed {} already exists'.format(seed))
+            raise Exception("seed {} already exists".format(seed))
         self.seeds_.add(seed)
         # Check that state is not already defined.
         if name in self.states_:
-            raise Exception('cuda rng state {} already exists'.format(name))
+            raise Exception("cuda rng state {} already exists".format(name))
 
         # If available, create the state in a graph safe manner
         if self.use_cudagraphable_rng:
@@ -300,7 +309,7 @@ class CudaRNGStatesTracker:
         the original state."""
         # Check if we have added the state
         if name not in self.states_:
-            raise Exception('cuda rng state {} is not added'.format(name))
+            raise Exception("cuda rng state {} is not added".format(name))
         # Store current rng state and name. Store in self.states_ if it's not the default state.
         orig_cuda_rng_state = _get_cuda_rng_state(graph_safe=self.use_cudagraphable_rng)
         orig_state_name = self._current_state_name
@@ -317,19 +326,25 @@ class CudaRNGStatesTracker:
         finally:
             # Throw a warning if cpu RNG state changed
             if not torch.all(cpu_rng_state == torch.get_rng_state()).item():
-                logging.getLogger(__name__).warning('CPU RNG state changed within GPU RNG context')
+                logging.getLogger(__name__).warning(
+                    "CPU RNG state changed within GPU RNG context"
+                )
             # Check if the current state name is the same as the desired state name.
             if self._current_state_name != name:
                 raise Exception(
-                    f'current state name {self._current_state_name} is not the same as the desired '
-                    f'state name {name}.'
+                    f"current state name {self._current_state_name} is not the same as the desired "
+                    f"state name {name}."
                 )
             # Update the current rng state for later use.
-            self.states_[name] = _get_cuda_rng_state(graph_safe=self.use_cudagraphable_rng)
+            self.states_[name] = _get_cuda_rng_state(
+                graph_safe=self.use_cudagraphable_rng
+            )
             # And set the state and name to the original state we started with.
             if orig_state_name != "default-rng":
                 orig_cuda_rng_state = self.states_[orig_state_name]
-            _set_cuda_rng_state(orig_cuda_rng_state, graph_safe=self.use_cudagraphable_rng)
+            _set_cuda_rng_state(
+                orig_cuda_rng_state, graph_safe=self.use_cudagraphable_rng
+            )
             self._current_state_name = orig_state_name
 
 
@@ -361,7 +376,9 @@ def initialize_rng_tracker(
     base_tracker = None
     if HAVE_TE and use_te_rng_tracker:
         if not is_te_min_version("1.5.0"):
-            raise RuntimeError("use_te_rng_tracker requires TransformerEngine version >= 1.5")
+            raise RuntimeError(
+                "use_te_rng_tracker requires TransformerEngine version >= 1.5"
+            )
         from megatron.core.extensions.transformer_engine import TECudaRNGStatesTracker
 
         base_tracker = TECudaRNGStatesTracker
@@ -404,16 +421,18 @@ def get_cuda_rng_tracker(
     use_cudagraphable_rng: bool = False,
 ):
     """Get cuda rng tracker."""
-    initialize_rng_tracker(use_te_rng_tracker, inference_rng_tracker, use_cudagraphable_rng)
+    initialize_rng_tracker(
+        use_te_rng_tracker, inference_rng_tracker, use_cudagraphable_rng
+    )
     return _CUDA_RNG_STATE_TRACKER
 
 
 def get_all_rng_states():
     """Returns all generator states used by the current `CudaRNGStatesTracker`."""
 
-    assert (
-        _CUDA_RNG_STATE_TRACKER_INITIALIZED
-    ), "Tried getting all rng states but RNG Tracker has not been initalized!"
+    assert _CUDA_RNG_STATE_TRACKER_INITIALIZED, (
+        "Tried getting all rng states but RNG Tracker has not been initalized!"
+    )
 
     if isinstance(_CUDA_RNG_STATE_TRACKER, CudaRNGStatesTracker):
         return _CUDA_RNG_STATE_TRACKER.states_
@@ -470,7 +489,10 @@ def model_parallel_cuda_manual_seed(
     data_parallel_seed = seed
 
     initialize_rng_tracker(
-        te_rng_tracker, inference_rng_tracker, use_cudagraphable_rng, force_reset=force_reset_rng
+        te_rng_tracker,
+        inference_rng_tracker,
+        use_cudagraphable_rng,
+        force_reset=force_reset_rng,
     )
     _CUDA_RNG_STATE_TRACKER.reset()
     # Set the default state.
@@ -478,7 +500,9 @@ def model_parallel_cuda_manual_seed(
     _CUDA_RNG_STATE_TRACKER.add(_DATA_PARALLEL_RNG_TRACKER_NAME, data_parallel_seed)
 
     # and model parallel state.
-    _CUDA_RNG_STATE_TRACKER.add(_MODEL_PARALLEL_RNG_TRACKER_NAME, tensor_model_parallel_seed)
+    _CUDA_RNG_STATE_TRACKER.add(
+        _MODEL_PARALLEL_RNG_TRACKER_NAME, tensor_model_parallel_seed
+    )
 
     expert_parallel_seed = seed + 1024 + 100 * ep_rank + etp_rank
     _CUDA_RNG_STATE_TRACKER.add(_EXPERT_PARALLEL_RNG_TRACKER_NAME, expert_parallel_seed)
@@ -510,7 +534,8 @@ def _set_all_rng_states(cpu_rng_state, cuda_rng_state, cuda_rng_state_tracker):
     """Set all the rng states."""
     torch.set_rng_state(cpu_rng_state)
     _set_cuda_rng_state(
-        cuda_rng_state, graph_safe=is_graph_safe_cuda_rng_tracker(get_cuda_rng_tracker())
+        cuda_rng_state,
+        graph_safe=is_graph_safe_cuda_rng_tracker(get_cuda_rng_tracker()),
     )
     get_cuda_rng_tracker().set_states(cuda_rng_state_tracker)
 
@@ -548,8 +573,8 @@ def is_checkpointing():
     return IS_CHECKPOINTING
 
 
-_R = TypeVar('_R')
-_Ts = TypeVarTuple('_Ts')
+_R = TypeVar("_R")
+_Ts = TypeVarTuple("_Ts")
 
 
 class CheckpointFunction(torch.autograd.Function):
@@ -585,7 +610,8 @@ class CheckpointFunction(torch.autograd.Function):
         if distribute_saved_activations:
             ctx.input_0_shape = args[0].data.shape
             safely_set_viewless_tensor_data(
-                args[0], split_tensor_into_1d_equal_chunks(args[0].data, new_buffer=True)
+                args[0],
+                split_tensor_into_1d_equal_chunks(args[0].data, new_buffer=True),
             )
 
         # Store everything.
@@ -608,7 +634,8 @@ class CheckpointFunction(torch.autograd.Function):
         inputs = ctx.saved_tensors
         if ctx.distribute_saved_activations:
             safely_set_viewless_tensor_data(
-                inputs[0], gather_split_1d_tensor(inputs[0].data).view(ctx.input_0_shape)
+                inputs[0],
+                gather_split_1d_tensor(inputs[0].data).view(ctx.input_0_shape),
             )
 
         with _fork_rng():
@@ -625,17 +652,488 @@ class CheckpointFunction(torch.autograd.Function):
 
         # filter out non tensor outputs for backward pass
         outputs, args = zip(
-            *filter(lambda x: torch.is_tensor(x[0]) and x[0].requires_grad, zip(outputs, args))
+            *filter(
+                lambda x: torch.is_tensor(x[0]) and x[0].requires_grad,
+                zip(outputs, args),
+            )
         )
         torch.autograd.backward(outputs, args)
-        grads = tuple(inp.grad if isinstance(inp, torch.Tensor) else inp for inp in detached_inputs)
+        grads = tuple(
+            inp.grad if isinstance(inp, torch.Tensor) else inp
+            for inp in detached_inputs
+        )
 
         _unset_checkpointing()
         return (None, None) + grads
 
 
+def _discover_module_state(function):
+    """Find nn.Module instances captured by a function or bound callable."""
+    modules = {}
+    standalone_parameters = {}
+    seen = set()
+
+    def visit(value):
+        if id(value) in seen:
+            return
+        seen.add(id(value))
+        if isinstance(value, torch.nn.Module):
+            modules[id(value)] = value
+        elif isinstance(value, torch.nn.Parameter):
+            standalone_parameters[id(value)] = value
+        elif isinstance(value, functools.partial):
+            visit(value.func)
+            visit(value.args)
+            visit(value.keywords or {})
+        elif isinstance(value, dict):
+            for item in value.values():
+                visit(item)
+        elif isinstance(value, (tuple, list, set)):
+            for item in value:
+                visit(item)
+
+    visit(function)
+    visit(getattr(function, "__self__", None))
+    for cell in getattr(function, "__closure__", ()) or ():
+        try:
+            visit(cell.cell_contents)
+        except ValueError:
+            pass
+    for default in getattr(function, "__defaults__", ()) or ():
+        visit(default)
+    for default in (getattr(function, "__kwdefaults__", None) or {}).values():
+        visit(default)
+    code = getattr(function, "__code__", None)
+    global_values = getattr(function, "__globals__", {})
+    if code is not None:
+        for name in code.co_names:
+            if name in global_values:
+                visit(global_values[name])
+
+    parameters = dict(standalone_parameters)
+    buffers = {}
+    for module in modules.values():
+        parameters.update({id(tensor): tensor for tensor in module.parameters()})
+        buffers.update({id(tensor): tensor for tensor in module.buffers()})
+    return tuple(parameters.values()), tuple(buffers.values())
+
+
+class ProactiveCheckpoint:
+    """Single-invocation checkpoint handle with explicitly prefetched replay.
+
+    This experimental API is intentionally separate from ``checkpoint``. Create one
+    handle per checkpoint invocation, call it once during forward, then optionally
+    call ``prefetch()`` before backward. The backward consumes the prefetched graph
+    exactly once; otherwise it follows the ordinary on-demand replay path.
+
+    Inputs must be tensors; outputs may be tensors or ``None``. Module parameters
+    and buffers are discovered from bound modules and closures, and callers may pass
+    them explicitly. Prefetch failures are terminal unless the caller explicitly
+    certifies safe replay fallback. This API is not compatible with distributed
+    saved activations, CUDA graph capture, TE contexts, or repeated handle use.
+    """
+
+    _next_id = itertools.count()
+    _registry = weakref.WeakValueDictionary()
+
+    def __init__(
+        self,
+        run_function: Callable[[Unpack[_Ts]], _R],
+        parameters=None,
+        buffers=None,
+        allow_prefetch_fallback=False,
+        metadata=None,
+    ):
+        self.run_function = run_function
+        discovered_parameters, discovered_buffers = _discover_module_state(run_function)
+        parameter_values = (
+            discovered_parameters
+            if parameters is None
+            else (*parameters, *discovered_parameters)
+        )
+        buffer_values = (
+            discovered_buffers if buffers is None else (*buffers, *discovered_buffers)
+        )
+        self.parameters = tuple(
+            {id(tensor): tensor for tensor in parameter_values}.values()
+        )
+        self.buffers = tuple({id(tensor): tensor for tensor in buffer_values}.values())
+        self.allow_prefetch_fallback = allow_prefetch_fallback
+        self.metadata = metadata or {}
+        self.checkpoint_id = next(ProactiveCheckpoint._next_id)
+        self.state = "created"
+        self.events = []
+        self._inputs = None
+        self._input_versions = None
+        self._rng_states = None
+        self._parameter_versions = None
+        self._buffer_versions = None
+        self._forward_input_versions = None
+        self._cached_outputs = None
+        self._cached_inputs = None
+        self.cache_bytes = 0
+        self.saved_tensor_bytes = 0
+        self.cache_started_at = None
+        self.cache_lifetime_seconds = 0.0
+        self.memory_snapshot = {}
+
+    def __call__(self, *args: Unpack[_Ts]) -> _R:
+        if self.state != "created":
+            raise RuntimeError("ProactiveCheckpoint handles exactly one invocation")
+        if any(not isinstance(arg, torch.Tensor) for arg in args):
+            raise TypeError("ProactiveCheckpoint prototype requires tensor-only inputs")
+        self._inputs = tuple(args)
+        self._input_versions = tuple(arg._version for arg in args)
+        self._parameter_versions = tuple(param._version for param in self.parameters)
+        self._buffer_versions = tuple(buf._version for buf in self.buffers)
+        self._rng_states = _get_all_rng_states()
+        try:
+            result = ProactiveCheckpointFunction.apply(
+                self, len(args), *args, *self.parameters, *self.buffers
+            )
+        except Exception:
+            self._abort("failed_terminal", "original_forward_failed")
+            raise
+        self.state = "forward_complete"
+        self.events.append(
+            {
+                "event": "forward_complete",
+                "checkpoint_id": self.checkpoint_id,
+                **self.metadata,
+            }
+        )
+        self._registry[self.checkpoint_id] = self
+        return result
+
+    def _check_versions(self, where):
+        current_inputs = tuple(t._version for t in self._inputs)
+        current_parameters = tuple(t._version for t in self.parameters)
+        current_buffers = tuple(t._version for t in self.buffers)
+        if current_inputs != self._input_versions:
+            raise RuntimeError(f"checkpoint input changed between forward and {where}")
+        if current_parameters != self._parameter_versions:
+            raise RuntimeError(
+                f"checkpoint parameter changed between forward and {where}"
+            )
+        if current_buffers != self._buffer_versions:
+            raise RuntimeError(f"checkpoint buffer changed between forward and {where}")
+
+    def prefetch(self) -> bool:
+        """Run and retain a differentiable replay graph; return whether it completed."""
+        if self.state != "forward_complete":
+            raise RuntimeError(f"cannot prefetch checkpoint in state {self.state}")
+        self.events.append(
+            {"event": "prefetch_start", "checkpoint_id": self.checkpoint_id}
+        )
+        self.state = "prefetch_submitted"
+        self.cache_started_at = time.perf_counter()
+        if torch.cuda.is_available():
+            self.memory_snapshot["allocated_before"] = torch.cuda.memory_allocated()
+            self.memory_snapshot["reserved_before"] = torch.cuda.memory_reserved()
+        try:
+            self._check_versions("prefetch")
+            self._cached_inputs = tuple(
+                t.detach().requires_grad_(t.requires_grad) for t in self._inputs
+            )
+            saved_storages = {}
+
+            def pack_saved_tensor(tensor):
+                storage = tensor.untyped_storage()
+                key = (tensor.device, storage.data_ptr())
+                saved_storages[key] = storage.nbytes()
+                return tensor
+
+            def unpack_saved_tensor(tensor):
+                return tensor
+
+            with _fork_rng():
+                _set_all_rng_states(*self._rng_states)
+                with (
+                    torch.enable_grad(),
+                    torch.autograd.graph.saved_tensors_hooks(
+                        pack_saved_tensor, unpack_saved_tensor
+                    ),
+                ):
+                    result = self.run_function(*self._cached_inputs)
+            self._check_versions("prefetch completion")
+            self._cached_outputs = result if isinstance(result, tuple) else (result,)
+            if any(
+                out is not None and not isinstance(out, torch.Tensor)
+                for out in self._cached_outputs
+            ):
+                raise TypeError(
+                    "ProactiveCheckpoint supports tensor or None outputs only"
+                )
+            tensor_outputs = [
+                out for out in self._cached_outputs if isinstance(out, torch.Tensor)
+            ]
+            self.cache_bytes = sum(
+                out.numel() * out.element_size() for out in tensor_outputs
+            )
+            output_storages = {
+                (
+                    out.device,
+                    out.untyped_storage().data_ptr(),
+                ): out.untyped_storage().nbytes()
+                for out in tensor_outputs
+            }
+            self.saved_tensor_bytes = sum((output_storages | saved_storages).values())
+            if torch.cuda.is_available():
+                self.memory_snapshot["allocated_after"] = torch.cuda.memory_allocated()
+                self.memory_snapshot["reserved_after"] = torch.cuda.memory_reserved()
+                self.memory_snapshot["peak_allocated"] = (
+                    torch.cuda.max_memory_allocated()
+                )
+                self.memory_snapshot["peak_reserved"] = torch.cuda.max_memory_reserved()
+            self.state = "prefetch_complete"
+            self.events.append(
+                {
+                    "event": "prefetch_complete",
+                    "checkpoint_id": self.checkpoint_id,
+                    "output_bytes": self.cache_bytes,
+                    "saved_tensor_bytes": self.saved_tensor_bytes,
+                    "allocated_bytes": self.memory_snapshot.get("allocated_after"),
+                    "reserved_bytes": self.memory_snapshot.get("reserved_after"),
+                }
+            )
+            return True
+        except Exception as exc:
+            safe_to_fallback = self.allow_prefetch_fallback
+            try:
+                self._check_versions("prefetch failure handling")
+            except RuntimeError:
+                safe_to_fallback = False
+            self.events.append(
+                {
+                    "event": "prefetch_failed",
+                    "checkpoint_id": self.checkpoint_id,
+                    "reason": repr(exc),
+                    "fallback_allowed": safe_to_fallback,
+                }
+            )
+            if not safe_to_fallback:
+                self._abort("failed_terminal", "prefetch_failed")
+                raise RuntimeError(
+                    "proactive prefetch failed and on-demand replay is not certified safe: "
+                    f"{exc}"
+                ) from exc
+            self._release_cache()
+            self.state = "prefetch_failed_safe"
+            return False
+
+    def write_events(self, path):
+        """Write this invocation's lifecycle and memory observations as JSON."""
+        with open(path, "w", encoding="utf-8") as event_file:
+            json.dump(
+                {
+                    "checkpoint_id": self.checkpoint_id,
+                    "state": self.state,
+                    "events": self.events,
+                    "cache_lifetime_seconds": self.cache_lifetime_seconds,
+                    "memory_snapshot": self.memory_snapshot,
+                },
+                event_file,
+                indent=2,
+            )
+            event_file.write("\n")
+
+    def release(self):
+        """Explicitly abandon an invocation whose backward will not be run."""
+        if self.state not in (
+            "forward_complete",
+            "prefetch_complete",
+            "prefetch_failed_safe",
+        ):
+            raise RuntimeError(f"cannot release checkpoint in state {self.state}")
+        self._release_cache()
+        self._inputs = None
+        self._input_versions = None
+        self._parameter_versions = None
+        self._buffer_versions = None
+        self._rng_states = None
+        self._registry.pop(self.checkpoint_id, None)
+        self.state = "released"
+        self.events.append(
+            {"event": "released_without_backward", "checkpoint_id": self.checkpoint_id}
+        )
+
+    def _backward_replay(self, grad_outputs):
+        if self.state not in (
+            "forward_complete",
+            "prefetch_complete",
+            "prefetch_failed_safe",
+        ):
+            raise RuntimeError(f"cannot run checkpoint backward in state {self.state}")
+        try:
+            self._check_versions("backward")
+        except Exception:
+            self._abort("failed_terminal", "version_check_failed")
+            raise
+        hit = self.state == "prefetch_complete"
+        previous_parameter_grads = [
+            None if param.grad is None else param.grad.detach().clone()
+            for param in self.parameters
+        ]
+        previous_parameter_grad_refs = [param.grad for param in self.parameters]
+        try:
+            if hit:
+                outputs, detached_inputs = self._cached_outputs, self._cached_inputs
+                self.events.append(
+                    {"event": "cache_hit", "checkpoint_id": self.checkpoint_id}
+                )
+            elif self.state in ("forward_complete", "prefetch_failed_safe"):
+                self.events.append(
+                    {
+                        "event": "fallback",
+                        "checkpoint_id": self.checkpoint_id,
+                        "reason": "no_completed_prefetch",
+                    }
+                )
+                detached_inputs = tuple(
+                    t.detach().requires_grad_(t.requires_grad) for t in self._inputs
+                )
+                with _fork_rng():
+                    _set_all_rng_states(*self._rng_states)
+                    with torch.enable_grad():
+                        result = self.run_function(*detached_inputs)
+                outputs = result if isinstance(result, tuple) else (result,)
+            else:
+                raise RuntimeError(f"cannot consume checkpoint in state {self.state}")
+            active = [
+                (out, grad)
+                for out, grad in zip(outputs, grad_outputs)
+                if isinstance(out, torch.Tensor)
+                and out.requires_grad
+                and grad is not None
+            ]
+            if active:
+                torch.autograd.backward(*zip(*active))
+            grads = tuple(
+                inp.grad if inp.requires_grad else None for inp in detached_inputs
+            )
+            if hit:
+                self.events.append(
+                    {"event": "cache_consumed", "checkpoint_id": self.checkpoint_id}
+                )
+            return grads
+        except Exception:
+            for param, previous, previous_ref in zip(
+                self.parameters, previous_parameter_grads, previous_parameter_grad_refs
+            ):
+                if previous is None:
+                    param.grad = None
+                elif previous_ref is None:
+                    param.grad = previous
+                else:
+                    previous_ref.copy_(previous)
+                    param.grad = previous_ref
+            self.state = "backward_failed"
+            self.events.append(
+                {"event": "backward_failed", "checkpoint_id": self.checkpoint_id}
+            )
+            raise
+        finally:
+            self._cleanup_after_backward()
+
+    def _cleanup_after_backward(self):
+        self._release_cache()
+        self._inputs = None
+        self._input_versions = None
+        self._parameter_versions = None
+        self._buffer_versions = None
+        self._rng_states = None
+        if self.state != "backward_failed":
+            self.state = "consumed"
+        self._registry.pop(self.checkpoint_id, None)
+        self.events.append(
+            {
+                "event": "released",
+                "checkpoint_id": self.checkpoint_id,
+                "cache_lifetime_seconds": self.cache_lifetime_seconds,
+                "memory": dict(self.memory_snapshot),
+            }
+        )
+
+    def _abort(self, state, reason):
+        self.events.append(
+            {"event": "aborted", "checkpoint_id": self.checkpoint_id, "reason": reason}
+        )
+        self.state = state
+        self._cleanup_after_backward()
+        self.state = state
+
+    def _release_cache(self):
+        self._cached_outputs = None
+        self._cached_inputs = None
+        self.cache_bytes = 0
+        self.saved_tensor_bytes = 0
+        if self.cache_started_at is not None:
+            self.cache_lifetime_seconds = time.perf_counter() - self.cache_started_at
+            self.cache_started_at = None
+
+
+class ProactiveCheckpointFunction(torch.autograd.Function):
+    """Autograd bridge that hands upstream gradients to a ProactiveCheckpoint."""
+
+    @staticmethod
+    def forward(ctx, handle: ProactiveCheckpoint, input_count: int, *all_inputs):
+        ctx.handle = handle
+        ctx.input_count = input_count
+        ctx.save_for_backward(*all_inputs)
+        args = all_inputs[:input_count]
+        handle._check_versions("original forward")
+        with torch.no_grad():
+            outputs = handle.run_function(*args)
+        handle._check_versions("original forward completion")
+        if isinstance(outputs, torch.Tensor):
+            return outputs
+        return outputs
+
+    @staticmethod
+    def backward(ctx, *grad_outputs):
+        if ctx.handle.state == "consumed":
+            raise RuntimeError("ProactiveCheckpoint graph was already consumed")
+        # Accessing saved tensors enforces PyTorch's version-counter check and
+        # rejects in-place input mutation instead of replaying with stale values.
+        try:
+            all_inputs = ctx.saved_tensors
+        except Exception:
+            ctx.handle._abort("failed_terminal", "saved_tensor_version_check_failed")
+            raise
+        input_count = ctx.input_count
+        grads = ctx.handle._backward_replay(grad_outputs)
+        return (None, None) + grads + (None,) * (len(all_inputs) - input_count)
+
+
+def prefetch_recompute(checkpoint_id: int) -> bool:
+    """Explicitly prefetch a live checkpoint invocation by its unique ID."""
+    handle = ProactiveCheckpoint._registry.get(checkpoint_id)
+    if handle is None:
+        raise KeyError(f"no live proactive checkpoint with id {checkpoint_id}")
+    return handle.prefetch()
+
+
+def pending_recompute_checkpoints():
+    """Return IDs of live checkpoint invocations that are ready to prefetch."""
+    return tuple(
+        checkpoint_id
+        for checkpoint_id, handle in ProactiveCheckpoint._registry.items()
+        if handle.state == "forward_complete"
+    )
+
+
+def get_recompute_checkpoint(checkpoint_id: int):
+    """Return a live invocation handle for diagnostics and lifecycle control."""
+    handle = ProactiveCheckpoint._registry.get(checkpoint_id)
+    if handle is None:
+        raise KeyError(f"no live proactive checkpoint with id {checkpoint_id}")
+    return handle
+
+
 def checkpoint(
-    function: Callable[[Unpack[_Ts]], _R], distribute_saved_activations: bool, *args: Unpack[_Ts]
+    function: Callable[[Unpack[_Ts]], _R],
+    distribute_saved_activations: bool,
+    *args: Unpack[_Ts],
 ) -> _R:
     """Checkpoint a model or part of the model.
     This has been directly copied from torch.utils.checkpoint."""
@@ -667,7 +1165,9 @@ class CheckpointWithoutOutputFunction(torch.autograd.Function):
             fp8 = FP8GlobalStateManager.is_fp8_enabled()
             ctx.fp8 = fp8
             ctx.fp8_recipe = FP8GlobalStateManager.get_fp8_recipe() if fp8 else None
-            fwd_ctx = activation_recompute_forward(activation_recompute=True, recompute_phase=False)
+            fwd_ctx = activation_recompute_forward(
+                activation_recompute=True, recompute_phase=False
+            )
         else:
             ctx.fp8 = False
             ctx.fp8_recipe = None
@@ -692,7 +1192,9 @@ class CheckpointWithoutOutputFunction(torch.autograd.Function):
         torch.autograd.backward(outputs, args)
         ctx.outputs = None
         ctx.inputs = None
-        grads = tuple(inp.grad if isinstance(inp, torch.Tensor) else inp for inp in inputs)
+        grads = tuple(
+            inp.grad if isinstance(inp, torch.Tensor) else inp for inp in inputs
+        )
         return (None, None) + grads
 
 
@@ -719,7 +1221,9 @@ class CheckpointWithoutOutput(object):
         self.ctx = None
         self.outputs = None
 
-    def checkpoint(self, run_function: Callable[[Unpack[_Ts]], _R], *args: Unpack[_Ts]) -> _R:
+    def checkpoint(
+        self, run_function: Callable[[Unpack[_Ts]], _R], *args: Unpack[_Ts]
+    ) -> _R:
         """Checkpoint function."""
 
         # If in cuda graph warmup, disable checkpointing, as 'discard_output_and_register_recompute'
@@ -762,7 +1266,9 @@ class CheckpointWithoutOutput(object):
                 recompute_ctx = activation_recompute_forward(
                     activation_recompute=True, recompute_phase=True
                 )
-                fp8_ctx = fp8_autocast(enabled=self.ctx.fp8, fp8_recipe=self.ctx.fp8_recipe)
+                fp8_ctx = fp8_autocast(
+                    enabled=self.ctx.fp8, fp8_recipe=self.ctx.fp8_recipe
+                )
             else:
                 recompute_ctx = contextlib.nullcontext()
                 fp8_ctx = contextlib.nullcontext()

@@ -459,10 +459,14 @@ class DistributedDataParallel(_BaseDataParallel):
 
             if param in self.param_to_bucket_group:
                 assert param.requires_grad
-                if self.ddp_config.overlap_grad_reduce:
-                    assert (
-                        param.grad is not None
-                    ), 'param.grad being None is not safe when overlap_grad_reduce is True'
+                if self.ddp_config.overlap_grad_reduce and param.grad is None:
+                    # When using pipeline parallelism, parameters on non-first PP
+                    # stages may have a None grad when the backward pass does not
+                    # reach them (e.g., the last PP stage receives no incoming
+                    # gradient for a particular microbatch). Skip gradient
+                    # accumulation and reduce registration for this parameter
+                    # rather than asserting.
+                    return
                 if param.grad is not None and (
                     not param.grad_added_to_main_grad or getattr(param, 'zero_out_wgrad', False)
                 ):

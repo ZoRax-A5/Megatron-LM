@@ -1,5 +1,6 @@
 # Copyright (c) 2025 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
 
+import json
 import logging
 import math
 import warnings
@@ -48,6 +49,20 @@ try:
     HAVE_PACKAGING = True
 except ImportError:
     HAVE_PACKAGING = False
+
+
+def _parse_recompute_layer_config(value: str) -> dict:
+    """Parse a layer mapping while rejecting duplicate JSON keys."""
+
+    def unique_pairs(pairs):
+        result = {}
+        for key, item in pairs:
+            if key in result:
+                raise ValueError(f"Duplicate JSON key: {key!r}")
+            result[key] = item
+        return result
+
+    return json.loads(value, object_pairs_hook=unique_pairs)
 
 
 @dataclass
@@ -533,6 +548,18 @@ class TransformerConfig(ModelParallelConfig):
     distribute_saved_activations: Optional[bool] = False
     """If True, distribute recomputed activations across the model parallel group."""
 
+    recompute_layer_config: Optional[dict] = field(
+        default=None, metadata={"argparse_meta": {"type": _parse_recompute_layer_config}}
+    )
+    """Optional JSON object mapping zero-based global layer indices to module lists.
+
+    When supplied it replaces the global module list; unspecified layers have no
+    selective recomputation. For example, {"0": ["attn_qkv"], "3": []}.
+    """
+
+    proactive_recompute: bool = False
+    """Enable the experimental explicit-prefetch path for supported selective QKV checkpoints."""
+
     recompute_modules: Optional[List[str]] = None
     """The submodules to recompute.
     choices: "core_attn", "moe_act", "layernorm", "mla_up_proj", "mlp", "moe",
@@ -540,12 +567,16 @@ class TransformerConfig(ModelParallelConfig):
     default: ["core_attn"].
     "core_attn": recompute the core attention part of the transformer layer.
     "moe_act": recompute the MoE MLP activation function.
+    "moe_fc1", "moe_fc2": recompute the respective TE grouped expert linear call.
     "layernorm": recompute the input_layernorm and pre_mlp_layernorm.
     "mla_up_proj": recompute the MLA up projection and RoPE applying parts.
     "mlp": recompute the dense MLP submodule.
     "moe": recompute the MoE layer.
     "shared_experts": recompute the shared experts in the MoE layer.
     "gdn_norm_out": recompute the GatedDeltaNet output norm and HP-to-CP all-to-all.
+    "attn_qkv", "attn_q_norm", "attn_k_norm", "attn_rope_q", "attn_rope_k",
+    "attn_proj", "mlp_fc1", "mlp_act", "mlp_fc2": fine-grained dense
+    attention and MLP module boundaries. Fused modules may include normalization.
     "moe_act", "layernorm", "mla_up_proj", and "gdn_norm_out" use output-discarding checkpointing,
     "core_attn", "mlp", "moe", and "shared_experts" use normal checkpointing.
     """
@@ -1637,26 +1668,139 @@ class TransformerConfig(ModelParallelConfig):
                     f"false when sequence parallel is enabled: {self.sequence_parallel}"
                 )
 
-        if self.recompute_modules is None:
+        if self.recompute_layer_config is not None:
+            if self.recompute_granularity != "selective":
+                raise ValueError("recompute_layer_config requires selective recomputation")
+            if not isinstance(self.recompute_layer_config, dict):
+                raise ValueError("recompute_layer_config must be an object")
+            normalized = {}
+            for key, modules in self.recompute_layer_config.items():
+                if isinstance(key, bool) or not (
+                    isinstance(key, int) or isinstance(key, str) and key.isdecimal()
+                ):
+                    raise ValueError(f"Invalid global layer index: {key!r}")
+                index = int(key)
+                if index < 0 or index >= self.num_layers or index in normalized:
+                    raise ValueError(f"Invalid or duplicate global layer index: {key!r}")
+                if not isinstance(modules, list) or not all(isinstance(m, str) for m in modules):
+                    raise ValueError(f"Layer {index} requires a list of module names")
+                if len(modules) != len(set(modules)):
+                    raise ValueError(f"Duplicate module for layer {index}")
+                if "mlp" in modules and set(modules) & {"mlp_fc1", "mlp_act", "mlp_fc2"}:
+                    raise ValueError(
+                        f"Layer {index}: cannot combine whole-MLP and fine MLP checkpointing"
+                    )
+                if "moe" in modules and set(modules) & {"moe_act", "moe_fc1", "moe_fc2", "shared_experts"}:
+                    raise ValueError(f"Layer {index}: cannot combine whole MoE and internal checkpoints")
+                normalized[index] = list(modules)
+            self.recompute_layer_config = normalized
+            # Validate and advertise the union at model level; layers receive their own lists.
+            self.recompute_modules = sorted({m for modules in normalized.values() for m in modules})
+        elif self.recompute_modules is None:
             self.recompute_modules = ["core_attn"]
+
+        if self.proactive_recompute:
+            if self.recompute_granularity != "selective":
+                raise ValueError("proactive_recompute requires selective recomputation")
+            if "attn_qkv" not in self.recompute_modules:
+                raise ValueError("proactive_recompute currently requires attn_qkv recomputation")
+            if self.transformer_impl != "local" or self.fp8 or self.fp4:
+                raise ValueError(
+                    "proactive_recompute currently supports only local non-FP8/FP4 linear modules"
+                )
+            if (
+                self.tensor_model_parallel_size != 1
+                or self.pipeline_model_parallel_size != 1
+                or self.context_parallel_size != 1
+                or self.expert_model_parallel_size != 1
+            ):
+                raise ValueError("proactive_recompute is currently limited to single-GPU parallel sizes")
+            if self.cuda_graph_impl != "none" or self.cpu_offloading or self.distribute_saved_activations:
+                raise ValueError(
+                    "proactive_recompute is incompatible with CUDA graphs, CPU offload, and distributed saved activations"
+                )
 
         if self.recompute_granularity == "selective":
             if len(self.recompute_modules) > 0:
                 allowed_modules = {
                     "core_attn",
                     "moe_act",
+                    "moe_fc1",
+                    "moe_fc2",
                     "layernorm",
                     "mla_up_proj",
                     "mlp",
                     "moe",
                     "shared_experts",
                     "gdn_norm_out",
+                    "attn_qkv",
+                    "attn_q_norm",
+                    "attn_k_norm",
+                    "attn_rope_q",
+                    "attn_rope_k",
+                    "attn_proj",
+                    "mlp_fc1",
+                    "mlp_act",
+                    "mlp_fc2",
                 }
                 invalid_modules = set(self.recompute_modules) - allowed_modules
                 assert not invalid_modules, (
                     f"Invalid choices for recompute_modules: {invalid_modules}. "
                     f"Allowed modules are: {allowed_modules}"
                 )
+
+            fine_modules = {
+                "attn_qkv",
+                "attn_q_norm",
+                "attn_k_norm",
+                "attn_rope_q",
+                "attn_rope_k",
+                "attn_proj",
+                "mlp_fc1",
+                "mlp_act",
+                "mlp_fc2",
+            }
+            selected_fine = fine_modules.intersection(self.recompute_modules)
+            moe_fine = {"moe_fc1", "moe_fc2"}.intersection(self.recompute_modules)
+            if moe_fine:
+                if (not self.num_moe_experts or not self.moe_grouped_gemm or self.fp8 or self.fp4
+                    or self.add_bias_linear or self.use_transformer_engine_op_fuser
+                    or self.fine_grained_activation_offloading or self.cpu_offloading
+                    or self.cuda_graph_impl != "none" or self.overlap_moe_expert_parallel_comm):
+                    raise ValueError("MoE FC checkpoints require bias-free BF16/FP32 grouped experts without fused ops, offloading, CUDA graphs or EP overlap")
+            if "moe_act" in self.recompute_modules and self.use_transformer_engine_op_fuser:
+                raise ValueError("moe_act checkpointing is unsupported with fused grouped MLP")
+            if self.recompute_layer_config is None and "moe" in self.recompute_modules and set(self.recompute_modules) & {"moe_act", "moe_fc1", "moe_fc2", "shared_experts"}:
+                raise ValueError("Cannot combine whole MoE and internal checkpoints")
+            if selected_fine:
+                if self.num_moe_experts and selected_fine.intersection({"mlp_fc1", "mlp_act", "mlp_fc2"}):
+                    raise ValueError("Use moe_fc1, moe_act or moe_fc2 for MoE experts")
+                if (
+                    self.recompute_layer_config is None
+                    and "mlp" in self.recompute_modules
+                    and selected_fine.intersection({"mlp_fc1", "mlp_act", "mlp_fc2"})
+                ):
+                    raise ValueError("Cannot combine whole-MLP and fine MLP checkpointing")
+                if (
+                    self.fp8
+                    or self.fp4
+                    or self.fine_grained_activation_offloading
+                ):
+                    raise ValueError(
+                        "Fine checkpointing currently supports BF16/FP32 without activation offloading"
+                    )
+                if self.fused_single_qkv_rope and selected_fine.intersection(
+                    {"attn_rope_q", "attn_rope_k"}
+                ):
+                    raise ValueError("Separate RoPE checkpointing requires unfused QKV RoPE")
+                if self.cpu_offloading:
+                    raise ValueError("Fine checkpointing with CPU offloading is not supported")
+                if self.sequence_parallel or self.multi_latent_attention:
+                    raise ValueError(
+                        "Fine checkpointing with sequence parallel or MLA is not supported"
+                    )
+                if self.cuda_graph_impl != "none":
+                    raise ValueError("Fine checkpointing with CUDA graphs is not supported")
 
             if "moe_act" in self.recompute_modules and not self.moe_grouped_gemm:
                 raise ValueError(

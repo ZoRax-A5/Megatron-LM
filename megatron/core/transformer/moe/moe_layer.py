@@ -336,6 +336,11 @@ class MoELayer(BaseMoELayer):
             pg_collection=pg_collection,
             name=(name + ".experts") if name is not None else None,
         )
+        if {"moe_fc1", "moe_fc2"} & set(config.recompute_modules):
+            from megatron.core.transformer.moe.experts import TEGroupedMLP
+
+            if not isinstance(self.experts, TEGroupedMLP):
+                raise ValueError("moe_fc1/moe_fc2 require TEGroupedMLP experts")
 
         # Initialize shared experts
         if self.use_shared_expert:

@@ -11,6 +11,7 @@ SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 CHECKPOINT_PATH=${1:-/tmp/megatron_qwen_memory_profile_8gpu}
 TOKENIZER_PATH=${2:-MOCK}
 DATA_PATH=${3:-MOCK}
+RESULTS_DIR=${RESULTS_DIR:-"./results"}
 
 export GPUS_PER_NODE=${GPUS_PER_NODE:-8}
 export NNODES=${NNODES:-1}
@@ -35,10 +36,19 @@ export TRAIN_ITERS=${TRAIN_ITERS:-20}
 # eval_micro_batch_size defaults to micro_batch_size, so same constraint applies.
 EVAL_GLOBAL_BATCH_SIZE=$(( GLOBAL_BATCH_SIZE > MICRO_BATCH_SIZE * DATA_PARALLEL_SIZE ? GLOBAL_BATCH_SIZE : MICRO_BATCH_SIZE * DATA_PARALLEL_SIZE ))
 
-MEMORY_PROFILE_DIR=${MEMORY_PROFILE_DIR:-"${CHECKPOINT_PATH}/memory_profile_smoke"}
-MEMORY_PROFILE_MODE=${MEMORY_PROFILE_MODE:-light}
-MEMORY_PROFILE_WARMUP_ITERS=${MEMORY_PROFILE_WARMUP_ITERS:-1}
-MEMORY_PROFILE_ITERS=${MEMORY_PROFILE_ITERS:-1}
+MEMORY_PROFILE_MODE=${MEMORY_PROFILE_MODE:-deep}
+
+# Mode-dependent defaults: deep mode needs more warmup and profile iterations
+# to collect meaningful breakdowns and allocator snapshots.
+if [ "${MEMORY_PROFILE_MODE}" = "deep" ]; then
+    MEMORY_PROFILE_WARMUP_ITERS=${MEMORY_PROFILE_WARMUP_ITERS:-3}
+    MEMORY_PROFILE_ITERS=${MEMORY_PROFILE_ITERS:-5}
+else
+    MEMORY_PROFILE_WARMUP_ITERS=${MEMORY_PROFILE_WARMUP_ITERS:-1}
+    MEMORY_PROFILE_ITERS=${MEMORY_PROFILE_ITERS:-1}
+fi
+
+MEMORY_PROFILE_DIR=${MEMORY_PROFILE_DIR:-"${RESULTS_DIR}/memory_profile_${MEMORY_PROFILE_MODE}_$(date +%Y%m%d_%H%M%S)"}
 
 mkdir -p "${CHECKPOINT_PATH}" "${MEMORY_PROFILE_DIR}"
 
@@ -75,4 +85,4 @@ python "${SCRIPT_DIR}/../../tools/memory_profile/plot_memory_profile.py" \
     --input-dir "${MEMORY_PROFILE_DIR}" \
     --expected-ranks "${GPUS_PER_NODE}"
 
-echo "Memory profile smoke test report: ${MEMORY_PROFILE_DIR}/plots/index.html"
+echo "[${MEMORY_PROFILE_MODE}] Memory profile smoke test report: ${MEMORY_PROFILE_DIR}/plots/index.html"

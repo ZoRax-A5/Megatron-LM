@@ -10,6 +10,7 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 
+from megatron.core import tensor_parallel
 from megatron.core.dist_checkpointing import ShardedTensor
 from megatron.core.dist_checkpointing.mapping import (
     ReplicaId,
@@ -255,10 +256,60 @@ class MLP(MegatronModule):
         """Perform the forward pass through the MLP block."""
         # [s, b, 4 * h/p]
         nvtx_range_push(suffix="linear_fc1")
-        intermediate_parallel, bias_parallel = apply_module(self.linear_fc1)(hidden_states)
+        if (
+            self.training
+            and self.config.recompute_granularity == "selective"
+            and "mlp_fc1" in self.config.recompute_modules
+        ):
+            intermediate_parallel, bias_parallel = tensor_parallel.checkpoint(
+                apply_module(self.linear_fc1), False, hidden_states
+            )
+        else:
+            intermediate_parallel, bias_parallel = apply_module(self.linear_fc1)(hidden_states)
         nvtx_range_pop(suffix="linear_fc1")
 
         nvtx_range_push(suffix="activation")
+        if (
+            self.training
+            and self.config.recompute_granularity == "selective"
+            and "mlp_act" in self.config.recompute_modules
+        ):
+            intermediate_parallel = tensor_parallel.checkpoint(
+                self._fine_activation, False, intermediate_parallel, bias_parallel, per_token_scale
+            )
+        else:
+            intermediate_parallel = self._fine_activation(
+                intermediate_parallel, bias_parallel, per_token_scale
+            )
+        nvtx_range_pop(suffix="activation")
+
+        # [s, b, h]
+        nvtx_range_push(suffix="linear_fc2")
+
+        if (
+            self.training
+            and self.config.recompute_granularity == "selective"
+            and "mlp_fc2" in self.config.recompute_modules
+        ):
+            output, output_bias = tensor_parallel.checkpoint(
+                apply_module(self.linear_fc2), False, cast(torch.Tensor, intermediate_parallel)
+            )
+        else:
+            output, output_bias = apply_module(self.linear_fc2)(
+                cast(torch.Tensor, intermediate_parallel)
+            )
+        nvtx_range_pop(suffix="linear_fc2")
+
+        if per_token_scale is not None and output_bias is not None:
+            # if this MLP is an expert, and bias is required, we add the bias to output directly
+            # without doing bda later.
+            output += output_bias.unsqueeze(0) * per_token_scale.unsqueeze(-1)
+            output_bias = None
+
+        return output, output_bias
+
+    def _fine_activation(self, intermediate_parallel, bias_parallel, per_token_scale):
+        """Apply the MLP activation, optionally as a checkpoint boundary."""
         if self.config.use_te_activation_func:
             if bias_parallel is not None:
                 intermediate_parallel = intermediate_parallel + bias_parallel
@@ -332,23 +383,7 @@ class MLP(MegatronModule):
                 original_dtype = intermediate_parallel.dtype
                 intermediate_parallel = intermediate_parallel * per_token_scale.unsqueeze(-1)
                 intermediate_parallel = intermediate_parallel.to(original_dtype)
-        nvtx_range_pop(suffix="activation")
-
-        # [s, b, h]
-        nvtx_range_push(suffix="linear_fc2")
-
-        output, output_bias = apply_module(self.linear_fc2)(
-            cast(torch.Tensor, intermediate_parallel)
-        )
-        nvtx_range_pop(suffix="linear_fc2")
-
-        if per_token_scale is not None and output_bias is not None:
-            # if this MLP is an expert, and bias is required, we add the bias to output directly
-            # without doing bda later.
-            output += output_bias.unsqueeze(0) * per_token_scale.unsqueeze(-1)
-            output_bias = None
-
-        return output, output_bias
+        return intermediate_parallel
 
     # pylint: disable=missing-function-docstring
     def sharded_state_dict(

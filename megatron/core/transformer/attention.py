@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import copy
+import functools
 import inspect
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
@@ -32,7 +33,9 @@ from megatron.core.pipeline_parallel.fine_grained_activation_offload import (
     FineGrainedActivationOffloadingInterface as off_interface,
 )
 from megatron.core.process_groups_config import ProcessGroupCollection
+from megatron.core.tensor_parallel.layers import ColumnParallelLinear
 from megatron.core.tensor_parallel.mappings import all_gather_last_dim_from_tensor_parallel_region
+from megatron.core.tensor_parallel.random import ProactiveCheckpoint
 from megatron.core.transformer.identity_op import IdentityOp
 from megatron.core.transformer.module import MegatronModule
 from megatron.core.transformer.torch_norm import L2Norm, LayerNormBuilder
@@ -1460,14 +1463,21 @@ class Attention(MegatronModule, ABC):
                 if q_pos_emb is not None:
                     # TODO VIJAY: simplify
                     if inference_context is None or inference_context.is_static_batching():
-                        query = apply_rotary_pos_emb(
-                            query,
-                            q_pos_emb,
+                        rope_fn = functools.partial(
+                            apply_rotary_pos_emb,
                             config=self.config,
                             cu_seqlens=cu_seqlens_q,
                             mscale=self._yarn_concentration_factor,
                             cp_group=self.pg_collection.cp,
                         )
+                        if (
+                            self.training
+                            and self.config.recompute_granularity == "selective"
+                            and "attn_rope_q" in self.config.recompute_modules
+                        ):
+                            query = tensor_parallel.checkpoint(rope_fn, False, query, q_pos_emb)
+                        else:
+                            query = rope_fn(query, q_pos_emb)
                     else:
                         query = inference_context.apply_rotary_emb_query(
                             query,
@@ -1478,14 +1488,21 @@ class Attention(MegatronModule, ABC):
                             mscale=self._yarn_concentration_factor,
                         )
                 if k_pos_emb is not None:
-                    key = apply_rotary_pos_emb(
-                        key,
-                        k_pos_emb,
+                    rope_fn = functools.partial(
+                        apply_rotary_pos_emb,
                         config=self.config,
                         cu_seqlens=cu_seqlens_kv,
                         mscale=self._yarn_concentration_factor,
                         cp_group=self.pg_collection.cp,
                     )
+                    if (
+                        self.training
+                        and self.config.recompute_granularity == "selective"
+                        and "attn_rope_k" in self.config.recompute_modules
+                    ):
+                        key = tensor_parallel.checkpoint(rope_fn, False, key, k_pos_emb)
+                    else:
+                        key = rope_fn(key, k_pos_emb)
             else:
                 query, key, value = apply_fused_qkv_rotary_pos_emb(
                     mixed_qkv, q_pos_emb, k_pos_emb, qkv_split_arg_list
@@ -1577,7 +1594,16 @@ class Attention(MegatronModule, ABC):
         # =================
         nvtx_range_push(suffix="linear_proj")
         with off_interface(self.offload_attn_proj, core_attn_out, "attn_proj") as core_attn_out:
-            output, bias = apply_module(self.linear_proj)(core_attn_out)
+            if (
+                self.training
+                and self.config.recompute_granularity == "selective"
+                and "attn_proj" in self.config.recompute_modules
+            ):
+                output, bias = tensor_parallel.checkpoint(
+                    apply_module(self.linear_proj), False, core_attn_out
+                )
+            else:
+                output, bias = apply_module(self.linear_proj)(core_attn_out)
         if self.offload_attn_proj:
             output = off_interface.group_commit(
                 output, name="attn_proj", forced_released_tensors=[core_attn_out]
@@ -1793,7 +1819,47 @@ class SelfAttention(Attention):
         """
         # If no output gate: Attention heads [sq, b, h] --> [sq, b, ng * (np/ng + 2) * hn)]
         # If have output gate: Attention heads [sq, b, h] --> [sq, b, ng * (2 * np/ng + 2) * hn)]
-        mixed_qkv, _ = apply_module(self.linear_qkv)(hidden_states)
+        if (
+            self.training
+            and self.config.recompute_granularity == "selective"
+            and "attn_qkv" in self.config.recompute_modules
+        ):
+            if self.config.proactive_recompute:
+                if self.world_size != 1:
+                    raise NotImplementedError(
+                        "proactive QKV recomputation is currently validated only with tensor parallel size 1"
+                    )
+                dp_group = getattr(self.pg_collection, "dp", None)
+                if dp_group is not None and get_pg_size(dp_group) != 1:
+                    raise NotImplementedError(
+                        "proactive QKV recomputation is currently validated only with data parallel size 1"
+                    )
+                if (
+                    dp_group is None
+                    and torch.distributed.is_initialized()
+                    and torch.distributed.get_world_size() != 1
+                ):
+                    raise NotImplementedError(
+                        "proactive QKV recomputation requires a single-process default group when the DP group is unavailable"
+                    )
+                if not isinstance(self.linear_qkv, ColumnParallelLinear):
+                    raise NotImplementedError(
+                        "proactive QKV recomputation currently requires local ColumnParallelLinear; "
+                        f"got {type(self.linear_qkv).__module__}.{type(self.linear_qkv).__name__}"
+                    )
+                checkpoint_handle = ProactiveCheckpoint(
+                    apply_module(self.linear_qkv),
+                    parameters=self.linear_qkv.parameters(),
+                    buffers=self.linear_qkv.buffers(),
+                    metadata={"layer_number": self.layer_number, "module": "attn_qkv"},
+                )
+                mixed_qkv, _ = checkpoint_handle(hidden_states)
+            else:
+                mixed_qkv, _ = tensor_parallel.checkpoint(
+                    apply_module(self.linear_qkv), False, hidden_states
+                )
+        else:
+            mixed_qkv, _ = apply_module(self.linear_qkv)(hidden_states)
         num_query_heads_per_group = (
             self.num_attention_heads_per_partition // self.num_query_groups_per_partition
         )
@@ -1884,10 +1950,24 @@ class SelfAttention(Attention):
             query = query[:, :, idx * size : (idx + 1) * size, :]
 
         if self.q_layernorm is not None:
-            query = apply_module(self.q_layernorm)(query)
+            if (
+                self.training
+                and self.config.recompute_granularity == "selective"
+                and "attn_q_norm" in self.config.recompute_modules
+            ):
+                query = tensor_parallel.checkpoint(apply_module(self.q_layernorm), False, query)
+            else:
+                query = apply_module(self.q_layernorm)(query)
 
         if self.k_layernorm is not None:
-            key = apply_module(self.k_layernorm)(key)
+            if (
+                self.training
+                and self.config.recompute_granularity == "selective"
+                and "attn_k_norm" in self.config.recompute_modules
+            ):
+                key = tensor_parallel.checkpoint(apply_module(self.k_layernorm), False, key)
+            else:
+                key = apply_module(self.k_layernorm)(key)
 
         if self.config.test_mode:
             self.run_realtime_tests()

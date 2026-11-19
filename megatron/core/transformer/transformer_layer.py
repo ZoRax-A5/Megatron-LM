@@ -1,6 +1,7 @@
 # Copyright (c) 2025 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
 from __future__ import annotations
 
+import copy
 import functools
 import logging
 import warnings
@@ -333,6 +334,15 @@ class TransformerLayer(GraphableMegatronModule, BaseTransformerLayer):
             self.layer_number = layer_number + get_transformer_layer_offset(
                 self.config, vp_stage, get_pg_rank(pg_collection.pp)
             )
+        if config.recompute_layer_config is not None:
+            if is_mtp_layer:
+                raise ValueError("Layer-wise recomputation is not supported for MTP layers")
+            # Layer numbers are one-based and already include the PP/virtual PP offset.
+            config = copy.copy(config)
+            config.recompute_modules = list(
+                config.recompute_layer_config.get(self.layer_number - 1, [])
+            )
+            self.config = config
         self.hidden_dropout = config.hidden_dropout if hidden_dropout is None else hidden_dropout
         self.is_mtp_layer = is_mtp_layer
 
@@ -430,6 +440,9 @@ class TransformerLayer(GraphableMegatronModule, BaseTransformerLayer):
         self.mlp_bda = build_module(submodules.mlp_bda)
 
         self.is_moe_layer = isinstance(self.mlp, MoELayer)
+        if (config.recompute_layer_config is not None and not self.is_moe_layer
+            and {"moe", "moe_act", "moe_fc1", "moe_fc2", "shared_experts"} & set(config.recompute_modules)):
+            raise ValueError(f"MoE recomputation selected for dense layer {self.layer_number - 1}")
 
         self.recompute_input_layernorm = False
         self.recompute_pre_mlp_layernorm = False

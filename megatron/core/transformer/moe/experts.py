@@ -259,6 +259,8 @@ class TEGroupedMLP(MegatronModule):
             self.config.recompute_granularity == 'selective'
             and "moe_act" in self.config.recompute_modules
         )
+        self.fc1_recompute = config.recompute_granularity == 'selective' and 'moe_fc1' in config.recompute_modules
+        self.fc2_recompute = config.recompute_granularity == 'selective' and 'moe_fc2' in config.recompute_modules
         if self.activation_recompute and (self.config.fp8 or self.config.fp4):
             from megatron.core.extensions.transformer_engine import set_save_original_input
 
@@ -698,9 +700,15 @@ class TEGroupedMLP(MegatronModule):
         with off_interface(
             self.offload_expert_fc1, permuted_local_hidden_states, "expert_fc1"
         ) as permuted_local_hidden_states:
-            fc1_output, bias_parallel = apply_module(self.linear_fc1)(
-                permuted_local_hidden_states, tokens_per_expert
-            )
+            if self.fc1_recompute and self.training and torch.is_grad_enabled():
+                def fc1(x):
+                    return apply_module(self.linear_fc1)(x, tokens_per_expert)[0]
+                fc1_output = tensor_parallel.checkpoint(fc1, False, permuted_local_hidden_states)
+                bias_parallel = None
+            else:
+                fc1_output, bias_parallel = apply_module(self.linear_fc1)(
+                    permuted_local_hidden_states, tokens_per_expert
+                )
         if self.offload_expert_fc1:
             fc1_output = off_interface.group_commit(
                 fc1_output,
@@ -792,7 +800,13 @@ class TEGroupedMLP(MegatronModule):
         else:
             with off_interface(self.offload_moe_act, fc1_output, "moe_act") as fc1_output:
                 bias_act_output = bias_act_func(fc1_output, bias_parallel, permuted_probs)
-        output, output_bias = apply_module(self.linear_fc2)(bias_act_output, tokens_per_expert)
+        if self.fc2_recompute and self.training and torch.is_grad_enabled():
+            def fc2(x):
+                return apply_module(self.linear_fc2)(x, tokens_per_expert)[0]
+            output = tensor_parallel.checkpoint(fc2, False, bias_act_output)
+            output_bias = None
+        else:
+            output, output_bias = apply_module(self.linear_fc2)(bias_act_output, tokens_per_expert)
         if self.activation_recompute:
             self.activation_checkpoint.discard_output_and_register_recompute(output)
 
