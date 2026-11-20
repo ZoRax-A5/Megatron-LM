@@ -420,6 +420,7 @@ def forward_step(
     current_microbatch=None,
     vp_stage=None,
     is_last_stage=True,
+    replay_from_microbatch=None,
 ):
     """Forward step for passed-in model.
 
@@ -518,12 +519,24 @@ def forward_step(
     else:
         context_manager = contextlib.nullcontext()
     with context_manager:
-        if checkpoint_activations_microbatch is None:
-            output_tensor, loss_func = forward_step_func(data_iterator, model)
-        else:
-            output_tensor, loss_func = forward_step_func(
-                data_iterator, model, checkpoint_activations_microbatch
+        proactive_enabled = getattr(config, "_proactive_recompute_schedule_enabled", False)
+        if proactive_enabled:
+            from megatron.core.tensor_parallel.random import proactive_recompute_context
+
+            recompute_context = proactive_recompute_context(
+                step=getattr(config, "proactive_recompute_step", None),
+                microbatch=current_microbatch,
+                replay_from=replay_from_microbatch,
             )
+        else:
+            recompute_context = contextlib.nullcontext()
+        with recompute_context:
+            if checkpoint_activations_microbatch is None:
+                output_tensor, loss_func = forward_step_func(data_iterator, model)
+            else:
+                output_tensor, loss_func = forward_step_func(
+                    data_iterator, model, checkpoint_activations_microbatch
+                )
     output_tensor, num_tokens = forward_step_calc_loss(
         model,
         output_tensor,
@@ -538,6 +551,32 @@ def forward_step(
         current_microbatch=current_microbatch,
         input_tensor=input_tensor,
     )
+
+    if (
+        proactive_enabled
+        and not config.cross_microbatch_recompute_schedule
+        and torch.is_grad_enabled()
+    ):
+        from megatron.core.tensor_parallel.random import (
+            get_recompute_checkpoint,
+            pending_recompute_checkpoints,
+            prefetch_recompute,
+            set_proactive_recompute_cache_limit,
+        )
+
+        set_proactive_recompute_cache_limit(
+            getattr(config, "proactive_recompute_max_cached_checkpoints", 1)
+        )
+        step = getattr(config, "proactive_recompute_step", None)
+        for checkpoint_id in pending_recompute_checkpoints():
+            handle = get_recompute_checkpoint(checkpoint_id)
+            if (
+                handle.metadata.get("step") == step
+                and handle.metadata.get("microbatch") == current_microbatch
+            ):
+                prefetch_recompute(
+                    checkpoint_id, trigger_site="forward_backward_boundary"
+                )
 
     if memory_profiler is not None:
         memory_profiler.sample(
@@ -756,6 +795,17 @@ def forward_backward_no_pipelining(
     ), "adjust_tensor_shapes_fn is not supported for non-pipeline-parallel schedule"
 
     config = get_model_config(model)
+    proactive_requested = bool(getattr(config, "proactive_recompute", False))
+    config._proactive_recompute_schedule_enabled = proactive_requested and not forward_only
+    if proactive_requested and not forward_only:
+        from megatron.core.tensor_parallel.random import set_proactive_recompute_cache_limit
+
+        set_proactive_recompute_cache_limit(
+            getattr(config, "proactive_recompute_max_cached_checkpoints", 1)
+        )
+    elif proactive_requested and forward_only:
+        # Forward-only evaluation has no backward to consume a retained replay graph.
+        config.proactive_recompute = False
     if config.timers is not None:
         config.timers('forward-backward', log_level=1).start(barrier=config.barrier_with_L1_time)
 
@@ -807,6 +857,54 @@ def forward_backward_no_pipelining(
             check_first_val_step,
             model_type,
         )
+    elif config.cross_microbatch_recompute_schedule and not forward_only:
+        def window_forward(index, replay_from=None):
+            return forward_step(
+                forward_step_func,
+                data_iterator,
+                model,
+                num_microbatches,
+                input_tensor,
+                forward_data_store,
+                config,
+                pg_collection.cp.size(),
+                collect_non_loss_data,
+                is_first_microbatch=(index == 0),
+                current_microbatch=index,
+                replay_from_microbatch=replay_from,
+            )
+
+        last = num_microbatches - 1
+        dp_group = getattr(pg_collection, "dp_cp", None)
+        # DP>1 retains the last forward and backward outside no_sync.
+        pair_last = dp_group is not None and dp_group.size() == 1 and last % 2 == 1
+        unsynced_end = last - int(pair_last)
+        with no_sync_func():
+            index = 0
+            while index < unsynced_end:
+                first, tokens = window_forward(index)
+                total_num_tokens += tokens
+                paired = index + 1 < unsynced_end
+                if paired:
+                    second, tokens = window_forward(index + 1, index)
+                    total_num_tokens += tokens
+                backward_step(input_tensor, first, output_tensor_grad, config)
+                del first
+                if paired:
+                    backward_step(input_tensor, second, output_tensor_grad, config)
+                    del second
+                index += 2 if paired else 1
+            if pair_last:
+                first, tokens = window_forward(last - 1)
+                total_num_tokens += tokens
+        output_tensor, tokens = window_forward(last, last - 1 if pair_last else None)
+        total_num_tokens += tokens
+        if pair_last:
+            with no_sync_func():
+                backward_step(input_tensor, first, output_tensor_grad, config)
+            del first
+        backward_step(input_tensor, output_tensor, output_tensor_grad, config)
+        del output_tensor
     else:
         with no_sync_func():
             for i in range(num_microbatches - 1):
@@ -878,6 +976,16 @@ def forward_backward_no_pipelining(
                 and model_chunk.ddp_config.overlap_param_gather
             ):
                 model_chunk.synchronize_param_gather()
+
+    if config._proactive_recompute_schedule_enabled:
+        from megatron.core.tensor_parallel.random import (
+            assert_no_live_proactive_recompute_checkpoints,
+        )
+
+        assert_no_live_proactive_recompute_checkpoints()
+    config._proactive_recompute_schedule_enabled = False
+    if proactive_requested and forward_only:
+        config.proactive_recompute = True
 
     if config.timers is not None:
         config.timers('forward-backward').stop()

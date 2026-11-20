@@ -2247,6 +2247,8 @@ def train_step(forward_step_func, data_iterator, model, optimizer, opt_param_sch
     """
     args = get_args()
     timers = get_timers()
+    if getattr(config, "proactive_recompute", False):
+        config.proactive_recompute_step = iteration
     memory_profiler = getattr(config, "memory_profiler", None)
     if memory_profiler is not None:
         memory_profiler.sample("train_step_start")

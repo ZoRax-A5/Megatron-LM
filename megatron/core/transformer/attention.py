@@ -13,6 +13,11 @@ from torch import Tensor
 
 from megatron.core import tensor_parallel
 from megatron.core.extensions.transformer_engine import HAVE_TE
+
+if HAVE_TE:
+    from megatron.core.extensions.transformer_engine import TELayerNormColumnParallelLinear
+else:
+    TELayerNormColumnParallelLinear = None
 from megatron.core.inference.contexts import BaseInferenceContext
 from megatron.core.inference.utils import InferenceMode
 from megatron.core.jit import jit_fuser
@@ -35,7 +40,11 @@ from megatron.core.pipeline_parallel.fine_grained_activation_offload import (
 from megatron.core.process_groups_config import ProcessGroupCollection
 from megatron.core.tensor_parallel.layers import ColumnParallelLinear
 from megatron.core.tensor_parallel.mappings import all_gather_last_dim_from_tensor_parallel_region
-from megatron.core.tensor_parallel.random import ProactiveCheckpoint
+from megatron.core.tensor_parallel.random import (
+    ProactiveCheckpoint,
+    get_proactive_recompute_context,
+    prefetch_previous_microbatch_qkv,
+)
 from megatron.core.transformer.identity_op import IdentityOp
 from megatron.core.transformer.module import MegatronModule
 from megatron.core.transformer.torch_norm import L2Norm, LayerNormBuilder
@@ -1825,33 +1834,32 @@ class SelfAttention(Attention):
             and "attn_qkv" in self.config.recompute_modules
         ):
             if self.config.proactive_recompute:
-                if self.world_size != 1:
+                prefetch_previous_microbatch_qkv(self.layer_number)
+                supported_qkv_types = (ColumnParallelLinear,)
+                if TELayerNormColumnParallelLinear is not None:
+                    supported_qkv_types += (TELayerNormColumnParallelLinear,)
+                if not isinstance(self.linear_qkv, supported_qkv_types):
                     raise NotImplementedError(
-                        "proactive QKV recomputation is currently validated only with tensor parallel size 1"
-                    )
-                dp_group = getattr(self.pg_collection, "dp", None)
-                if dp_group is not None and get_pg_size(dp_group) != 1:
-                    raise NotImplementedError(
-                        "proactive QKV recomputation is currently validated only with data parallel size 1"
-                    )
-                if (
-                    dp_group is None
-                    and torch.distributed.is_initialized()
-                    and torch.distributed.get_world_size() != 1
-                ):
-                    raise NotImplementedError(
-                        "proactive QKV recomputation requires a single-process default group when the DP group is unavailable"
-                    )
-                if not isinstance(self.linear_qkv, ColumnParallelLinear):
-                    raise NotImplementedError(
-                        "proactive QKV recomputation currently requires local ColumnParallelLinear; "
+                        "proactive QKV recomputation requires local ColumnParallelLinear or "
+                        "Transformer Engine TELayerNormColumnParallelLinear; "
                         f"got {type(self.linear_qkv).__module__}.{type(self.linear_qkv).__name__}"
                     )
                 checkpoint_handle = ProactiveCheckpoint(
                     apply_module(self.linear_qkv),
                     parameters=self.linear_qkv.parameters(),
                     buffers=self.linear_qkv.buffers(),
-                    metadata={"layer_number": self.layer_number, "module": "attn_qkv"},
+                    metadata={
+                        **get_proactive_recompute_context(),
+                        "layer_number": self.layer_number,
+                        "module": "attn_qkv",
+                        "tp_size": self.world_size,
+                        "rank": (
+                            torch.distributed.get_rank()
+                            if torch.distributed.is_initialized()
+                            else 0
+                        ),
+                    },
+                    collective_group=self.pg_collection.tp,
                 )
                 mixed_qkv, _ = checkpoint_handle(hidden_states)
             else:

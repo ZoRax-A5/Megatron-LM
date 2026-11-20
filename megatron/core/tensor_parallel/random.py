@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import contextlib
+import contextvars
 import functools
 import itertools
 import json
@@ -718,6 +719,59 @@ def _discover_module_state(function):
     return tuple(parameters.values()), tuple(buffers.values())
 
 
+_PROACTIVE_RECOMPUTE_CONTEXT = contextvars.ContextVar(
+    "megatron_proactive_recompute_context", default={}
+)
+
+
+@contextlib.contextmanager
+def proactive_recompute_context(step=None, microbatch=None, *, replay_from=None):
+    """Attach training-step and microbatch identity to checkpoints created in this scope."""
+    token = _PROACTIVE_RECOMPUTE_CONTEXT.set(
+        {"step": step, "microbatch": microbatch, "replay_from": replay_from}
+    )
+    try:
+        yield
+    finally:
+        _PROACTIVE_RECOMPUTE_CONTEXT.reset(token)
+
+
+def get_proactive_recompute_context():
+    """Return the current scheduler identity, if a training caller supplied one."""
+    return {k: v for k, v in _PROACTIVE_RECOMPUTE_CONTEXT.get().items() if k != "replay_from"}
+
+
+def prefetch_previous_microbatch_qkv(layer_number):
+    """Called at the QKV boundary of the second forward in a scheduler window."""
+    context = _PROACTIVE_RECOMPUTE_CONTEXT.get()
+    previous = context.get("replay_from")
+    if previous is None:
+        return
+    for checkpoint_id in pending_recompute_checkpoints():
+        handle = get_recompute_checkpoint(checkpoint_id)
+        if (
+            handle.metadata.get("step") == context["step"]
+            and handle.metadata.get("microbatch") == previous
+            and handle.metadata.get("layer_number") == layer_number
+            and handle.metadata.get("module") == "attn_qkv"
+        ):
+            prefetch_recompute(
+                checkpoint_id, trigger_site=f'cross_microbatch_forward:{context["microbatch"]}'
+            )
+
+
+def set_proactive_recompute_cache_limit(max_cached_checkpoints=None):
+    """Set a process-local upper bound on simultaneously cached replay graphs."""
+    if max_cached_checkpoints is not None and max_cached_checkpoints < 1:
+        raise ValueError("max_cached_checkpoints must be positive or None")
+    if (
+        max_cached_checkpoints is not None
+        and len(ProactiveCheckpoint._cached_ids) > max_cached_checkpoints
+    ):
+        raise RuntimeError("new cache limit is below the number of live prefetched graphs")
+    ProactiveCheckpoint._max_cached_checkpoints = max_cached_checkpoints
+
+
 class ProactiveCheckpoint:
     """Single-invocation checkpoint handle with explicitly prefetched replay.
 
@@ -726,15 +780,18 @@ class ProactiveCheckpoint:
     call ``prefetch()`` before backward. The backward consumes the prefetched graph
     exactly once; otherwise it follows the ordinary on-demand replay path.
 
-    Inputs must be tensors; outputs may be tensors or ``None``. Module parameters
+    Inputs must be tensors; outputs may be tensors, tuples of tensors, or ``None``. Module parameters
     and buffers are discovered from bound modules and closures, and callers may pass
     them explicitly. Prefetch failures are terminal unless the caller explicitly
-    certifies safe replay fallback. This API is not compatible with distributed
-    saved activations, CUDA graph capture, TE contexts, or repeated handle use.
+    certifies safe replay fallback. The current Megatron integration supports
+    BF16/FP32 TE LayerNormLinear QKV replay. FP8/FP4, distributed saved activations,
+    CUDA graph capture, and repeated handle use remain unsupported.
     """
 
     _next_id = itertools.count()
     _registry = weakref.WeakValueDictionary()
+    _cached_ids = set()
+    _max_cached_checkpoints = None
 
     def __init__(
         self,
@@ -743,6 +800,7 @@ class ProactiveCheckpoint:
         buffers=None,
         allow_prefetch_fallback=False,
         metadata=None,
+        collective_group=None,
     ):
         self.run_function = run_function
         discovered_parameters, discovered_buffers = _discover_module_state(run_function)
@@ -760,6 +818,7 @@ class ProactiveCheckpoint:
         self.buffers = tuple({id(tensor): tensor for tensor in buffer_values}.values())
         self.allow_prefetch_fallback = allow_prefetch_fallback
         self.metadata = metadata or {}
+        self.collective_group = collective_group
         self.checkpoint_id = next(ProactiveCheckpoint._next_id)
         self.state = "created"
         self.events = []
@@ -780,6 +839,7 @@ class ProactiveCheckpoint:
     def __call__(self, *args: Unpack[_Ts]) -> _R:
         if self.state != "created":
             raise RuntimeError("ProactiveCheckpoint handles exactly one invocation")
+        self.metadata = {**get_proactive_recompute_context(), **self.metadata}
         if any(not isinstance(arg, torch.Tensor) for arg in args):
             raise TypeError("ProactiveCheckpoint prototype requires tensor-only inputs")
         self._inputs = tuple(args)
@@ -799,6 +859,7 @@ class ProactiveCheckpoint:
             {
                 "event": "forward_complete",
                 "checkpoint_id": self.checkpoint_id,
+                "timestamp": time.perf_counter(),
                 **self.metadata,
             }
         )
@@ -818,15 +879,43 @@ class ProactiveCheckpoint:
         if current_buffers != self._buffer_versions:
             raise RuntimeError(f"checkpoint buffer changed between forward and {where}")
 
-    def prefetch(self) -> bool:
+    def prefetch(self, trigger_site=None) -> bool:
         """Run and retain a differentiable replay graph; return whether it completed."""
         if self.state != "forward_complete":
             raise RuntimeError(f"cannot prefetch checkpoint in state {self.state}")
+        self._verify_collective_order(trigger_site)
+        if (
+            self._max_cached_checkpoints is not None
+            and len(self._cached_ids) >= self._max_cached_checkpoints
+        ):
+            self.events.append(
+                {
+                    "event": "prefetch_rejected_cache_limit",
+                    "checkpoint_id": self.checkpoint_id,
+                    "timestamp": time.perf_counter(),
+                    "max_cached_checkpoints": self._max_cached_checkpoints,
+                    "trigger_site": trigger_site,
+                    **self.metadata,
+                }
+            )
+            return False
         self.events.append(
-            {"event": "prefetch_start", "checkpoint_id": self.checkpoint_id}
+            {
+                "event": "prefetch_start",
+                "checkpoint_id": self.checkpoint_id,
+                "timestamp": time.perf_counter(),
+                "trigger_site": trigger_site,
+                **self.metadata,
+            }
         )
         self.state = "prefetch_submitted"
+        self._cached_ids.add(self.checkpoint_id)
         self.cache_started_at = time.perf_counter()
+        self._cuda_events = {}
+        if torch.cuda.is_available():
+            torch.cuda.nvtx.range_push(f"proactive_recompute.prefetch.{self.checkpoint_id}")
+            self._cuda_events["prefetch_start"] = torch.cuda.Event(enable_timing=True)
+            self._cuda_events["prefetch_start"].record(torch.cuda.current_stream())
         if torch.cuda.is_available():
             self.memory_snapshot["allocated_before"] = torch.cuda.memory_allocated()
             self.memory_snapshot["reserved_before"] = torch.cuda.memory_reserved()
@@ -886,14 +975,19 @@ class ProactiveCheckpoint:
                 )
                 self.memory_snapshot["peak_reserved"] = torch.cuda.max_memory_reserved()
             self.state = "prefetch_complete"
+            if torch.cuda.is_available():
+                self._cuda_events["prefetch_complete"] = torch.cuda.Event(enable_timing=True)
+                self._cuda_events["prefetch_complete"].record(torch.cuda.current_stream())
             self.events.append(
                 {
                     "event": "prefetch_complete",
                     "checkpoint_id": self.checkpoint_id,
+                    "timestamp": time.perf_counter(),
                     "output_bytes": self.cache_bytes,
                     "saved_tensor_bytes": self.saved_tensor_bytes,
                     "allocated_bytes": self.memory_snapshot.get("allocated_after"),
                     "reserved_bytes": self.memory_snapshot.get("reserved_after"),
+                    **self.metadata,
                 }
             )
             return True
@@ -907,8 +1001,10 @@ class ProactiveCheckpoint:
                 {
                     "event": "prefetch_failed",
                     "checkpoint_id": self.checkpoint_id,
+                    "timestamp": time.perf_counter(),
                     "reason": repr(exc),
                     "fallback_allowed": safe_to_fallback,
+                    **self.metadata,
                 }
             )
             if not safe_to_fallback:
@@ -920,6 +1016,52 @@ class ProactiveCheckpoint:
             self._release_cache()
             self.state = "prefetch_failed_safe"
             return False
+        finally:
+            if torch.cuda.is_available():
+                torch.cuda.nvtx.range_pop()
+
+    def _verify_collective_order(self, trigger_site):
+        """Make TP peers agree on replay identity before any replay-side collectives."""
+        if (
+            self.collective_group is None
+            or not torch.distributed.is_available()
+            or not torch.distributed.is_initialized()
+            or torch.distributed.get_world_size(self.collective_group) == 1
+        ):
+            return
+        import zlib
+
+        values = [
+            self.checkpoint_id,
+            int(self.metadata.get("step") if self.metadata.get("step") is not None else -1),
+            int(
+                self.metadata.get("microbatch")
+                if self.metadata.get("microbatch") is not None
+                else -1
+            ),
+            int(self.metadata.get("layer_number", -1)),
+            zlib.crc32(str(trigger_site).encode("utf-8")),
+            int(
+                self._max_cached_checkpoints is None
+                or len(self._cached_ids) < self._max_cached_checkpoints
+            ),
+        ]
+        backend = str(torch.distributed.get_backend(self.collective_group)).lower()
+        device = torch.device("cuda", torch.cuda.current_device()) if "nccl" in backend else torch.device("cpu")
+        identity = torch.tensor(values, dtype=torch.int64, device=device)
+        minimum = identity.clone()
+        maximum = identity.clone()
+        torch.distributed.all_reduce(
+            minimum, op=torch.distributed.ReduceOp.MIN, group=self.collective_group
+        )
+        torch.distributed.all_reduce(
+            maximum, op=torch.distributed.ReduceOp.MAX, group=self.collective_group
+        )
+        if not torch.equal(minimum, maximum):
+            raise RuntimeError(
+                "TP ranks requested different proactive checkpoint identities/order: "
+                f"min={minimum.tolist()} max={maximum.tolist()}"
+            )
 
     def write_events(self, path):
         """Write this invocation's lifecycle and memory observations as JSON."""
@@ -931,6 +1073,17 @@ class ProactiveCheckpoint:
                     "events": self.events,
                     "cache_lifetime_seconds": self.cache_lifetime_seconds,
                     "memory_snapshot": self.memory_snapshot,
+                    "cuda_events": {
+                        name: {
+                            "query": event.query(),
+                            "elapsed_from_prefetch_start_ms": (
+                                self._cuda_events["prefetch_start"].elapsed_time(event)
+                                if name != "prefetch_start" and event.query()
+                                else None
+                            ),
+                        }
+                        for name, event in getattr(self, "_cuda_events", {}).items()
+                    },
                 },
                 event_file,
                 indent=2,
@@ -979,14 +1132,29 @@ class ProactiveCheckpoint:
             if hit:
                 outputs, detached_inputs = self._cached_outputs, self._cached_inputs
                 self.events.append(
-                    {"event": "cache_hit", "checkpoint_id": self.checkpoint_id}
+                    {
+                        "event": "cache_hit",
+                        "checkpoint_id": self.checkpoint_id,
+                        "timestamp": time.perf_counter(),
+                        **self.metadata,
+                    }
                 )
+                if torch.cuda.is_available():
+                    torch.cuda.nvtx.range_push(
+                        f"proactive_recompute.consume.{self.checkpoint_id}"
+                    )
+                    self._cuda_events["backward_consume"] = torch.cuda.Event(
+                        enable_timing=True
+                    )
+                    self._cuda_events["backward_consume"].record(torch.cuda.current_stream())
             elif self.state in ("forward_complete", "prefetch_failed_safe"):
                 self.events.append(
                     {
                         "event": "fallback",
                         "checkpoint_id": self.checkpoint_id,
+                        "timestamp": time.perf_counter(),
                         "reason": "no_completed_prefetch",
+                        **self.metadata,
                     }
                 )
                 detached_inputs = tuple(
@@ -1013,10 +1181,19 @@ class ProactiveCheckpoint:
             )
             if hit:
                 self.events.append(
-                    {"event": "cache_consumed", "checkpoint_id": self.checkpoint_id}
+                    {
+                        "event": "cache_consumed",
+                        "checkpoint_id": self.checkpoint_id,
+                        "timestamp": time.perf_counter(),
+                        **self.metadata,
+                    }
                 )
             return grads
-        except Exception:
+        except Exception as exc:
+            main_grad_state_present = any(
+                getattr(parameter, "main_grad", None) is not None
+                for parameter in self.parameters
+            )
             for param, previous, previous_ref in zip(
                 self.parameters, previous_parameter_grads, previous_parameter_grad_refs
             ):
@@ -1029,11 +1206,27 @@ class ProactiveCheckpoint:
                     param.grad = previous_ref
             self.state = "backward_failed"
             self.events.append(
-                {"event": "backward_failed", "checkpoint_id": self.checkpoint_id}
+                {
+                    "event": "backward_failed",
+                    "checkpoint_id": self.checkpoint_id,
+                    "timestamp": time.perf_counter(),
+                    "main_grad_state_may_be_partial": main_grad_state_present,
+                    **self.metadata,
+                }
             )
+            if main_grad_state_present:
+                raise RuntimeError(
+                    "proactive checkpoint backward failed after Megatron main_grad state "
+                    "became potentially writable; terminate this training attempt because "
+                    "main_grad cannot be rolled back safely"
+                ) from exc
             raise
         finally:
             self._cleanup_after_backward()
+            if torch.cuda.is_available() and "backward_consume" in getattr(
+                self, "_cuda_events", {}
+            ):
+                torch.cuda.nvtx.range_pop()
 
     def _cleanup_after_backward(self):
         self._release_cache()
@@ -1049,9 +1242,24 @@ class ProactiveCheckpoint:
             {
                 "event": "released",
                 "checkpoint_id": self.checkpoint_id,
+                "timestamp": time.perf_counter(),
                 "cache_lifetime_seconds": self.cache_lifetime_seconds,
                 "memory": dict(self.memory_snapshot),
+                **self.metadata,
             }
+        )
+        logging.getLogger(__name__).info(
+            "PROACTIVE_RECOMPUTE_EVENT %s",
+            json.dumps(
+                {
+                    "checkpoint_id": self.checkpoint_id,
+                    "metadata": self.metadata,
+                    "events": self.events,
+                    "cache_lifetime_seconds": self.cache_lifetime_seconds,
+                    "memory_snapshot": self.memory_snapshot,
+                },
+                sort_keys=True,
+            ),
         )
 
     def _abort(self, state, reason):
@@ -1067,6 +1275,7 @@ class ProactiveCheckpoint:
         self._cached_inputs = None
         self.cache_bytes = 0
         self.saved_tensor_bytes = 0
+        self._cached_ids.discard(self.checkpoint_id)
         if self.cache_started_at is not None:
             self.cache_lifetime_seconds = time.perf_counter() - self.cache_started_at
             self.cache_started_at = None
@@ -1105,12 +1314,12 @@ class ProactiveCheckpointFunction(torch.autograd.Function):
         return (None, None) + grads + (None,) * (len(all_inputs) - input_count)
 
 
-def prefetch_recompute(checkpoint_id: int) -> bool:
+def prefetch_recompute(checkpoint_id: int, trigger_site=None) -> bool:
     """Explicitly prefetch a live checkpoint invocation by its unique ID."""
     handle = ProactiveCheckpoint._registry.get(checkpoint_id)
     if handle is None:
         raise KeyError(f"no live proactive checkpoint with id {checkpoint_id}")
-    return handle.prefetch()
+    return handle.prefetch(trigger_site=trigger_site)
 
 
 def pending_recompute_checkpoints():
@@ -1120,6 +1329,68 @@ def pending_recompute_checkpoints():
         for checkpoint_id, handle in ProactiveCheckpoint._registry.items()
         if handle.state == "forward_complete"
     )
+
+
+def proactive_recompute_cache_stats():
+    """Return process-local count and byte estimates for retained replay graphs."""
+    handles = [
+        ProactiveCheckpoint._registry[checkpoint_id]
+        for checkpoint_id in tuple(ProactiveCheckpoint._cached_ids)
+        if checkpoint_id in ProactiveCheckpoint._registry
+    ]
+    return {
+        "cached_checkpoint_ids": tuple(handle.checkpoint_id for handle in handles),
+        "cached_checkpoint_count": len(handles),
+        "output_bytes": sum(handle.cache_bytes for handle in handles),
+        "saved_tensor_bytes": sum(handle.saved_tensor_bytes for handle in handles),
+        "max_cached_checkpoints": ProactiveCheckpoint._max_cached_checkpoints,
+    }
+
+
+def assert_no_live_proactive_recompute_checkpoints():
+    """Raise at a training-step boundary if a checkpoint still owns graph state."""
+    live = [
+        (checkpoint_id, handle.state, handle.metadata)
+        for checkpoint_id, handle in tuple(ProactiveCheckpoint._registry.items())
+    ]
+    if live:
+        raise RuntimeError(f"unreleased proactive recompute checkpoints at step end: {live}")
+    if ProactiveCheckpoint._cached_ids:
+        raise RuntimeError(
+            "proactive recompute cache accounting contains IDs without live handles: "
+            f"{tuple(ProactiveCheckpoint._cached_ids)}"
+        )
+
+
+def proactive_recompute_cache_stats():
+    """Return process-local count and byte estimates for retained replay graphs."""
+    handles = [
+        ProactiveCheckpoint._registry[checkpoint_id]
+        for checkpoint_id in tuple(ProactiveCheckpoint._cached_ids)
+        if checkpoint_id in ProactiveCheckpoint._registry
+    ]
+    return {
+        "cached_checkpoint_ids": tuple(handle.checkpoint_id for handle in handles),
+        "cached_checkpoint_count": len(handles),
+        "output_bytes": sum(handle.cache_bytes for handle in handles),
+        "saved_tensor_bytes": sum(handle.saved_tensor_bytes for handle in handles),
+        "max_cached_checkpoints": ProactiveCheckpoint._max_cached_checkpoints,
+    }
+
+
+def assert_no_live_proactive_recompute_checkpoints():
+    """Raise at a training-step boundary if a checkpoint still owns graph state."""
+    live = [
+        (checkpoint_id, handle.state, handle.metadata)
+        for checkpoint_id, handle in tuple(ProactiveCheckpoint._registry.items())
+    ]
+    if live:
+        raise RuntimeError(f"unreleased proactive recompute checkpoints at step end: {live}")
+    if ProactiveCheckpoint._cached_ids:
+        raise RuntimeError(
+            "proactive recompute cache accounting contains IDs without live handles: "
+            f"{tuple(ProactiveCheckpoint._cached_ids)}"
+        )
 
 
 def get_recompute_checkpoint(checkpoint_id: int):

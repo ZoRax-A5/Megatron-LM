@@ -557,8 +557,14 @@ class TransformerConfig(ModelParallelConfig):
     selective recomputation. For example, {"0": ["attn_qkv"], "3": []}.
     """
 
+    cross_microbatch_recompute_schedule: bool = False
+    """Experiment with two-microbatch forward windows in the PP1 training schedule."""
+
     proactive_recompute: bool = False
     """Enable the experimental explicit-prefetch path for supported selective QKV checkpoints."""
+
+    proactive_recompute_max_cached_checkpoints: Optional[int] = 1
+    """Maximum number of retained proactive replay graphs on this process."""
 
     recompute_modules: Optional[List[str]] = None
     """The submodules to recompute.
@@ -1699,22 +1705,44 @@ class TransformerConfig(ModelParallelConfig):
         elif self.recompute_modules is None:
             self.recompute_modules = ["core_attn"]
 
+        if self.cross_microbatch_recompute_schedule and (
+            self.pipeline_model_parallel_size != 1
+            or self.context_parallel_size != 1
+            or self.expert_model_parallel_size != 1
+            or self.num_moe_experts
+            or self.transformer_impl != "transformer_engine"
+            or self.cuda_graph_impl != "none"
+            or self.cpu_offloading
+            or self.hybrid_context_parallel
+            or self.fp8
+            or self.fp4
+        ):
+            raise ValueError("cross-microbatch schedule requires dense TE training with PP=CP=EP=1")
+
         if self.proactive_recompute:
+            if (
+                self.proactive_recompute_max_cached_checkpoints is not None
+                and self.proactive_recompute_max_cached_checkpoints < 1
+            ):
+                raise ValueError("proactive_recompute_max_cached_checkpoints must be positive")
             if self.recompute_granularity != "selective":
                 raise ValueError("proactive_recompute requires selective recomputation")
             if "attn_qkv" not in self.recompute_modules:
                 raise ValueError("proactive_recompute currently requires attn_qkv recomputation")
-            if self.transformer_impl != "local" or self.fp8 or self.fp4:
+            if self.transformer_impl not in ("local", "transformer_engine") or self.fp8 or self.fp4:
                 raise ValueError(
-                    "proactive_recompute currently supports only local non-FP8/FP4 linear modules"
+                    "proactive_recompute supports local or Transformer Engine BF16/FP32 "
+                    "linear modules; FP8/FP4 is not supported"
                 )
             if (
-                self.tensor_model_parallel_size != 1
-                or self.pipeline_model_parallel_size != 1
+                self.pipeline_model_parallel_size != 1
                 or self.context_parallel_size != 1
                 or self.expert_model_parallel_size != 1
             ):
-                raise ValueError("proactive_recompute is currently limited to single-GPU parallel sizes")
+                raise ValueError(
+                    "proactive_recompute currently requires PP=CP=EP=1; TP/DP support "
+                    "requires rank-synchronous prefetch calls"
+                )
             if self.cuda_graph_impl != "none" or self.cpu_offloading or self.distribute_saved_activations:
                 raise ValueError(
                     "proactive_recompute is incompatible with CUDA graphs, CPU offload, and distributed saved activations"
