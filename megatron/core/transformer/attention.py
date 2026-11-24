@@ -43,6 +43,7 @@ from megatron.core.tensor_parallel.mappings import all_gather_last_dim_from_tens
 from megatron.core.tensor_parallel.random import (
     ProactiveCheckpoint,
     get_proactive_recompute_context,
+    is_dp_recompute_target,
     prefetch_previous_microbatch_qkv,
 )
 from megatron.core.transformer.identity_op import IdentityOp
@@ -1833,7 +1834,11 @@ class SelfAttention(Attention):
             and self.config.recompute_granularity == "selective"
             and "attn_qkv" in self.config.recompute_modules
         ):
-            if self.config.proactive_recompute:
+            dp_bucket_mode = self.config.proactive_recompute_dp_bucket is not None
+            dp_target = dp_bucket_mode and is_dp_recompute_target(self.layer_number)
+            if self.config.proactive_recompute and (not dp_bucket_mode or dp_target):
+                if dp_target and type(self.linear_qkv) is not TELayerNormColumnParallelLinear:
+                    raise RuntimeError("DP bucket replay requires the BF16 TE fused QKV projection")
                 prefetch_previous_microbatch_qkv(self.layer_number)
                 supported_qkv_types = (ColumnParallelLinear,)
                 if TELayerNormColumnParallelLinear is not None:
@@ -1859,7 +1864,8 @@ class SelfAttention(Attention):
                             else 0
                         ),
                     },
-                    collective_group=self.pg_collection.tp,
+                    # This BF16 fused projection with SP off has no forward TP collective.
+                    collective_group=None if dp_target else self.pg_collection.tp,
                 )
                 mixed_qkv, _ = checkpoint_handle(hidden_states)
             else:

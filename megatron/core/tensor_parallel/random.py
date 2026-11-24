@@ -725,10 +725,10 @@ _PROACTIVE_RECOMPUTE_CONTEXT = contextvars.ContextVar(
 
 
 @contextlib.contextmanager
-def proactive_recompute_context(step=None, microbatch=None, *, replay_from=None):
+def proactive_recompute_context(step=None, microbatch=None, *, replay_from=None, dp_target=False):
     """Attach training-step and microbatch identity to checkpoints created in this scope."""
     token = _PROACTIVE_RECOMPUTE_CONTEXT.set(
-        {"step": step, "microbatch": microbatch, "replay_from": replay_from}
+        {"step": step, "microbatch": microbatch, "replay_from": replay_from, "dp_target": dp_target}
     )
     try:
         yield
@@ -738,7 +738,15 @@ def proactive_recompute_context(step=None, microbatch=None, *, replay_from=None)
 
 def get_proactive_recompute_context():
     """Return the current scheduler identity, if a training caller supplied one."""
-    return {k: v for k, v in _PROACTIVE_RECOMPUTE_CONTEXT.get().items() if k != "replay_from"}
+    return {
+        k: v for k, v in _PROACTIVE_RECOMPUTE_CONTEXT.get().items()
+        if k not in ("replay_from", "dp_target")
+    }
+
+
+def is_dp_recompute_target(layer_number):
+    """Only layer 1 of the PP1 schedule's last forward receives a proactive handle."""
+    return layer_number == 1 and _PROACTIVE_RECOMPUTE_CONTEXT.get().get("dp_target", False)
 
 
 def prefetch_previous_microbatch_qkv(layer_number):
@@ -879,7 +887,7 @@ class ProactiveCheckpoint:
         if current_buffers != self._buffer_versions:
             raise RuntimeError(f"checkpoint buffer changed between forward and {where}")
 
-    def prefetch(self, trigger_site=None) -> bool:
+    def prefetch(self, trigger_site=None, *, track_saved_tensor_storage=True) -> bool:
         """Run and retain a differentiable replay graph; return whether it completed."""
         if self.state != "forward_complete":
             raise RuntimeError(f"cannot prefetch checkpoint in state {self.state}")
@@ -935,14 +943,17 @@ class ProactiveCheckpoint:
             def unpack_saved_tensor(tensor):
                 return tensor
 
+            # Saved-tensor hooks can change the Python wrapper returned for a
+            # saved Parameter. TE uses attributes on that wrapper to publish a
+            # fused wgrad to Megatron DDP on a gradient-synchronizing backward.
+            saved_tensor_context = (
+                torch.autograd.graph.saved_tensors_hooks(pack_saved_tensor, unpack_saved_tensor)
+                if track_saved_tensor_storage
+                else contextlib.nullcontext()
+            )
             with _fork_rng():
                 _set_all_rng_states(*self._rng_states)
-                with (
-                    torch.enable_grad(),
-                    torch.autograd.graph.saved_tensors_hooks(
-                        pack_saved_tensor, unpack_saved_tensor
-                    ),
-                ):
+                with torch.enable_grad(), saved_tensor_context:
                     result = self.run_function(*self._cached_inputs)
             self._check_versions("prefetch completion")
             self._cached_outputs = result if isinstance(result, tuple) else (result,)

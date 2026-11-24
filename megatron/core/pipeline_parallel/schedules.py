@@ -527,6 +527,10 @@ def forward_step(
                 step=getattr(config, "proactive_recompute_step", None),
                 microbatch=current_microbatch,
                 replay_from=replay_from_microbatch,
+                dp_target=(
+                    config.proactive_recompute_dp_bucket is not None
+                    and current_microbatch == num_microbatches - 1
+                ),
             )
         else:
             recompute_context = contextlib.nullcontext()
@@ -555,6 +559,7 @@ def forward_step(
     if (
         proactive_enabled
         and not config.cross_microbatch_recompute_schedule
+        and config.proactive_recompute_dp_bucket is None
         and torch.is_grad_enabled()
     ):
         from megatron.core.tensor_parallel.random import (
@@ -738,6 +743,58 @@ def check_first_val_step(first_val_step, forward_only, cond):
         return first_val_step and cond
     else:
         return cond
+
+
+@contextlib.contextmanager
+def _prefetch_after_dp_bucket(model, bucket_index, step, microbatch):
+    """Temporarily enable one host-side Replay in the final native PP1 backward."""
+    from megatron.core.tensor_parallel.random import (
+        get_recompute_checkpoint,
+        pending_recompute_checkpoints,
+    )
+
+    groups = get_attr_wrapped_model(model, "bucket_groups")
+    if not groups or any(
+        not group.ddp_config.use_distributed_optimizer
+        or not group.ddp_config.overlap_grad_reduce
+        or group.ddp_config.num_distributed_optimizer_instances != 1
+        or group.ddp_config.reduce_scatter_with_fp32_accumulation
+        or group.intra_distributed_optimizer_instance_size <= 1
+        or group.post_dp_reduce_scatter is not None
+        for group in groups
+    ):
+        raise RuntimeError("DP bucket replay requires native asynchronous Distributed Optimizer RS")
+
+    submitted = 0
+
+    def after_submit(group):
+        nonlocal submitted
+        ordinal = submitted
+        submitted += 1
+        if ordinal != bucket_index:
+            return
+        for checkpoint_id in pending_recompute_checkpoints():
+            handle = get_recompute_checkpoint(checkpoint_id)
+            if (
+                handle.metadata.get("step") == step
+                and handle.metadata.get("microbatch") == microbatch
+                and handle.metadata.get("layer_number") == 1
+                and handle.metadata.get("module") == "attn_qkv"
+            ):
+                if not any(param in group.param_to_bucket for param in handle.parameters):
+                    handle.prefetch(
+                        trigger_site=f"dp_rs_dispatch:{ordinal}",
+                        track_saved_tensor_storage=False,
+                    )
+                break
+
+    for group in groups:
+        group.post_dp_reduce_scatter = after_submit
+    try:
+        yield
+    finally:
+        for group in groups:
+            group.post_dp_reduce_scatter = None
 
 
 def forward_backward_no_pipelining(
@@ -952,7 +1009,16 @@ def forward_backward_no_pipelining(
         total_num_tokens += num_tokens
 
         if not forward_only:
-            backward_step(input_tensor, output_tensor, output_tensor_grad, config)
+            bucket_index = config.proactive_recompute_dp_bucket
+            replay_context = (
+                _prefetch_after_dp_bucket(
+                    model, bucket_index, config.proactive_recompute_step, num_microbatches - 1
+                )
+                if bucket_index is not None and not force_all_reduce
+                else contextlib.nullcontext()
+            )
+            with replay_context:
+                backward_step(input_tensor, output_tensor, output_tensor_grad, config)
             del output_tensor
 
     if config.finalize_model_grads_func is not None and not forward_only:

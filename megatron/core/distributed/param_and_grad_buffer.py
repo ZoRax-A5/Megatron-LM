@@ -245,6 +245,7 @@ class _ParamAndGradBucketGroup:
         self.per_param_grad_ready_counts = {}
         self.is_last_microbatch = True
         self.is_first_batch = True
+        self.post_dp_reduce_scatter = None
 
         # Other metadata to keep track of collectives.
         self.param_gather_handle = None
@@ -818,6 +819,9 @@ class _ParamAndGradBucketGroup:
                 if self.per_param_grad_ready_counts == self.golden_per_param_grad_ready_counts:
                     assert len(self.per_param_grad_ready_counts) == len(self.params)
                     self.start_grad_sync(force_all_reduce=force_all_reduce)
+                    # Runs on the host after async submission, outside NCCL coalescing.
+                    if self.post_dp_reduce_scatter is not None and not force_all_reduce:
+                        self.post_dp_reduce_scatter(self)
 
 
 def group_params_for_buffers(

@@ -566,6 +566,9 @@ class TransformerConfig(ModelParallelConfig):
     proactive_recompute_max_cached_checkpoints: Optional[int] = 1
     """Maximum number of retained proactive replay graphs on this process."""
 
+    proactive_recompute_dp_bucket: Optional[int] = None
+    """Experimental zero-based native RS dispatch index for layer 1 on the last microbatch."""
+
     recompute_modules: Optional[List[str]] = None
     """The submodules to recompute.
     choices: "core_attn", "moe_act", "layernorm", "mla_up_proj", "mlp", "moe",
@@ -1718,6 +1721,27 @@ class TransformerConfig(ModelParallelConfig):
             or self.fp4
         ):
             raise ValueError("cross-microbatch schedule requires dense TE training with PP=CP=EP=1")
+
+        if self.proactive_recompute_dp_bucket is not None:
+            if (
+                self.proactive_recompute_dp_bucket < 0
+                or not self.proactive_recompute
+                or self.cross_microbatch_recompute_schedule
+                or not self.bf16
+                or self.transformer_impl != "transformer_engine"
+                or self.sequence_parallel
+                or self.tp_comm_overlap
+                or self.num_moe_experts
+                or self.hybrid_context_parallel
+                or self.use_transformer_engine_op_fuser
+                or self.fine_grained_activation_offloading
+                or (self.recompute_layer_config is not None
+                    and "attn_qkv" not in self.recompute_layer_config.get(0, []))
+            ):
+                raise ValueError(
+                    "DP bucket replay requires layer-1 QKV checkpointing, BF16 TE and "
+                    "native PP1 scheduling without SP, TP overlap or MoE"
+                )
 
         if self.proactive_recompute:
             if (
