@@ -1,0 +1,118 @@
+[
+  {
+    "rank": 0,
+    "tp_peers": [
+      0,
+      1
+    ],
+    "collective_ordinal": 0,
+    "api_cpu_start": 1837881978,
+    "api_cpu_end": 1838273449,
+    "kernel": {
+      "start": 1841187765,
+      "end": 1841319285,
+      "stream": 39,
+      "name": "ncclDevKernel_AllReduce_Sum_bf16_RING_LL",
+      "pid": 20631119,
+      "correlation": 434227
+    },
+    "event": {
+      "wait": {
+        "pid": 20631119,
+        "event": 54,
+        "sync": 11041,
+        "record": {
+          "stream": 39,
+          "start": 1838163257,
+          "end": 1838169390,
+          "tid": 346132743647425,
+          "corr": 434229
+        },
+        "wait_stream": 151,
+        "wait_start": 1838170325,
+        "wait_end": 1838172832,
+        "wait_tid": 346132743647425,
+        "wait_corr": 434230
+      },
+      "kernel": {
+        "submit": 1838116266,
+        "gpu_start": 1841187765,
+        "gpu_end": 1841319285,
+        "corr": 434227,
+        "name": "ncclDevKernel_AllReduce_Sum_bf16_RING_LL"
+      }
+    },
+    "candidate": {
+      "layer": 1,
+      "mb": 7,
+      "original_qkv_gpu_start": 1739940599,
+      "original_qkv_gpu_end": 1740106295,
+      "replay_gpu_start": 2015184391,
+      "replay_gpu_end": 2015354311
+    },
+    "unknown": [
+      "collective input producer",
+      "first result consumer",
+      "direct dependence of candidate input on collective",
+      "cross-rank event identity alignment"
+    ]
+  },
+  {
+    "rank": 1,
+    "tp_peers": [
+      0,
+      1
+    ],
+    "collective_ordinal": 0,
+    "api_cpu_start": 1836350554,
+    "api_cpu_end": 1836462978,
+    "kernel": {
+      "start": 1840221003,
+      "end": 1841317643,
+      "stream": 39,
+      "name": "ncclDevKernel_AllReduce_Sum_bf16_RING_LL",
+      "pid": 20631128,
+      "correlation": 436375
+    },
+    "event": {
+      "wait": {
+        "pid": 20631128,
+        "event": 51,
+        "sync": 11009,
+        "record": {
+          "stream": 39,
+          "start": 1836429261,
+          "end": 1836431885,
+          "tid": 346132894642343,
+          "corr": 436377
+        },
+        "wait_stream": 151,
+        "wait_start": 1836432115,
+        "wait_end": 1836432826,
+        "wait_tid": 346132894642343,
+        "wait_corr": 436378
+      },
+      "kernel": {
+        "submit": 1836420870,
+        "gpu_start": 1840221003,
+        "gpu_end": 1841317643,
+        "corr": 436375,
+        "name": "ncclDevKernel_AllReduce_Sum_bf16_RING_LL"
+      }
+    },
+    "candidate": {
+      "layer": 1,
+      "mb": 7,
+      "original_qkv_gpu_start": 1739943969,
+      "original_qkv_gpu_end": 1740106785,
+      "replay_gpu_start": 2015180134,
+      "replay_gpu_end": 2015349509
+    },
+    "unknown": [
+      "collective input producer",
+      "first result consumer",
+      "direct dependence of candidate input on collective",
+      "cross-rank event identity alignment"
+    ]
+  }
+]
