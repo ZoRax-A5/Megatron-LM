@@ -1,0 +1,56 @@
+Traceback (most recent call last):
+  File "/mnt/si002365wekc/zwx/code/recom/Megatron-LM-p17/research_archive/proactive_p17_moe_ep_20261124/instrumented_entry.py", line 5, in <module>
+    import megatron.training.training as training
+ModuleNotFoundError: No module named 'megatron'
+Traceback (most recent call last):
+  File "/mnt/si002365wekc/zwx/code/recom/Megatron-LM-p17/research_archive/proactive_p17_moe_ep_20261124/instrumented_entry.py", line 5, in <module>
+    import megatron.training.training as training
+ModuleNotFoundError: No module named 'megatron'
+Traceback (most recent call last):
+  File "/mnt/si002365wekc/zwx/code/recom/Megatron-LM-p17/research_archive/proactive_p17_moe_ep_20261124/instrumented_entry.py", line 5, in <module>
+    import megatron.training.training as training
+ModuleNotFoundError: No module named 'megatron'
+Traceback (most recent call last):
+  File "/mnt/si002365wekc/zwx/code/recom/Megatron-LM-p17/research_archive/proactive_p17_moe_ep_20261124/instrumented_entry.py", line 5, in <module>
+    import megatron.training.training as training
+ModuleNotFoundError: No module named 'megatron'
+W1124 17:54:51.649000 1042366 torch/distributed/elastic/multiprocessing/api.py:900] Sending process 1043253 closing signal SIGTERM
+W1124 17:54:51.650000 1042366 torch/distributed/elastic/multiprocessing/api.py:900] Sending process 1043285 closing signal SIGTERM
+W1124 17:54:51.651000 1042366 torch/distributed/elastic/multiprocessing/api.py:900] Sending process 1043309 closing signal SIGTERM
+W1124 17:54:51.652000 1042366 torch/distributed/elastic/multiprocessing/api.py:900] Sending process 1043339 closing signal SIGTERM
+W1124 17:54:51.653000 1042366 torch/distributed/elastic/multiprocessing/api.py:900] Sending process 1043381 closing signal SIGTERM
+W1124 17:54:51.653000 1042366 torch/distributed/elastic/multiprocessing/api.py:900] Sending process 1043426 closing signal SIGTERM
+W1124 17:54:51.654000 1042366 torch/distributed/elastic/multiprocessing/api.py:900] Sending process 1043460 closing signal SIGTERM
+E1124 17:54:51.687000 1042366 torch/distributed/elastic/multiprocessing/api.py:874] failed (exitcode: 1) local_rank: 0 (pid: 1043249) of binary: /usr/bin/python
+Traceback (most recent call last):
+  File "/usr/local/bin/torchrun", line 33, in <module>
+    sys.exit(load_entry_point('torch==2.7.0a0+79aa17489c.nv25.4', 'console_scripts', 'torchrun')())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 355, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 892, in main
+    run(args)
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 883, in run
+    elastic_launch(
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 139, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 270, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+research_archive/proactive_p17_moe_ep_20261124/instrumented_entry.py FAILED
+------------------------------------------------------------
+Failures:
+  <NO_OTHER_FAILURES>
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-11-24_17:54:51
+  host      : NH-DC-NM129-A09-28U-GPU-25.inspur.com
+  rank      : 0 (local_rank: 0)
+  exitcode  : 1 (pid: 1043249)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================

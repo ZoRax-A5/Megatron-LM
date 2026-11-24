@@ -1,0 +1,38 @@
+{
+  "P17_router:gemm": {
+    "kernel_count": 576,
+    "mean_us": 6.615128472222222,
+    "median_us": 6.624,
+    "total_ms": 3.810314
+  },
+  "P17_router:other": {
+    "kernel_count": 6336,
+    "mean_us": 5.461288194444444,
+    "median_us": 6.784,
+    "total_ms": 34.602722
+  },
+  "P17_experts:gemm": {
+    "kernel_count": 4604,
+    "mean_us": 21.655273892267594,
+    "median_us": 19.456,
+    "total_ms": 99.700881
+  },
+  "P17_experts:other": {
+    "kernel_count": 1187,
+    "mean_us": 29.006214827295704,
+    "median_us": 25.088,
+    "total_ms": 34.430377
+  },
+  "P17_checkpoint_replay:gemm": {
+    "kernel_count": 2304,
+    "mean_us": 23.185780381944443,
+    "median_us": 22.208,
+    "total_ms": 53.420038
+  },
+  "nvtx_range_counts": {
+    "P17_checkpoint_forward": 576,
+    "P17_checkpoint_replay": 576,
+    "P17_experts": 576,
+    "P17_router": 576
+  }
+}

@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+set -euo pipefail
+timeout 150s torchrun --standalone --nproc_per_node=2 pretrain_gpt.py --tensor-model-parallel-size 1 --pipeline-model-parallel-size 1 --expert-model-parallel-size 2 --num-layers 2 --hidden-size 256 --ffn-hidden-size 1024 --num-attention-heads 4 --seq-length 128 --max-position-embeddings 128 --micro-batch-size 1 --global-batch-size 2 --train-iters 3 --eval-interval 100 --eval-iters 1 --lr 0.0001 --min-lr 0.00001 --lr-decay-style cosine --log-interval 1 --num-experts 8 --moe-router-topk 2 --moe-token-dispatcher-type alltoall --moe-grouped-gemm --disable-bias-linear --mock-data --tokenizer-type NullTokenizer --vocab-size 1024 --bf16 --seed 42
