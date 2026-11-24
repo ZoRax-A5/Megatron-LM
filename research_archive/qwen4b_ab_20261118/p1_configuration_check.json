@@ -1,0 +1,14 @@
+{
+  "source": "../dp_overlap_p1_20261118_run2/perf_B1_r1/manifest.json",
+  "flags": {
+    "--global-batch-size": "32",
+    "--micro-batch-size": "1",
+    "--seq-length": "2048",
+    "--tensor-model-parallel-size": "2",
+    "--pipeline-model-parallel-size": "1",
+    "--ddp-bucket-size": "40000000"
+  },
+  "distributed_optimizer": true,
+  "overlap_grad_reduce": true,
+  "overlap_param_gather": false
+}

@@ -1,0 +1,30 @@
+{
+  "cwd": "/mnt/si002365wekc/zwx/code/recom",
+  "completed_utc": "2026-11-18T08:23:45.903104+00:00",
+  "orchestrators": [
+    [
+      "python",
+      "qwen3_bench/qwen4b_ab/suite.py",
+      "qwen3_bench/results/qwen4b_ab_20261118"
+    ],
+    [
+      "python",
+      "qwen3_bench/qwen4b_ab/control_suite.py",
+      "qwen3_bench/results/qwen4b_ab_20261118"
+    ],
+    [
+      "python",
+      "qwen3_bench/qwen4b_ab/postprocess.py",
+      "qwen3_bench/results/qwen4b_ab_20261118"
+    ]
+  ],
+  "conversion_reproduction_command": [
+    "python",
+    "qwen3_bench/qwen4b_ab/convert.py",
+    "/mnt/si002365wekc/zwx/models/Qwen3-4B",
+    "qwen3_bench/results/qwen4b_ab_20261118/converted"
+  ],
+  "reproduction_note": "Choose a new output directory. Exact per-training command and environment are in each run manifest. This file reconstructs the conversion argv from source and artifact locations.",
+  "git_status_and_diff_unchanged": true,
+  "remaining_scope": "Stage C awaiting user review; no further GPU runs"
+}

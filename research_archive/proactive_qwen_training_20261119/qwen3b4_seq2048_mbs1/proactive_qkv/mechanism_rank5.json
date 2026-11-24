@@ -1,0 +1,2551 @@
+{
+  "rank": 5,
+  "forward_calls_by_tag": {
+    "(0, 'qkv')": 48,
+    "(0, 'fc1')": 24,
+    "(1, 'qkv')": 24,
+    "(1, 'fc1')": 24,
+    "(2, 'qkv')": 24,
+    "(2, 'fc1')": 24,
+    "(3, 'qkv')": 24,
+    "(3, 'fc1')": 24,
+    "(4, 'qkv')": 24,
+    "(4, 'fc1')": 24,
+    "(5, 'qkv')": 24,
+    "(5, 'fc1')": 24,
+    "(6, 'qkv')": 24,
+    "(6, 'fc1')": 24,
+    "(7, 'qkv')": 24,
+    "(7, 'fc1')": 24,
+    "(8, 'qkv')": 24,
+    "(8, 'fc1')": 24,
+    "(9, 'qkv')": 24,
+    "(9, 'fc1')": 24,
+    "(10, 'qkv')": 24,
+    "(10, 'fc1')": 24,
+    "(11, 'qkv')": 24,
+    "(11, 'fc1')": 24,
+    "(12, 'qkv')": 24,
+    "(12, 'fc1')": 24,
+    "(13, 'qkv')": 24,
+    "(13, 'fc1')": 24,
+    "(14, 'qkv')": 24,
+    "(14, 'fc1')": 24,
+    "(15, 'qkv')": 24,
+    "(15, 'fc1')": 24,
+    "(16, 'qkv')": 24,
+    "(16, 'fc1')": 24,
+    "(17, 'qkv')": 24,
+    "(17, 'fc1')": 24,
+    "(18, 'qkv')": 24,
+    "(18, 'fc1')": 24,
+    "(19, 'qkv')": 24,
+    "(19, 'fc1')": 24,
+    "(20, 'qkv')": 24,
+    "(20, 'fc1')": 24,
+    "(21, 'qkv')": 24,
+    "(21, 'fc1')": 24,
+    "(22, 'qkv')": 24,
+    "(22, 'fc1')": 24,
+    "(23, 'qkv')": 24,
+    "(23, 'fc1')": 24,
+    "(24, 'qkv')": 24,
+    "(24, 'fc1')": 24,
+    "(25, 'qkv')": 24,
+    "(25, 'fc1')": 24,
+    "(26, 'qkv')": 24,
+    "(26, 'fc1')": 24,
+    "(27, 'qkv')": 24,
+    "(27, 'fc1')": 24,
+    "(28, 'qkv')": 24,
+    "(28, 'fc1')": 24,
+    "(29, 'qkv')": 24,
+    "(29, 'fc1')": 24,
+    "(30, 'qkv')": 24,
+    "(30, 'fc1')": 24,
+    "(31, 'qkv')": 24,
+    "(31, 'fc1')": 24,
+    "(32, 'qkv')": 24,
+    "(32, 'fc1')": 24,
+    "(33, 'qkv')": 24,
+    "(33, 'fc1')": 24,
+    "(34, 'qkv')": 24,
+    "(34, 'fc1')": 24,
+    "(35, 'qkv')": 24,
+    "(35, 'fc1')": 24
+  },
+  "checkpoints": [
+    {
+      "checkpoint_id": 0,
+      "metadata": {
+        "step": 0,
+        "microbatch": 0,
+        "layer_number": 1,
+        "module": "attn_qkv",
+        "tp_size": 2,
+        "rank": 5
+      },
+      "events": [
+        {
+          "event": "forward_complete",
+          "checkpoint_id": 0,
+          "timestamp": 39819844.24434163,
+          "step": 0,
+          "microbatch": 0,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "prefetch_start",
+          "checkpoint_id": 0,
+          "timestamp": 39819845.81640646,
+          "trigger_site": "forward_backward_boundary",
+          "step": 0,
+          "microbatch": 0,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "prefetch_complete",
+          "checkpoint_id": 0,
+          "timestamp": 39819845.817959435,
+          "output_bytes": 12582912,
+          "saved_tensor_bytes": 4056554496,
+          "allocated_bytes": 19620514304,
+          "reserved_bytes": 20258488320,
+          "step": 0,
+          "microbatch": 0,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "cache_hit",
+          "checkpoint_id": 0,
+          "timestamp": 39819846.219572216,
+          "step": 0,
+          "microbatch": 0,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "cache_consumed",
+          "checkpoint_id": 0,
+          "timestamp": 39819846.220084295,
+          "step": 0,
+          "microbatch": 0,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "released",
+          "checkpoint_id": 0,
+          "timestamp": 39819846.22010179,
+          "cache_lifetime_seconds": 0.4036787450313568,
+          "memory": {
+            "allocated_before": 19597437440,
+            "reserved_before": 20258488320,
+            "allocated_after": 19620514304,
+            "reserved_after": 20258488320,
+            "peak_allocated": 19910001152,
+            "peak_reserved": 20258488320
+          },
+          "step": 0,
+          "microbatch": 0,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        }
+      ],
+      "cache_lifetime_seconds": 0.4036787450313568,
+      "memory_snapshot": {
+        "allocated_before": 19597437440,
+        "reserved_before": 20258488320,
+        "allocated_after": 19620514304,
+        "reserved_after": 20258488320,
+        "peak_allocated": 19910001152,
+        "peak_reserved": 20258488320
+      },
+      "final_state": "consumed"
+    },
+    {
+      "checkpoint_id": 1,
+      "metadata": {
+        "step": 0,
+        "microbatch": 1,
+        "layer_number": 1,
+        "module": "attn_qkv",
+        "tp_size": 2,
+        "rank": 5
+      },
+      "events": [
+        {
+          "event": "forward_complete",
+          "checkpoint_id": 1,
+          "timestamp": 39819846.24210612,
+          "step": 0,
+          "microbatch": 1,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "prefetch_start",
+          "checkpoint_id": 1,
+          "timestamp": 39819846.351156704,
+          "trigger_site": "forward_backward_boundary",
+          "step": 0,
+          "microbatch": 1,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "prefetch_complete",
+          "checkpoint_id": 1,
+          "timestamp": 39819846.35227694,
+          "output_bytes": 12582912,
+          "saved_tensor_bytes": 4056554496,
+          "allocated_bytes": 19661409792,
+          "reserved_bytes": 21271412736,
+          "step": 0,
+          "microbatch": 1,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "cache_hit",
+          "checkpoint_id": 1,
+          "timestamp": 39819846.431633696,
+          "step": 0,
+          "microbatch": 1,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "cache_consumed",
+          "checkpoint_id": 1,
+          "timestamp": 39819846.43213176,
+          "step": 0,
+          "microbatch": 1,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "released",
+          "checkpoint_id": 1,
+          "timestamp": 39819846.43214762,
+          "cache_lifetime_seconds": 0.08097778260707855,
+          "memory": {
+            "allocated_before": 19637284352,
+            "reserved_before": 21271412736,
+            "allocated_after": 19661409792,
+            "reserved_after": 21271412736,
+            "peak_allocated": 19949848064,
+            "peak_reserved": 21271412736
+          },
+          "step": 0,
+          "microbatch": 1,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        }
+      ],
+      "cache_lifetime_seconds": 0.08097778260707855,
+      "memory_snapshot": {
+        "allocated_before": 19637284352,
+        "reserved_before": 21271412736,
+        "allocated_after": 19661409792,
+        "reserved_after": 21271412736,
+        "peak_allocated": 19949848064,
+        "peak_reserved": 21271412736
+      },
+      "final_state": "consumed"
+    },
+    {
+      "checkpoint_id": 2,
+      "metadata": {
+        "step": 0,
+        "microbatch": 2,
+        "layer_number": 1,
+        "module": "attn_qkv",
+        "tp_size": 2,
+        "rank": 5
+      },
+      "events": [
+        {
+          "event": "forward_complete",
+          "checkpoint_id": 2,
+          "timestamp": 39819846.43536279,
+          "step": 0,
+          "microbatch": 2,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "prefetch_start",
+          "checkpoint_id": 2,
+          "timestamp": 39819846.540874414,
+          "trigger_site": "forward_backward_boundary",
+          "step": 0,
+          "microbatch": 2,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "prefetch_complete",
+          "checkpoint_id": 2,
+          "timestamp": 39819846.54198742,
+          "output_bytes": 12582912,
+          "saved_tensor_bytes": 4056554496,
+          "allocated_bytes": 19660361728,
+          "reserved_bytes": 21271412736,
+          "step": 0,
+          "microbatch": 2,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "cache_hit",
+          "checkpoint_id": 2,
+          "timestamp": 39819846.62160901,
+          "step": 0,
+          "microbatch": 2,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "cache_consumed",
+          "checkpoint_id": 2,
+          "timestamp": 39819846.62207401,
+          "step": 0,
+          "microbatch": 2,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "released",
+          "checkpoint_id": 2,
+          "timestamp": 39819846.622088045,
+          "cache_lifetime_seconds": 0.08120226114988327,
+          "memory": {
+            "allocated_before": 19637284864,
+            "reserved_before": 21271412736,
+            "allocated_after": 19660361728,
+            "reserved_after": 21271412736,
+            "peak_allocated": 19973885440,
+            "peak_reserved": 21271412736
+          },
+          "step": 0,
+          "microbatch": 2,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        }
+      ],
+      "cache_lifetime_seconds": 0.08120226114988327,
+      "memory_snapshot": {
+        "allocated_before": 19637284864,
+        "reserved_before": 21271412736,
+        "allocated_after": 19660361728,
+        "reserved_after": 21271412736,
+        "peak_allocated": 19973885440,
+        "peak_reserved": 21271412736
+      },
+      "final_state": "consumed"
+    },
+    {
+      "checkpoint_id": 3,
+      "metadata": {
+        "step": 0,
+        "microbatch": 3,
+        "layer_number": 1,
+        "module": "attn_qkv",
+        "tp_size": 2,
+        "rank": 5
+      },
+      "events": [
+        {
+          "event": "forward_complete",
+          "checkpoint_id": 3,
+          "timestamp": 39819846.62750891,
+          "step": 0,
+          "microbatch": 3,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "prefetch_start",
+          "checkpoint_id": 3,
+          "timestamp": 39819846.73205699,
+          "trigger_site": "forward_backward_boundary",
+          "step": 0,
+          "microbatch": 3,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "prefetch_complete",
+          "checkpoint_id": 3,
+          "timestamp": 39819846.733154655,
+          "output_bytes": 12582912,
+          "saved_tensor_bytes": 4056554496,
+          "allocated_bytes": 19661410816,
+          "reserved_bytes": 21271412736,
+          "step": 0,
+          "microbatch": 3,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "cache_hit",
+          "checkpoint_id": 3,
+          "timestamp": 39819846.81090536,
+          "step": 0,
+          "microbatch": 3,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "cache_consumed",
+          "checkpoint_id": 3,
+          "timestamp": 39819846.81138335,
+          "step": 0,
+          "microbatch": 3,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "released",
+          "checkpoint_id": 3,
+          "timestamp": 39819846.81139731,
+          "cache_lifetime_seconds": 0.07932958006858826,
+          "memory": {
+            "allocated_before": 19637285376,
+            "reserved_before": 21271412736,
+            "allocated_after": 19661410816,
+            "reserved_after": 21271412736,
+            "peak_allocated": 19973885440,
+            "peak_reserved": 21271412736
+          },
+          "step": 0,
+          "microbatch": 3,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        }
+      ],
+      "cache_lifetime_seconds": 0.07932958006858826,
+      "memory_snapshot": {
+        "allocated_before": 19637285376,
+        "reserved_before": 21271412736,
+        "allocated_after": 19661410816,
+        "reserved_after": 21271412736,
+        "peak_allocated": 19973885440,
+        "peak_reserved": 21271412736
+      },
+      "final_state": "consumed"
+    },
+    {
+      "checkpoint_id": 4,
+      "metadata": {
+        "step": 0,
+        "microbatch": 4,
+        "layer_number": 1,
+        "module": "attn_qkv",
+        "tp_size": 2,
+        "rank": 5
+      },
+      "events": [
+        {
+          "event": "forward_complete",
+          "checkpoint_id": 4,
+          "timestamp": 39819846.81482986,
+          "step": 0,
+          "microbatch": 4,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "prefetch_start",
+          "checkpoint_id": 4,
+          "timestamp": 39819846.916319214,
+          "trigger_site": "forward_backward_boundary",
+          "step": 0,
+          "microbatch": 4,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "prefetch_complete",
+          "checkpoint_id": 4,
+          "timestamp": 39819846.91740138,
+          "output_bytes": 12582912,
+          "saved_tensor_bytes": 4056554496,
+          "allocated_bytes": 19660362752,
+          "reserved_bytes": 21271412736,
+          "step": 0,
+          "microbatch": 4,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "cache_hit",
+          "checkpoint_id": 4,
+          "timestamp": 39819846.988281235,
+          "step": 0,
+          "microbatch": 4,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "cache_consumed",
+          "checkpoint_id": 4,
+          "timestamp": 39819846.98875197,
+          "step": 0,
+          "microbatch": 4,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "released",
+          "checkpoint_id": 4,
+          "timestamp": 39819846.98876544,
+          "cache_lifetime_seconds": 0.07243527472019196,
+          "memory": {
+            "allocated_before": 19636237312,
+            "reserved_before": 21271412736,
+            "allocated_after": 19660362752,
+            "reserved_after": 21271412736,
+            "peak_allocated": 19973886464,
+            "peak_reserved": 21271412736
+          },
+          "step": 0,
+          "microbatch": 4,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        }
+      ],
+      "cache_lifetime_seconds": 0.07243527472019196,
+      "memory_snapshot": {
+        "allocated_before": 19636237312,
+        "reserved_before": 21271412736,
+        "allocated_after": 19660362752,
+        "reserved_after": 21271412736,
+        "peak_allocated": 19973886464,
+        "peak_reserved": 21271412736
+      },
+      "final_state": "consumed"
+    },
+    {
+      "checkpoint_id": 5,
+      "metadata": {
+        "step": 0,
+        "microbatch": 5,
+        "layer_number": 1,
+        "module": "attn_qkv",
+        "tp_size": 2,
+        "rank": 5
+      },
+      "events": [
+        {
+          "event": "forward_complete",
+          "checkpoint_id": 5,
+          "timestamp": 39819846.996974275,
+          "step": 0,
+          "microbatch": 5,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "prefetch_start",
+          "checkpoint_id": 5,
+          "timestamp": 39819847.096312955,
+          "trigger_site": "forward_backward_boundary",
+          "step": 0,
+          "microbatch": 5,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "prefetch_complete",
+          "checkpoint_id": 5,
+          "timestamp": 39819847.09738907,
+          "output_bytes": 12582912,
+          "saved_tensor_bytes": 4056554496,
+          "allocated_bytes": 19659314688,
+          "reserved_bytes": 21271412736,
+          "step": 0,
+          "microbatch": 5,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "cache_hit",
+          "checkpoint_id": 5,
+          "timestamp": 39819847.16754285,
+          "step": 0,
+          "microbatch": 5,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "cache_consumed",
+          "checkpoint_id": 5,
+          "timestamp": 39819847.16803726,
+          "step": 0,
+          "microbatch": 5,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "released",
+          "checkpoint_id": 5,
+          "timestamp": 39819847.168050535,
+          "cache_lifetime_seconds": 0.07172755897045135,
+          "memory": {
+            "allocated_before": 19636237824,
+            "reserved_before": 21271412736,
+            "allocated_after": 19659314688,
+            "reserved_after": 21271412736,
+            "peak_allocated": 19973886464,
+            "peak_reserved": 21271412736
+          },
+          "step": 0,
+          "microbatch": 5,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        }
+      ],
+      "cache_lifetime_seconds": 0.07172755897045135,
+      "memory_snapshot": {
+        "allocated_before": 19636237824,
+        "reserved_before": 21271412736,
+        "allocated_after": 19659314688,
+        "reserved_after": 21271412736,
+        "peak_allocated": 19973886464,
+        "peak_reserved": 21271412736
+      },
+      "final_state": "consumed"
+    },
+    {
+      "checkpoint_id": 6,
+      "metadata": {
+        "step": 0,
+        "microbatch": 6,
+        "layer_number": 1,
+        "module": "attn_qkv",
+        "tp_size": 2,
+        "rank": 5
+      },
+      "events": [
+        {
+          "event": "forward_complete",
+          "checkpoint_id": 6,
+          "timestamp": 39819847.17686537,
+          "step": 0,
+          "microbatch": 6,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "prefetch_start",
+          "checkpoint_id": 6,
+          "timestamp": 39819847.27630529,
+          "trigger_site": "forward_backward_boundary",
+          "step": 0,
+          "microbatch": 6,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "prefetch_complete",
+          "checkpoint_id": 6,
+          "timestamp": 39819847.277392365,
+          "output_bytes": 12582912,
+          "saved_tensor_bytes": 4056554496,
+          "allocated_bytes": 19659315200,
+          "reserved_bytes": 21271412736,
+          "step": 0,
+          "microbatch": 6,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "cache_hit",
+          "checkpoint_id": 6,
+          "timestamp": 39819847.35429369,
+          "step": 0,
+          "microbatch": 6,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "cache_consumed",
+          "checkpoint_id": 6,
+          "timestamp": 39819847.354785845,
+          "step": 0,
+          "microbatch": 6,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "released",
+          "checkpoint_id": 6,
+          "timestamp": 39819847.354800984,
+          "cache_lifetime_seconds": 0.07848420739173889,
+          "memory": {
+            "allocated_before": 19636238336,
+            "reserved_before": 21271412736,
+            "allocated_after": 19659315200,
+            "reserved_after": 21271412736,
+            "peak_allocated": 19973886464,
+            "peak_reserved": 21271412736
+          },
+          "step": 0,
+          "microbatch": 6,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        }
+      ],
+      "cache_lifetime_seconds": 0.07848420739173889,
+      "memory_snapshot": {
+        "allocated_before": 19636238336,
+        "reserved_before": 21271412736,
+        "allocated_after": 19659315200,
+        "reserved_after": 21271412736,
+        "peak_allocated": 19973886464,
+        "peak_reserved": 21271412736
+      },
+      "final_state": "consumed"
+    },
+    {
+      "checkpoint_id": 7,
+      "metadata": {
+        "step": 0,
+        "microbatch": 7,
+        "layer_number": 1,
+        "module": "attn_qkv",
+        "tp_size": 2,
+        "rank": 5
+      },
+      "events": [
+        {
+          "event": "forward_complete",
+          "checkpoint_id": 7,
+          "timestamp": 39819847.363204025,
+          "step": 0,
+          "microbatch": 7,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "prefetch_start",
+          "checkpoint_id": 7,
+          "timestamp": 39819847.46405641,
+          "trigger_site": "forward_backward_boundary",
+          "step": 0,
+          "microbatch": 7,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "prefetch_complete",
+          "checkpoint_id": 7,
+          "timestamp": 39819847.465170994,
+          "output_bytes": 12582912,
+          "saved_tensor_bytes": 4056554496,
+          "allocated_bytes": 19659315712,
+          "reserved_bytes": 21271412736,
+          "step": 0,
+          "microbatch": 7,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "cache_hit",
+          "checkpoint_id": 7,
+          "timestamp": 39819847.547619775,
+          "step": 0,
+          "microbatch": 7,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "cache_consumed",
+          "checkpoint_id": 7,
+          "timestamp": 39819847.54809046,
+          "step": 0,
+          "microbatch": 7,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "released",
+          "checkpoint_id": 7,
+          "timestamp": 39819847.54810351,
+          "cache_lifetime_seconds": 0.08403711020946503,
+          "memory": {
+            "allocated_before": 19636238848,
+            "reserved_before": 21271412736,
+            "allocated_after": 19659315712,
+            "reserved_after": 21271412736,
+            "peak_allocated": 19973886464,
+            "peak_reserved": 21271412736
+          },
+          "step": 0,
+          "microbatch": 7,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        }
+      ],
+      "cache_lifetime_seconds": 0.08403711020946503,
+      "memory_snapshot": {
+        "allocated_before": 19636238848,
+        "reserved_before": 21271412736,
+        "allocated_after": 19659315712,
+        "reserved_after": 21271412736,
+        "peak_allocated": 19973886464,
+        "peak_reserved": 21271412736
+      },
+      "final_state": "consumed"
+    },
+    {
+      "checkpoint_id": 8,
+      "metadata": {
+        "step": 1,
+        "microbatch": 0,
+        "layer_number": 1,
+        "module": "attn_qkv",
+        "tp_size": 2,
+        "rank": 5
+      },
+      "events": [
+        {
+          "event": "forward_complete",
+          "checkpoint_id": 8,
+          "timestamp": 39819882.02828551,
+          "step": 1,
+          "microbatch": 0,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "prefetch_start",
+          "checkpoint_id": 8,
+          "timestamp": 39819882.63431755,
+          "trigger_site": "forward_backward_boundary",
+          "step": 1,
+          "microbatch": 0,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "prefetch_complete",
+          "checkpoint_id": 8,
+          "timestamp": 39819882.63625321,
+          "output_bytes": 12582912,
+          "saved_tensor_bytes": 4056554496,
+          "allocated_bytes": 23696215552,
+          "reserved_bytes": 24196939776,
+          "step": 1,
+          "microbatch": 0,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "cache_hit",
+          "checkpoint_id": 8,
+          "timestamp": 39819882.715750985,
+          "step": 1,
+          "microbatch": 0,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "cache_consumed",
+          "checkpoint_id": 8,
+          "timestamp": 39819882.71652395,
+          "step": 1,
+          "microbatch": 0,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "released",
+          "checkpoint_id": 8,
+          "timestamp": 39819882.716549665,
+          "cache_lifetime_seconds": 0.08221418410539627,
+          "memory": {
+            "allocated_before": 23673138688,
+            "reserved_before": 24196939776,
+            "allocated_after": 23696215552,
+            "reserved_after": 24196939776,
+            "peak_allocated": 23985702400,
+            "peak_reserved": 24196939776
+          },
+          "step": 1,
+          "microbatch": 0,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        }
+      ],
+      "cache_lifetime_seconds": 0.08221418410539627,
+      "memory_snapshot": {
+        "allocated_before": 23673138688,
+        "reserved_before": 24196939776,
+        "allocated_after": 23696215552,
+        "reserved_after": 24196939776,
+        "peak_allocated": 23985702400,
+        "peak_reserved": 24196939776
+      },
+      "final_state": "consumed"
+    },
+    {
+      "checkpoint_id": 9,
+      "metadata": {
+        "step": 1,
+        "microbatch": 1,
+        "layer_number": 1,
+        "module": "attn_qkv",
+        "tp_size": 2,
+        "rank": 5
+      },
+      "events": [
+        {
+          "event": "forward_complete",
+          "checkpoint_id": 9,
+          "timestamp": 39819882.722247496,
+          "step": 1,
+          "microbatch": 1,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "prefetch_start",
+          "checkpoint_id": 9,
+          "timestamp": 39819882.83072756,
+          "trigger_site": "forward_backward_boundary",
+          "step": 1,
+          "microbatch": 1,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "prefetch_complete",
+          "checkpoint_id": 9,
+          "timestamp": 39819882.83255718,
+          "output_bytes": 12582912,
+          "saved_tensor_bytes": 4056554496,
+          "allocated_bytes": 23695168000,
+          "reserved_bytes": 25016926208,
+          "step": 1,
+          "microbatch": 1,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "cache_hit",
+          "checkpoint_id": 9,
+          "timestamp": 39819882.90738885,
+          "step": 1,
+          "microbatch": 1,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "cache_consumed",
+          "checkpoint_id": 9,
+          "timestamp": 39819882.907866575,
+          "step": 1,
+          "microbatch": 1,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "released",
+          "checkpoint_id": 9,
+          "timestamp": 39819882.90787979,
+          "cache_lifetime_seconds": 0.07714062184095383,
+          "memory": {
+            "allocated_before": 23672091136,
+            "reserved_before": 25016926208,
+            "allocated_after": 23695168000,
+            "reserved_after": 25016926208,
+            "peak_allocated": 24008691712,
+            "peak_reserved": 25016926208
+          },
+          "step": 1,
+          "microbatch": 1,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        }
+      ],
+      "cache_lifetime_seconds": 0.07714062184095383,
+      "memory_snapshot": {
+        "allocated_before": 23672091136,
+        "reserved_before": 25016926208,
+        "allocated_after": 23695168000,
+        "reserved_after": 25016926208,
+        "peak_allocated": 24008691712,
+        "peak_reserved": 25016926208
+      },
+      "final_state": "consumed"
+    },
+    {
+      "checkpoint_id": 10,
+      "metadata": {
+        "step": 1,
+        "microbatch": 2,
+        "layer_number": 1,
+        "module": "attn_qkv",
+        "tp_size": 2,
+        "rank": 5
+      },
+      "events": [
+        {
+          "event": "forward_complete",
+          "checkpoint_id": 10,
+          "timestamp": 39819882.91146672,
+          "step": 1,
+          "microbatch": 2,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "prefetch_start",
+          "checkpoint_id": 10,
+          "timestamp": 39819883.026031815,
+          "trigger_site": "forward_backward_boundary",
+          "step": 1,
+          "microbatch": 2,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "prefetch_complete",
+          "checkpoint_id": 10,
+          "timestamp": 39819883.02786104,
+          "output_bytes": 12582912,
+          "saved_tensor_bytes": 4056554496,
+          "allocated_bytes": 23694119936,
+          "reserved_bytes": 25016926208,
+          "step": 1,
+          "microbatch": 2,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "cache_hit",
+          "checkpoint_id": 10,
+          "timestamp": 39819883.09761524,
+          "step": 1,
+          "microbatch": 2,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "cache_consumed",
+          "checkpoint_id": 10,
+          "timestamp": 39819883.0980721,
+          "step": 1,
+          "microbatch": 2,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "released",
+          "checkpoint_id": 10,
+          "timestamp": 39819883.0980864,
+          "cache_lifetime_seconds": 0.07204163819551468,
+          "memory": {
+            "allocated_before": 23671043072,
+            "reserved_before": 25016926208,
+            "allocated_after": 23694119936,
+            "reserved_after": 25016926208,
+            "peak_allocated": 24008691712,
+            "peak_reserved": 25016926208
+          },
+          "step": 1,
+          "microbatch": 2,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        }
+      ],
+      "cache_lifetime_seconds": 0.07204163819551468,
+      "memory_snapshot": {
+        "allocated_before": 23671043072,
+        "reserved_before": 25016926208,
+        "allocated_after": 23694119936,
+        "reserved_after": 25016926208,
+        "peak_allocated": 24008691712,
+        "peak_reserved": 25016926208
+      },
+      "final_state": "consumed"
+    },
+    {
+      "checkpoint_id": 11,
+      "metadata": {
+        "step": 1,
+        "microbatch": 3,
+        "layer_number": 1,
+        "module": "attn_qkv",
+        "tp_size": 2,
+        "rank": 5
+      },
+      "events": [
+        {
+          "event": "forward_complete",
+          "checkpoint_id": 11,
+          "timestamp": 39819883.101835296,
+          "step": 1,
+          "microbatch": 3,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "prefetch_start",
+          "checkpoint_id": 11,
+          "timestamp": 39819883.21265406,
+          "trigger_site": "forward_backward_boundary",
+          "step": 1,
+          "microbatch": 3,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "prefetch_complete",
+          "checkpoint_id": 11,
+          "timestamp": 39819883.214466274,
+          "output_bytes": 12582912,
+          "saved_tensor_bytes": 4056554496,
+          "allocated_bytes": 23695169024,
+          "reserved_bytes": 25016926208,
+          "step": 1,
+          "microbatch": 3,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "cache_hit",
+          "checkpoint_id": 11,
+          "timestamp": 39819883.2860396,
+          "step": 1,
+          "microbatch": 3,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "cache_consumed",
+          "checkpoint_id": 11,
+          "timestamp": 39819883.28652852,
+          "step": 1,
+          "microbatch": 3,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "released",
+          "checkpoint_id": 11,
+          "timestamp": 39819883.286546566,
+          "cache_lifetime_seconds": 0.07387736439704895,
+          "memory": {
+            "allocated_before": 23672092160,
+            "reserved_before": 25016926208,
+            "allocated_after": 23695169024,
+            "reserved_after": 25016926208,
+            "peak_allocated": 24008691712,
+            "peak_reserved": 25016926208
+          },
+          "step": 1,
+          "microbatch": 3,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        }
+      ],
+      "cache_lifetime_seconds": 0.07387736439704895,
+      "memory_snapshot": {
+        "allocated_before": 23672092160,
+        "reserved_before": 25016926208,
+        "allocated_after": 23695169024,
+        "reserved_after": 25016926208,
+        "peak_allocated": 24008691712,
+        "peak_reserved": 25016926208
+      },
+      "final_state": "consumed"
+    },
+    {
+      "checkpoint_id": 12,
+      "metadata": {
+        "step": 1,
+        "microbatch": 4,
+        "layer_number": 1,
+        "module": "attn_qkv",
+        "tp_size": 2,
+        "rank": 5
+      },
+      "events": [
+        {
+          "event": "forward_complete",
+          "checkpoint_id": 12,
+          "timestamp": 39819883.29029868,
+          "step": 1,
+          "microbatch": 4,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "prefetch_start",
+          "checkpoint_id": 12,
+          "timestamp": 39819883.410209104,
+          "trigger_site": "forward_backward_boundary",
+          "step": 1,
+          "microbatch": 4,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "prefetch_complete",
+          "checkpoint_id": 12,
+          "timestamp": 39819883.41133345,
+          "output_bytes": 12582912,
+          "saved_tensor_bytes": 4056554496,
+          "allocated_bytes": 23694120960,
+          "reserved_bytes": 25016926208,
+          "step": 1,
+          "microbatch": 4,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "cache_hit",
+          "checkpoint_id": 12,
+          "timestamp": 39819883.4812468,
+          "step": 1,
+          "microbatch": 4,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "cache_consumed",
+          "checkpoint_id": 12,
+          "timestamp": 39819883.48170242,
+          "step": 1,
+          "microbatch": 4,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "released",
+          "checkpoint_id": 12,
+          "timestamp": 39819883.48171577,
+          "cache_lifetime_seconds": 0.07149651646614075,
+          "memory": {
+            "allocated_before": 23671044096,
+            "reserved_before": 25016926208,
+            "allocated_after": 23694120960,
+            "reserved_after": 25016926208,
+            "peak_allocated": 24008691712,
+            "peak_reserved": 25016926208
+          },
+          "step": 1,
+          "microbatch": 4,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        }
+      ],
+      "cache_lifetime_seconds": 0.07149651646614075,
+      "memory_snapshot": {
+        "allocated_before": 23671044096,
+        "reserved_before": 25016926208,
+        "allocated_after": 23694120960,
+        "reserved_after": 25016926208,
+        "peak_allocated": 24008691712,
+        "peak_reserved": 25016926208
+      },
+      "final_state": "consumed"
+    },
+    {
+      "checkpoint_id": 13,
+      "metadata": {
+        "step": 1,
+        "microbatch": 5,
+        "layer_number": 1,
+        "module": "attn_qkv",
+        "tp_size": 2,
+        "rank": 5
+      },
+      "events": [
+        {
+          "event": "forward_complete",
+          "checkpoint_id": 13,
+          "timestamp": 39819883.48544028,
+          "step": 1,
+          "microbatch": 5,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "prefetch_start",
+          "checkpoint_id": 13,
+          "timestamp": 39819883.59486546,
+          "trigger_site": "forward_backward_boundary",
+          "step": 1,
+          "microbatch": 5,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "prefetch_complete",
+          "checkpoint_id": 13,
+          "timestamp": 39819883.59598172,
+          "output_bytes": 12582912,
+          "saved_tensor_bytes": 4056554496,
+          "allocated_bytes": 23693597184,
+          "reserved_bytes": 25016926208,
+          "step": 1,
+          "microbatch": 5,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "cache_hit",
+          "checkpoint_id": 13,
+          "timestamp": 39819883.66638186,
+          "step": 1,
+          "microbatch": 5,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "cache_consumed",
+          "checkpoint_id": 13,
+          "timestamp": 39819883.66684148,
+          "step": 1,
+          "microbatch": 5,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "released",
+          "checkpoint_id": 13,
+          "timestamp": 39819883.66685594,
+          "cache_lifetime_seconds": 0.07197972387075424,
+          "memory": {
+            "allocated_before": 23670520320,
+            "reserved_before": 25016926208,
+            "allocated_after": 23693597184,
+            "reserved_after": 25016926208,
+            "peak_allocated": 24008691712,
+            "peak_reserved": 25016926208
+          },
+          "step": 1,
+          "microbatch": 5,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        }
+      ],
+      "cache_lifetime_seconds": 0.07197972387075424,
+      "memory_snapshot": {
+        "allocated_before": 23670520320,
+        "reserved_before": 25016926208,
+        "allocated_after": 23693597184,
+        "reserved_after": 25016926208,
+        "peak_allocated": 24008691712,
+        "peak_reserved": 25016926208
+      },
+      "final_state": "consumed"
+    },
+    {
+      "checkpoint_id": 14,
+      "metadata": {
+        "step": 1,
+        "microbatch": 6,
+        "layer_number": 1,
+        "module": "attn_qkv",
+        "tp_size": 2,
+        "rank": 5
+      },
+      "events": [
+        {
+          "event": "forward_complete",
+          "checkpoint_id": 14,
+          "timestamp": 39819883.67041109,
+          "step": 1,
+          "microbatch": 6,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "prefetch_start",
+          "checkpoint_id": 14,
+          "timestamp": 39819883.782349475,
+          "trigger_site": "forward_backward_boundary",
+          "step": 1,
+          "microbatch": 6,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "prefetch_complete",
+          "checkpoint_id": 14,
+          "timestamp": 39819883.783533946,
+          "output_bytes": 12582912,
+          "saved_tensor_bytes": 4056554496,
+          "allocated_bytes": 23693073408,
+          "reserved_bytes": 25016926208,
+          "step": 1,
+          "microbatch": 6,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "cache_hit",
+          "checkpoint_id": 14,
+          "timestamp": 39819883.853727944,
+          "step": 1,
+          "microbatch": 6,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "cache_consumed",
+          "checkpoint_id": 14,
+          "timestamp": 39819883.8542043,
+          "step": 1,
+          "microbatch": 6,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "released",
+          "checkpoint_id": 14,
+          "timestamp": 39819883.85421831,
+          "cache_lifetime_seconds": 0.07185693085193634,
+          "memory": {
+            "allocated_before": 23669996544,
+            "reserved_before": 25016926208,
+            "allocated_after": 23693073408,
+            "reserved_after": 25016926208,
+            "peak_allocated": 24008691712,
+            "peak_reserved": 25016926208
+          },
+          "step": 1,
+          "microbatch": 6,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        }
+      ],
+      "cache_lifetime_seconds": 0.07185693085193634,
+      "memory_snapshot": {
+        "allocated_before": 23669996544,
+        "reserved_before": 25016926208,
+        "allocated_after": 23693073408,
+        "reserved_after": 25016926208,
+        "peak_allocated": 24008691712,
+        "peak_reserved": 25016926208
+      },
+      "final_state": "consumed"
+    },
+    {
+      "checkpoint_id": 15,
+      "metadata": {
+        "step": 1,
+        "microbatch": 7,
+        "layer_number": 1,
+        "module": "attn_qkv",
+        "tp_size": 2,
+        "rank": 5
+      },
+      "events": [
+        {
+          "event": "forward_complete",
+          "checkpoint_id": 15,
+          "timestamp": 39819883.8618605,
+          "step": 1,
+          "microbatch": 7,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "prefetch_start",
+          "checkpoint_id": 15,
+          "timestamp": 39819883.96281053,
+          "trigger_site": "forward_backward_boundary",
+          "step": 1,
+          "microbatch": 7,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "prefetch_complete",
+          "checkpoint_id": 15,
+          "timestamp": 39819883.96390275,
+          "output_bytes": 12582912,
+          "saved_tensor_bytes": 4056554496,
+          "allocated_bytes": 23695171072,
+          "reserved_bytes": 25016926208,
+          "step": 1,
+          "microbatch": 7,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "cache_hit",
+          "checkpoint_id": 15,
+          "timestamp": 39819884.03335125,
+          "step": 1,
+          "microbatch": 7,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "cache_consumed",
+          "checkpoint_id": 15,
+          "timestamp": 39819884.03380598,
+          "step": 1,
+          "microbatch": 7,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "released",
+          "checkpoint_id": 15,
+          "timestamp": 39819884.03381828,
+          "cache_lifetime_seconds": 0.07099788635969162,
+          "memory": {
+            "allocated_before": 23672094208,
+            "reserved_before": 25016926208,
+            "allocated_after": 23695171072,
+            "reserved_after": 25016926208,
+            "peak_allocated": 24008691712,
+            "peak_reserved": 25016926208
+          },
+          "step": 1,
+          "microbatch": 7,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        }
+      ],
+      "cache_lifetime_seconds": 0.07099788635969162,
+      "memory_snapshot": {
+        "allocated_before": 23672094208,
+        "reserved_before": 25016926208,
+        "allocated_after": 23695171072,
+        "reserved_after": 25016926208,
+        "peak_allocated": 24008691712,
+        "peak_reserved": 25016926208
+      },
+      "final_state": "consumed"
+    },
+    {
+      "checkpoint_id": 16,
+      "metadata": {
+        "step": 2,
+        "microbatch": 0,
+        "layer_number": 1,
+        "module": "attn_qkv",
+        "tp_size": 2,
+        "rank": 5
+      },
+      "events": [
+        {
+          "event": "forward_complete",
+          "checkpoint_id": 16,
+          "timestamp": 39819914.411317095,
+          "step": 2,
+          "microbatch": 0,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "prefetch_start",
+          "checkpoint_id": 16,
+          "timestamp": 39819914.50971226,
+          "trigger_site": "forward_backward_boundary",
+          "step": 2,
+          "microbatch": 0,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "prefetch_complete",
+          "checkpoint_id": 16,
+          "timestamp": 39819914.510818265,
+          "output_bytes": 12582912,
+          "saved_tensor_bytes": 4056554496,
+          "allocated_bytes": 23696215552,
+          "reserved_bytes": 25016926208,
+          "step": 2,
+          "microbatch": 0,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "cache_hit",
+          "checkpoint_id": 16,
+          "timestamp": 39819914.5903508,
+          "step": 2,
+          "microbatch": 0,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "cache_consumed",
+          "checkpoint_id": 16,
+          "timestamp": 39819914.59080361,
+          "step": 2,
+          "microbatch": 0,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "released",
+          "checkpoint_id": 16,
+          "timestamp": 39819914.59081744,
+          "cache_lifetime_seconds": 0.08109503239393234,
+          "memory": {
+            "allocated_before": 23673138688,
+            "reserved_before": 25016926208,
+            "allocated_after": 23696215552,
+            "reserved_after": 25016926208,
+            "peak_allocated": 24008691712,
+            "peak_reserved": 25016926208
+          },
+          "step": 2,
+          "microbatch": 0,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        }
+      ],
+      "cache_lifetime_seconds": 0.08109503239393234,
+      "memory_snapshot": {
+        "allocated_before": 23673138688,
+        "reserved_before": 25016926208,
+        "allocated_after": 23696215552,
+        "reserved_after": 25016926208,
+        "peak_allocated": 24008691712,
+        "peak_reserved": 25016926208
+      },
+      "final_state": "consumed"
+    },
+    {
+      "checkpoint_id": 17,
+      "metadata": {
+        "step": 2,
+        "microbatch": 1,
+        "layer_number": 1,
+        "module": "attn_qkv",
+        "tp_size": 2,
+        "rank": 5
+      },
+      "events": [
+        {
+          "event": "forward_complete",
+          "checkpoint_id": 17,
+          "timestamp": 39819914.598565795,
+          "step": 2,
+          "microbatch": 1,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "prefetch_start",
+          "checkpoint_id": 17,
+          "timestamp": 39819914.699270286,
+          "trigger_site": "forward_backward_boundary",
+          "step": 2,
+          "microbatch": 1,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "prefetch_complete",
+          "checkpoint_id": 17,
+          "timestamp": 39819914.700405166,
+          "output_bytes": 12582912,
+          "saved_tensor_bytes": 4056554496,
+          "allocated_bytes": 23696216576,
+          "reserved_bytes": 25016926208,
+          "step": 2,
+          "microbatch": 1,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "cache_hit",
+          "checkpoint_id": 17,
+          "timestamp": 39819914.779072165,
+          "step": 2,
+          "microbatch": 1,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "cache_consumed",
+          "checkpoint_id": 17,
+          "timestamp": 39819914.77952315,
+          "step": 2,
+          "microbatch": 1,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "released",
+          "checkpoint_id": 17,
+          "timestamp": 39819914.779542185,
+          "cache_lifetime_seconds": 0.08026035875082016,
+          "memory": {
+            "allocated_before": 23673139712,
+            "reserved_before": 25016926208,
+            "allocated_after": 23696216576,
+            "reserved_after": 25016926208,
+            "peak_allocated": 24008691712,
+            "peak_reserved": 25016926208
+          },
+          "step": 2,
+          "microbatch": 1,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        }
+      ],
+      "cache_lifetime_seconds": 0.08026035875082016,
+      "memory_snapshot": {
+        "allocated_before": 23673139712,
+        "reserved_before": 25016926208,
+        "allocated_after": 23696216576,
+        "reserved_after": 25016926208,
+        "peak_allocated": 24008691712,
+        "peak_reserved": 25016926208
+      },
+      "final_state": "consumed"
+    },
+    {
+      "checkpoint_id": 18,
+      "metadata": {
+        "step": 2,
+        "microbatch": 2,
+        "layer_number": 1,
+        "module": "attn_qkv",
+        "tp_size": 2,
+        "rank": 5
+      },
+      "events": [
+        {
+          "event": "forward_complete",
+          "checkpoint_id": 18,
+          "timestamp": 39819914.78289249,
+          "step": 2,
+          "microbatch": 2,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "prefetch_start",
+          "checkpoint_id": 18,
+          "timestamp": 39819914.885325804,
+          "trigger_site": "forward_backward_boundary",
+          "step": 2,
+          "microbatch": 2,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "prefetch_complete",
+          "checkpoint_id": 18,
+          "timestamp": 39819914.88643305,
+          "output_bytes": 12582912,
+          "saved_tensor_bytes": 4056554496,
+          "allocated_bytes": 23696217088,
+          "reserved_bytes": 25016926208,
+          "step": 2,
+          "microbatch": 2,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "cache_hit",
+          "checkpoint_id": 18,
+          "timestamp": 39819914.9642359,
+          "step": 2,
+          "microbatch": 2,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "cache_consumed",
+          "checkpoint_id": 18,
+          "timestamp": 39819914.964695774,
+          "step": 2,
+          "microbatch": 2,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "released",
+          "checkpoint_id": 18,
+          "timestamp": 39819914.964708865,
+          "cache_lifetime_seconds": 0.07937266677618027,
+          "memory": {
+            "allocated_before": 23673140224,
+            "reserved_before": 25016926208,
+            "allocated_after": 23696217088,
+            "reserved_after": 25016926208,
+            "peak_allocated": 24008692224,
+            "peak_reserved": 25016926208
+          },
+          "step": 2,
+          "microbatch": 2,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        }
+      ],
+      "cache_lifetime_seconds": 0.07937266677618027,
+      "memory_snapshot": {
+        "allocated_before": 23673140224,
+        "reserved_before": 25016926208,
+        "allocated_after": 23696217088,
+        "reserved_after": 25016926208,
+        "peak_allocated": 24008692224,
+        "peak_reserved": 25016926208
+      },
+      "final_state": "consumed"
+    },
+    {
+      "checkpoint_id": 19,
+      "metadata": {
+        "step": 2,
+        "microbatch": 3,
+        "layer_number": 1,
+        "module": "attn_qkv",
+        "tp_size": 2,
+        "rank": 5
+      },
+      "events": [
+        {
+          "event": "forward_complete",
+          "checkpoint_id": 19,
+          "timestamp": 39819914.96796987,
+          "step": 2,
+          "microbatch": 3,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "prefetch_start",
+          "checkpoint_id": 19,
+          "timestamp": 39819915.07172838,
+          "trigger_site": "forward_backward_boundary",
+          "step": 2,
+          "microbatch": 3,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "prefetch_complete",
+          "checkpoint_id": 19,
+          "timestamp": 39819915.072867855,
+          "output_bytes": 12582912,
+          "saved_tensor_bytes": 4056554496,
+          "allocated_bytes": 23696217600,
+          "reserved_bytes": 25016926208,
+          "step": 2,
+          "microbatch": 3,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "cache_hit",
+          "checkpoint_id": 19,
+          "timestamp": 39819915.15118184,
+          "step": 2,
+          "microbatch": 3,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "cache_consumed",
+          "checkpoint_id": 19,
+          "timestamp": 39819915.15163849,
+          "step": 2,
+          "microbatch": 3,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "released",
+          "checkpoint_id": 19,
+          "timestamp": 39819915.15165282,
+          "cache_lifetime_seconds": 0.07991369813680649,
+          "memory": {
+            "allocated_before": 23673140736,
+            "reserved_before": 25016926208,
+            "allocated_after": 23696217600,
+            "reserved_after": 25016926208,
+            "peak_allocated": 24008692736,
+            "peak_reserved": 25016926208
+          },
+          "step": 2,
+          "microbatch": 3,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        }
+      ],
+      "cache_lifetime_seconds": 0.07991369813680649,
+      "memory_snapshot": {
+        "allocated_before": 23673140736,
+        "reserved_before": 25016926208,
+        "allocated_after": 23696217600,
+        "reserved_after": 25016926208,
+        "peak_allocated": 24008692736,
+        "peak_reserved": 25016926208
+      },
+      "final_state": "consumed"
+    },
+    {
+      "checkpoint_id": 20,
+      "metadata": {
+        "step": 2,
+        "microbatch": 4,
+        "layer_number": 1,
+        "module": "attn_qkv",
+        "tp_size": 2,
+        "rank": 5
+      },
+      "events": [
+        {
+          "event": "forward_complete",
+          "checkpoint_id": 20,
+          "timestamp": 39819915.15986998,
+          "step": 2,
+          "microbatch": 4,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "prefetch_start",
+          "checkpoint_id": 20,
+          "timestamp": 39819915.26048855,
+          "trigger_site": "forward_backward_boundary",
+          "step": 2,
+          "microbatch": 4,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "prefetch_complete",
+          "checkpoint_id": 20,
+          "timestamp": 39819915.261643335,
+          "output_bytes": 12582912,
+          "saved_tensor_bytes": 4056554496,
+          "allocated_bytes": 23696218112,
+          "reserved_bytes": 25016926208,
+          "step": 2,
+          "microbatch": 4,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "cache_hit",
+          "checkpoint_id": 20,
+          "timestamp": 39819915.34142101,
+          "step": 2,
+          "microbatch": 4,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "cache_consumed",
+          "checkpoint_id": 20,
+          "timestamp": 39819915.341885254,
+          "step": 2,
+          "microbatch": 4,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "released",
+          "checkpoint_id": 20,
+          "timestamp": 39819915.341899484,
+          "cache_lifetime_seconds": 0.08139992505311966,
+          "memory": {
+            "allocated_before": 23673141248,
+            "reserved_before": 25016926208,
+            "allocated_after": 23696218112,
+            "reserved_after": 25016926208,
+            "peak_allocated": 24008693248,
+            "peak_reserved": 25016926208
+          },
+          "step": 2,
+          "microbatch": 4,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        }
+      ],
+      "cache_lifetime_seconds": 0.08139992505311966,
+      "memory_snapshot": {
+        "allocated_before": 23673141248,
+        "reserved_before": 25016926208,
+        "allocated_after": 23696218112,
+        "reserved_after": 25016926208,
+        "peak_allocated": 24008693248,
+        "peak_reserved": 25016926208
+      },
+      "final_state": "consumed"
+    },
+    {
+      "checkpoint_id": 21,
+      "metadata": {
+        "step": 2,
+        "microbatch": 5,
+        "layer_number": 1,
+        "module": "attn_qkv",
+        "tp_size": 2,
+        "rank": 5
+      },
+      "events": [
+        {
+          "event": "forward_complete",
+          "checkpoint_id": 21,
+          "timestamp": 39819915.34537578,
+          "step": 2,
+          "microbatch": 5,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "prefetch_start",
+          "checkpoint_id": 21,
+          "timestamp": 39819915.456286885,
+          "trigger_site": "forward_backward_boundary",
+          "step": 2,
+          "microbatch": 5,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "prefetch_complete",
+          "checkpoint_id": 21,
+          "timestamp": 39819915.457406625,
+          "output_bytes": 12582912,
+          "saved_tensor_bytes": 4056554496,
+          "allocated_bytes": 23695170048,
+          "reserved_bytes": 25016926208,
+          "step": 2,
+          "microbatch": 5,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "cache_hit",
+          "checkpoint_id": 21,
+          "timestamp": 39819915.535468385,
+          "step": 2,
+          "microbatch": 5,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "cache_consumed",
+          "checkpoint_id": 21,
+          "timestamp": 39819915.53593989,
+          "step": 2,
+          "microbatch": 5,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "released",
+          "checkpoint_id": 21,
+          "timestamp": 39819915.5359546,
+          "cache_lifetime_seconds": 0.07965634763240814,
+          "memory": {
+            "allocated_before": 23672093184,
+            "reserved_before": 25016926208,
+            "allocated_after": 23695170048,
+            "reserved_after": 25016926208,
+            "peak_allocated": 24008693760,
+            "peak_reserved": 25016926208
+          },
+          "step": 2,
+          "microbatch": 5,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        }
+      ],
+      "cache_lifetime_seconds": 0.07965634763240814,
+      "memory_snapshot": {
+        "allocated_before": 23672093184,
+        "reserved_before": 25016926208,
+        "allocated_after": 23695170048,
+        "reserved_after": 25016926208,
+        "peak_allocated": 24008693760,
+        "peak_reserved": 25016926208
+      },
+      "final_state": "consumed"
+    },
+    {
+      "checkpoint_id": 22,
+      "metadata": {
+        "step": 2,
+        "microbatch": 6,
+        "layer_number": 1,
+        "module": "attn_qkv",
+        "tp_size": 2,
+        "rank": 5
+      },
+      "events": [
+        {
+          "event": "forward_complete",
+          "checkpoint_id": 22,
+          "timestamp": 39819915.54037948,
+          "step": 2,
+          "microbatch": 6,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "prefetch_start",
+          "checkpoint_id": 22,
+          "timestamp": 39819915.662051566,
+          "trigger_site": "forward_backward_boundary",
+          "step": 2,
+          "microbatch": 6,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "prefetch_complete",
+          "checkpoint_id": 22,
+          "timestamp": 39819915.663196445,
+          "output_bytes": 12582912,
+          "saved_tensor_bytes": 4056554496,
+          "allocated_bytes": 23695170560,
+          "reserved_bytes": 25016926208,
+          "step": 2,
+          "microbatch": 6,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "cache_hit",
+          "checkpoint_id": 22,
+          "timestamp": 39819915.741135195,
+          "step": 2,
+          "microbatch": 6,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "cache_consumed",
+          "checkpoint_id": 22,
+          "timestamp": 39819915.74158533,
+          "step": 2,
+          "microbatch": 6,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "released",
+          "checkpoint_id": 22,
+          "timestamp": 39819915.74159861,
+          "cache_lifetime_seconds": 0.07953676581382751,
+          "memory": {
+            "allocated_before": 23672093696,
+            "reserved_before": 25016926208,
+            "allocated_after": 23695170560,
+            "reserved_after": 25016926208,
+            "peak_allocated": 24008693760,
+            "peak_reserved": 25016926208
+          },
+          "step": 2,
+          "microbatch": 6,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        }
+      ],
+      "cache_lifetime_seconds": 0.07953676581382751,
+      "memory_snapshot": {
+        "allocated_before": 23672093696,
+        "reserved_before": 25016926208,
+        "allocated_after": 23695170560,
+        "reserved_after": 25016926208,
+        "peak_allocated": 24008693760,
+        "peak_reserved": 25016926208
+      },
+      "final_state": "consumed"
+    },
+    {
+      "checkpoint_id": 23,
+      "metadata": {
+        "step": 2,
+        "microbatch": 7,
+        "layer_number": 1,
+        "module": "attn_qkv",
+        "tp_size": 2,
+        "rank": 5
+      },
+      "events": [
+        {
+          "event": "forward_complete",
+          "checkpoint_id": 23,
+          "timestamp": 39819915.74498735,
+          "step": 2,
+          "microbatch": 7,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "prefetch_start",
+          "checkpoint_id": 23,
+          "timestamp": 39819915.86903708,
+          "trigger_site": "forward_backward_boundary",
+          "step": 2,
+          "microbatch": 7,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "prefetch_complete",
+          "checkpoint_id": 23,
+          "timestamp": 39819915.87018745,
+          "output_bytes": 12582912,
+          "saved_tensor_bytes": 4056554496,
+          "allocated_bytes": 23696219648,
+          "reserved_bytes": 25016926208,
+          "step": 2,
+          "microbatch": 7,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "cache_hit",
+          "checkpoint_id": 23,
+          "timestamp": 39819915.95023583,
+          "step": 2,
+          "microbatch": 7,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "cache_consumed",
+          "checkpoint_id": 23,
+          "timestamp": 39819915.950701654,
+          "step": 2,
+          "microbatch": 7,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        },
+        {
+          "event": "released",
+          "checkpoint_id": 23,
+          "timestamp": 39819915.95071689,
+          "cache_lifetime_seconds": 0.08166804164648056,
+          "memory": {
+            "allocated_before": 23673142784,
+            "reserved_before": 25016926208,
+            "allocated_after": 23696219648,
+            "reserved_after": 25016926208,
+            "peak_allocated": 24008693760,
+            "peak_reserved": 25016926208
+          },
+          "step": 2,
+          "microbatch": 7,
+          "layer_number": 1,
+          "module": "attn_qkv",
+          "tp_size": 2,
+          "rank": 5
+        }
+      ],
+      "cache_lifetime_seconds": 0.08166804164648056,
+      "memory_snapshot": {
+        "allocated_before": 23673142784,
+        "reserved_before": 25016926208,
+        "allocated_after": 23696219648,
+        "reserved_after": 25016926208,
+        "peak_allocated": 24008693760,
+        "peak_reserved": 25016926208
+      },
+      "final_state": "consumed"
+    }
+  ]
+}

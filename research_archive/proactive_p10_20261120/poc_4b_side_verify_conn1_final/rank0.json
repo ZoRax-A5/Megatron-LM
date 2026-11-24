@@ -1,0 +1,6739 @@
+{
+  "steps": [
+    {
+      "iteration": 0,
+      "backwards": 8,
+      "released": 24,
+      "hits": 9,
+      "checkpoints": [
+        {
+          "id": 2,
+          "hit": true,
+          "metadata": {
+            "step": 0,
+            "microbatch": 0,
+            "layer_number": 18,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 2,
+              "timestamp": 39890410.670585744,
+              "step": 0,
+              "microbatch": 0,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_start",
+              "checkpoint_id": 2,
+              "timestamp": 39890411.37410654,
+              "trigger_site": "cross_microbatch_forward:1",
+              "step": 0,
+              "microbatch": 0,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_complete",
+              "checkpoint_id": 2,
+              "timestamp": 39890411.37536987,
+              "output_bytes": 12582912,
+              "saved_tensor_bytes": 4056554496,
+              "allocated_bytes": 21917067264,
+              "reserved_bytes": 22259171328,
+              "step": 0,
+              "microbatch": 0,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_hit",
+              "checkpoint_id": 2,
+              "timestamp": 39890411.96486367,
+              "step": 0,
+              "microbatch": 0,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_consumed",
+              "checkpoint_id": 2,
+              "timestamp": 39890411.9653786,
+              "step": 0,
+              "microbatch": 0,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 2,
+              "timestamp": 39890411.96541937,
+              "cache_lifetime_seconds": 0.5912957489490509,
+              "memory": {
+                "allocated_before": 21893990400,
+                "reserved_before": 22246588416,
+                "allocated_after": 21917067264,
+                "reserved_after": 22259171328,
+                "peak_allocated": 21917067264,
+                "peak_reserved": 22259171328
+              },
+              "step": 0,
+              "microbatch": 0,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 1,
+          "hit": true,
+          "metadata": {
+            "step": 0,
+            "microbatch": 0,
+            "layer_number": 2,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 1,
+              "timestamp": 39890410.62044439,
+              "step": 0,
+              "microbatch": 0,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_start",
+              "checkpoint_id": 1,
+              "timestamp": 39890411.03043454,
+              "trigger_site": "cross_microbatch_forward:1",
+              "step": 0,
+              "microbatch": 0,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_complete",
+              "checkpoint_id": 1,
+              "timestamp": 39890411.03146316,
+              "output_bytes": 12582912,
+              "saved_tensor_bytes": 4056554496,
+              "allocated_bytes": 19753060352,
+              "reserved_bytes": 20210253824,
+              "step": 0,
+              "microbatch": 0,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_hit",
+              "checkpoint_id": 1,
+              "timestamp": 39890411.99818591,
+              "step": 0,
+              "microbatch": 0,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_consumed",
+              "checkpoint_id": 1,
+              "timestamp": 39890411.99868416,
+              "step": 0,
+              "microbatch": 0,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 1,
+              "timestamp": 39890411.99869643,
+              "cache_lifetime_seconds": 0.9682515636086464,
+              "memory": {
+                "allocated_before": 19729983488,
+                "reserved_before": 20210253824,
+                "allocated_after": 19753060352,
+                "reserved_after": 20210253824,
+                "peak_allocated": 19885872640,
+                "peak_reserved": 20210253824
+              },
+              "step": 0,
+              "microbatch": 0,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 0,
+          "hit": true,
+          "metadata": {
+            "step": 0,
+            "microbatch": 0,
+            "layer_number": 1,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 0,
+              "timestamp": 39890410.23434064,
+              "step": 0,
+              "microbatch": 0,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_start",
+              "checkpoint_id": 0,
+              "timestamp": 39890411.02519461,
+              "trigger_site": "cross_microbatch_forward:1",
+              "step": 0,
+              "microbatch": 0,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_complete",
+              "checkpoint_id": 0,
+              "timestamp": 39890411.02681284,
+              "output_bytes": 12582912,
+              "saved_tensor_bytes": 4056554496,
+              "allocated_bytes": 19606996480,
+              "reserved_bytes": 20210253824,
+              "step": 0,
+              "microbatch": 0,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_hit",
+              "checkpoint_id": 0,
+              "timestamp": 39890412.000584215,
+              "step": 0,
+              "microbatch": 0,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_consumed",
+              "checkpoint_id": 0,
+              "timestamp": 39890412.00104424,
+              "step": 0,
+              "microbatch": 0,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 0,
+              "timestamp": 39890412.00105274,
+              "cache_lifetime_seconds": 0.9758481085300446,
+              "memory": {
+                "allocated_before": 19583919616,
+                "reserved_before": 20210253824,
+                "allocated_after": 19606996480,
+                "reserved_after": 20210253824,
+                "peak_allocated": 19885872640,
+                "peak_reserved": 20210253824
+              },
+              "step": 0,
+              "microbatch": 0,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 5,
+          "hit": false,
+          "metadata": {
+            "step": 0,
+            "microbatch": 1,
+            "layer_number": 18,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 5,
+              "timestamp": 39890411.37634519,
+              "step": 0,
+              "microbatch": 1,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "fallback",
+              "checkpoint_id": 5,
+              "timestamp": 39890412.07813689,
+              "reason": "no_completed_prefetch",
+              "step": 0,
+              "microbatch": 1,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 5,
+              "timestamp": 39890412.07900894,
+              "cache_lifetime_seconds": 0.0,
+              "memory": {},
+              "step": 0,
+              "microbatch": 1,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 4,
+          "hit": false,
+          "metadata": {
+            "step": 0,
+            "microbatch": 1,
+            "layer_number": 2,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 4,
+              "timestamp": 39890411.03189573,
+              "step": 0,
+              "microbatch": 1,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "fallback",
+              "checkpoint_id": 4,
+              "timestamp": 39890412.110577725,
+              "reason": "no_completed_prefetch",
+              "step": 0,
+              "microbatch": 1,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 4,
+              "timestamp": 39890412.11139435,
+              "cache_lifetime_seconds": 0.0,
+              "memory": {},
+              "step": 0,
+              "microbatch": 1,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 3,
+          "hit": false,
+          "metadata": {
+            "step": 0,
+            "microbatch": 1,
+            "layer_number": 1,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 3,
+              "timestamp": 39890411.02718308,
+              "step": 0,
+              "microbatch": 1,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "fallback",
+              "checkpoint_id": 3,
+              "timestamp": 39890412.11318643,
+              "reason": "no_completed_prefetch",
+              "step": 0,
+              "microbatch": 1,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 3,
+              "timestamp": 39890412.113939054,
+              "cache_lifetime_seconds": 0.0,
+              "memory": {},
+              "step": 0,
+              "microbatch": 1,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 8,
+          "hit": true,
+          "metadata": {
+            "step": 0,
+            "microbatch": 2,
+            "layer_number": 18,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 8,
+              "timestamp": 39890412.16996288,
+              "step": 0,
+              "microbatch": 2,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_start",
+              "checkpoint_id": 8,
+              "timestamp": 39890412.2677209,
+              "trigger_site": "cross_microbatch_forward:3",
+              "step": 0,
+              "microbatch": 2,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_complete",
+              "checkpoint_id": 8,
+              "timestamp": 39890412.26874251,
+              "output_bytes": 12582912,
+              "saved_tensor_bytes": 4056554496,
+              "allocated_bytes": 21956824576,
+              "reserved_bytes": 26533167104,
+              "step": 0,
+              "microbatch": 2,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_hit",
+              "checkpoint_id": 8,
+              "timestamp": 39890412.36645164,
+              "step": 0,
+              "microbatch": 2,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_consumed",
+              "checkpoint_id": 8,
+              "timestamp": 39890412.36692909,
+              "step": 0,
+              "microbatch": 2,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 8,
+              "timestamp": 39890412.36694226,
+              "cache_lifetime_seconds": 0.09921188652515411,
+              "memory": {
+                "allocated_before": 21933747712,
+                "reserved_before": 26533167104,
+                "allocated_after": 21956824576,
+                "reserved_after": 26533167104,
+                "peak_allocated": 25408517632,
+                "peak_reserved": 26533167104
+              },
+              "step": 0,
+              "microbatch": 2,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 7,
+          "hit": true,
+          "metadata": {
+            "step": 0,
+            "microbatch": 2,
+            "layer_number": 2,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 7,
+              "timestamp": 39890412.13057429,
+              "step": 0,
+              "microbatch": 2,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_start",
+              "checkpoint_id": 7,
+              "timestamp": 39890412.22778021,
+              "trigger_site": "cross_microbatch_forward:3",
+              "step": 0,
+              "microbatch": 2,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_complete",
+              "checkpoint_id": 7,
+              "timestamp": 39890412.2287743,
+              "output_bytes": 12582912,
+              "saved_tensor_bytes": 4056554496,
+              "allocated_bytes": 19790846976,
+              "reserved_bytes": 26533167104,
+              "step": 0,
+              "microbatch": 2,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_hit",
+              "checkpoint_id": 7,
+              "timestamp": 39890412.39862738,
+              "step": 0,
+              "microbatch": 2,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_consumed",
+              "checkpoint_id": 7,
+              "timestamp": 39890412.399100766,
+              "step": 0,
+              "microbatch": 2,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 7,
+              "timestamp": 39890412.39911138,
+              "cache_lifetime_seconds": 0.17132240533828735,
+              "memory": {
+                "allocated_before": 19767770112,
+                "reserved_before": 26533167104,
+                "allocated_after": 19790846976,
+                "reserved_after": 26533167104,
+                "peak_allocated": 25408517632,
+                "peak_reserved": 26533167104
+              },
+              "step": 0,
+              "microbatch": 2,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 6,
+          "hit": true,
+          "metadata": {
+            "step": 0,
+            "microbatch": 2,
+            "layer_number": 1,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 6,
+              "timestamp": 39890412.12330346,
+              "step": 0,
+              "microbatch": 2,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_start",
+              "checkpoint_id": 6,
+              "timestamp": 39890412.22334116,
+              "trigger_site": "cross_microbatch_forward:3",
+              "step": 0,
+              "microbatch": 2,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_complete",
+              "checkpoint_id": 6,
+              "timestamp": 39890412.224479064,
+              "output_bytes": 12582912,
+              "saved_tensor_bytes": 4056554496,
+              "allocated_bytes": 19643734528,
+              "reserved_bytes": 26533167104,
+              "step": 0,
+              "microbatch": 2,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_hit",
+              "checkpoint_id": 6,
+              "timestamp": 39890412.40101099,
+              "step": 0,
+              "microbatch": 2,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_consumed",
+              "checkpoint_id": 6,
+              "timestamp": 39890412.40148935,
+              "step": 0,
+              "microbatch": 2,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 6,
+              "timestamp": 39890412.40149939,
+              "cache_lifetime_seconds": 0.17814964801073074,
+              "memory": {
+                "allocated_before": 19620657664,
+                "reserved_before": 26533167104,
+                "allocated_after": 19643734528,
+                "reserved_after": 26533167104,
+                "peak_allocated": 25408517632,
+                "peak_reserved": 26533167104
+              },
+              "step": 0,
+              "microbatch": 2,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 11,
+          "hit": false,
+          "metadata": {
+            "step": 0,
+            "microbatch": 3,
+            "layer_number": 18,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 11,
+              "timestamp": 39890412.269038655,
+              "step": 0,
+              "microbatch": 3,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "fallback",
+              "checkpoint_id": 11,
+              "timestamp": 39890412.44422968,
+              "reason": "no_completed_prefetch",
+              "step": 0,
+              "microbatch": 3,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 11,
+              "timestamp": 39890412.44508006,
+              "cache_lifetime_seconds": 0.0,
+              "memory": {},
+              "step": 0,
+              "microbatch": 3,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 10,
+          "hit": false,
+          "metadata": {
+            "step": 0,
+            "microbatch": 3,
+            "layer_number": 2,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 10,
+              "timestamp": 39890412.2290689,
+              "step": 0,
+              "microbatch": 3,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "fallback",
+              "checkpoint_id": 10,
+              "timestamp": 39890412.47674983,
+              "reason": "no_completed_prefetch",
+              "step": 0,
+              "microbatch": 3,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 10,
+              "timestamp": 39890412.47756229,
+              "cache_lifetime_seconds": 0.0,
+              "memory": {},
+              "step": 0,
+              "microbatch": 3,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 9,
+          "hit": false,
+          "metadata": {
+            "step": 0,
+            "microbatch": 3,
+            "layer_number": 1,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 9,
+              "timestamp": 39890412.22481531,
+              "step": 0,
+              "microbatch": 3,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "fallback",
+              "checkpoint_id": 9,
+              "timestamp": 39890412.47934525,
+              "reason": "no_completed_prefetch",
+              "step": 0,
+              "microbatch": 3,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 9,
+              "timestamp": 39890412.48014583,
+              "cache_lifetime_seconds": 0.0,
+              "memory": {},
+              "step": 0,
+              "microbatch": 3,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 14,
+          "hit": true,
+          "metadata": {
+            "step": 0,
+            "microbatch": 4,
+            "layer_number": 18,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 14,
+              "timestamp": 39890412.5341973,
+              "step": 0,
+              "microbatch": 4,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_start",
+              "checkpoint_id": 14,
+              "timestamp": 39890412.663231336,
+              "trigger_site": "cross_microbatch_forward:5",
+              "step": 0,
+              "microbatch": 4,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_complete",
+              "checkpoint_id": 14,
+              "timestamp": 39890412.6642961,
+              "output_bytes": 12582912,
+              "saved_tensor_bytes": 4056554496,
+              "allocated_bytes": 21957988864,
+              "reserved_bytes": 27158118400,
+              "step": 0,
+              "microbatch": 4,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_hit",
+              "checkpoint_id": 14,
+              "timestamp": 39890412.76224564,
+              "step": 0,
+              "microbatch": 4,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_consumed",
+              "checkpoint_id": 14,
+              "timestamp": 39890412.76271632,
+              "step": 0,
+              "microbatch": 4,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 14,
+              "timestamp": 39890412.7627306,
+              "cache_lifetime_seconds": 0.09948883950710297,
+              "memory": {
+                "allocated_before": 21934912000,
+                "reserved_before": 27158118400,
+                "allocated_after": 21957988864,
+                "reserved_after": 27158118400,
+                "peak_allocated": 25446439936,
+                "peak_reserved": 27158118400
+              },
+              "step": 0,
+              "microbatch": 4,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 13,
+          "hit": true,
+          "metadata": {
+            "step": 0,
+            "microbatch": 4,
+            "layer_number": 2,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 13,
+              "timestamp": 39890412.49459589,
+              "step": 0,
+              "microbatch": 4,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_start",
+              "checkpoint_id": 13,
+              "timestamp": 39890412.62322103,
+              "trigger_site": "cross_microbatch_forward:5",
+              "step": 0,
+              "microbatch": 4,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_complete",
+              "checkpoint_id": 13,
+              "timestamp": 39890412.62458061,
+              "output_bytes": 12582912,
+              "saved_tensor_bytes": 4056554496,
+              "allocated_bytes": 19792011264,
+              "reserved_bytes": 27158118400,
+              "step": 0,
+              "microbatch": 4,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_hit",
+              "checkpoint_id": 13,
+              "timestamp": 39890412.79458356,
+              "step": 0,
+              "microbatch": 4,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_consumed",
+              "checkpoint_id": 13,
+              "timestamp": 39890412.795064546,
+              "step": 0,
+              "microbatch": 4,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 13,
+              "timestamp": 39890412.79507723,
+              "cache_lifetime_seconds": 0.1718466579914093,
+              "memory": {
+                "allocated_before": 19768934400,
+                "reserved_before": 27158118400,
+                "allocated_after": 19792011264,
+                "reserved_after": 27158118400,
+                "peak_allocated": 25446439936,
+                "peak_reserved": 27158118400
+              },
+              "step": 0,
+              "microbatch": 4,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 12,
+          "hit": true,
+          "metadata": {
+            "step": 0,
+            "microbatch": 4,
+            "layer_number": 1,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 12,
+              "timestamp": 39890412.486124106,
+              "step": 0,
+              "microbatch": 4,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_start",
+              "checkpoint_id": 12,
+              "timestamp": 39890412.61895431,
+              "trigger_site": "cross_microbatch_forward:5",
+              "step": 0,
+              "microbatch": 4,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_complete",
+              "checkpoint_id": 12,
+              "timestamp": 39890412.620097205,
+              "output_bytes": 12582912,
+              "saved_tensor_bytes": 4056554496,
+              "allocated_bytes": 19644898816,
+              "reserved_bytes": 27158118400,
+              "step": 0,
+              "microbatch": 4,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_hit",
+              "checkpoint_id": 12,
+              "timestamp": 39890412.79692384,
+              "step": 0,
+              "microbatch": 4,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_consumed",
+              "checkpoint_id": 12,
+              "timestamp": 39890412.79737803,
+              "step": 0,
+              "microbatch": 4,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 12,
+              "timestamp": 39890412.79738777,
+              "cache_lifetime_seconds": 0.17842479050159454,
+              "memory": {
+                "allocated_before": 19621821952,
+                "reserved_before": 27158118400,
+                "allocated_after": 19644898816,
+                "reserved_after": 27158118400,
+                "peak_allocated": 25446439936,
+                "peak_reserved": 27158118400
+              },
+              "step": 0,
+              "microbatch": 4,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 17,
+          "hit": false,
+          "metadata": {
+            "step": 0,
+            "microbatch": 5,
+            "layer_number": 18,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 17,
+              "timestamp": 39890412.66460147,
+              "step": 0,
+              "microbatch": 5,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "fallback",
+              "checkpoint_id": 17,
+              "timestamp": 39890412.84034181,
+              "reason": "no_completed_prefetch",
+              "step": 0,
+              "microbatch": 5,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 17,
+              "timestamp": 39890412.8412016,
+              "cache_lifetime_seconds": 0.0,
+              "memory": {},
+              "step": 0,
+              "microbatch": 5,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 16,
+          "hit": false,
+          "metadata": {
+            "step": 0,
+            "microbatch": 5,
+            "layer_number": 2,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 16,
+              "timestamp": 39890412.62488099,
+              "step": 0,
+              "microbatch": 5,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "fallback",
+              "checkpoint_id": 16,
+              "timestamp": 39890412.87299028,
+              "reason": "no_completed_prefetch",
+              "step": 0,
+              "microbatch": 5,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 16,
+              "timestamp": 39890412.8738544,
+              "cache_lifetime_seconds": 0.0,
+              "memory": {},
+              "step": 0,
+              "microbatch": 5,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 15,
+          "hit": false,
+          "metadata": {
+            "step": 0,
+            "microbatch": 5,
+            "layer_number": 1,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 15,
+              "timestamp": 39890412.620445006,
+              "step": 0,
+              "microbatch": 5,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "fallback",
+              "checkpoint_id": 15,
+              "timestamp": 39890412.87566894,
+              "reason": "no_completed_prefetch",
+              "step": 0,
+              "microbatch": 5,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 15,
+              "timestamp": 39890412.87645886,
+              "cache_lifetime_seconds": 0.0,
+              "memory": {},
+              "step": 0,
+              "microbatch": 5,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 20,
+          "hit": false,
+          "metadata": {
+            "step": 0,
+            "microbatch": 6,
+            "layer_number": 18,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 20,
+              "timestamp": 39890412.93084195,
+              "step": 0,
+              "microbatch": 6,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "fallback",
+              "checkpoint_id": 20,
+              "timestamp": 39890413.0165373,
+              "reason": "no_completed_prefetch",
+              "step": 0,
+              "microbatch": 6,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 20,
+              "timestamp": 39890413.017338686,
+              "cache_lifetime_seconds": 0.0,
+              "memory": {},
+              "step": 0,
+              "microbatch": 6,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 19,
+          "hit": false,
+          "metadata": {
+            "step": 0,
+            "microbatch": 6,
+            "layer_number": 2,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 19,
+              "timestamp": 39890412.89121176,
+              "step": 0,
+              "microbatch": 6,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "fallback",
+              "checkpoint_id": 19,
+              "timestamp": 39890413.048812725,
+              "reason": "no_completed_prefetch",
+              "step": 0,
+              "microbatch": 6,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 19,
+              "timestamp": 39890413.049601465,
+              "cache_lifetime_seconds": 0.0,
+              "memory": {},
+              "step": 0,
+              "microbatch": 6,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 18,
+          "hit": false,
+          "metadata": {
+            "step": 0,
+            "microbatch": 6,
+            "layer_number": 1,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 18,
+              "timestamp": 39890412.8827063,
+              "step": 0,
+              "microbatch": 6,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "fallback",
+              "checkpoint_id": 18,
+              "timestamp": 39890413.05140129,
+              "reason": "no_completed_prefetch",
+              "step": 0,
+              "microbatch": 6,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 18,
+              "timestamp": 39890413.05221586,
+              "cache_lifetime_seconds": 0.0,
+              "memory": {},
+              "step": 0,
+              "microbatch": 6,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 23,
+          "hit": false,
+          "metadata": {
+            "step": 0,
+            "microbatch": 7,
+            "layer_number": 18,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 23,
+              "timestamp": 39890413.10078939,
+              "step": 0,
+              "microbatch": 7,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "fallback",
+              "checkpoint_id": 23,
+              "timestamp": 39890413.18710568,
+              "reason": "no_completed_prefetch",
+              "step": 0,
+              "microbatch": 7,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 23,
+              "timestamp": 39890413.187894195,
+              "cache_lifetime_seconds": 0.0,
+              "memory": {},
+              "step": 0,
+              "microbatch": 7,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 22,
+          "hit": false,
+          "metadata": {
+            "step": 0,
+            "microbatch": 7,
+            "layer_number": 2,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 22,
+              "timestamp": 39890413.059912205,
+              "step": 0,
+              "microbatch": 7,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "fallback",
+              "checkpoint_id": 22,
+              "timestamp": 39890413.219450004,
+              "reason": "no_completed_prefetch",
+              "step": 0,
+              "microbatch": 7,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 22,
+              "timestamp": 39890413.22031535,
+              "cache_lifetime_seconds": 0.0,
+              "memory": {},
+              "step": 0,
+              "microbatch": 7,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 21,
+          "hit": false,
+          "metadata": {
+            "step": 0,
+            "microbatch": 7,
+            "layer_number": 1,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 21,
+              "timestamp": 39890413.05607969,
+              "step": 0,
+              "microbatch": 7,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "fallback",
+              "checkpoint_id": 21,
+              "timestamp": 39890413.22212802,
+              "reason": "no_completed_prefetch",
+              "step": 0,
+              "microbatch": 7,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 21,
+              "timestamp": 39890413.22290019,
+              "cache_lifetime_seconds": 0.0,
+              "memory": {},
+              "step": 0,
+              "microbatch": 7,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        }
+      ],
+      "sync": [
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        }
+      ],
+      "max_cached": 3,
+      "reduce_scatter": [
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        }
+      ],
+      "cpu_step_ms": 15108.394265174866,
+      "allocated": 25448128512,
+      "reserved": 27780972544,
+      "qkv_calls": 312,
+      "calls": {
+        "('forward', 0)": 36,
+        "('prefetch', 0)": 3,
+        "('forward', 1)": 36,
+        "('backward', 1)": 3,
+        "('forward', 2)": 36,
+        "('prefetch', 2)": 3,
+        "('forward', 3)": 36,
+        "('backward', 3)": 3,
+        "('forward', 4)": 36,
+        "('prefetch', 4)": 3,
+        "('forward', 5)": 36,
+        "('backward', 5)": 3,
+        "('forward', 6)": 36,
+        "('backward', 6)": 3,
+        "('forward', 7)": 36,
+        "('backward', 7)": 3
+      },
+      "losses": {
+        "lm loss": 9.929666519165039
+      }
+    },
+    {
+      "iteration": 1,
+      "backwards": 8,
+      "released": 24,
+      "hits": 10,
+      "checkpoints": [
+        {
+          "id": 26,
+          "hit": true,
+          "metadata": {
+            "step": 1,
+            "microbatch": 0,
+            "layer_number": 18,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 26,
+              "timestamp": 39890424.175794505,
+              "step": 1,
+              "microbatch": 0,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_start",
+              "checkpoint_id": 26,
+              "timestamp": 39890424.28363606,
+              "trigger_site": "cross_microbatch_forward:1",
+              "step": 1,
+              "microbatch": 0,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_complete",
+              "checkpoint_id": 26,
+              "timestamp": 39890424.284664296,
+              "output_bytes": 12582912,
+              "saved_tensor_bytes": 4056554496,
+              "allocated_bytes": 25980130304,
+              "reserved_bytes": 27780972544,
+              "step": 1,
+              "microbatch": 0,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_hit",
+              "checkpoint_id": 26,
+              "timestamp": 39890424.40241463,
+              "step": 1,
+              "microbatch": 0,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_consumed",
+              "checkpoint_id": 26,
+              "timestamp": 39890424.40289046,
+              "step": 1,
+              "microbatch": 0,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 26,
+              "timestamp": 39890424.40290767,
+              "cache_lifetime_seconds": 0.11926105618476868,
+              "memory": {
+                "allocated_before": 25957053440,
+                "reserved_before": 27780972544,
+                "allocated_after": 25980130304,
+                "reserved_after": 27780972544,
+                "peak_allocated": 25980130304,
+                "peak_reserved": 27780972544
+              },
+              "step": 1,
+              "microbatch": 0,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 25,
+          "hit": true,
+          "metadata": {
+            "step": 1,
+            "microbatch": 0,
+            "layer_number": 2,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 25,
+              "timestamp": 39890424.13332728,
+              "step": 1,
+              "microbatch": 0,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_start",
+              "checkpoint_id": 25,
+              "timestamp": 39890424.24179968,
+              "trigger_site": "cross_microbatch_forward:1",
+              "step": 1,
+              "microbatch": 0,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_complete",
+              "checkpoint_id": 25,
+              "timestamp": 39890424.243196175,
+              "output_bytes": 12582912,
+              "saved_tensor_bytes": 4056554496,
+              "allocated_bytes": 23815074816,
+              "reserved_bytes": 27780972544,
+              "step": 1,
+              "microbatch": 0,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_hit",
+              "checkpoint_id": 25,
+              "timestamp": 39890424.43475374,
+              "step": 1,
+              "microbatch": 0,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_consumed",
+              "checkpoint_id": 25,
+              "timestamp": 39890424.43522736,
+              "step": 1,
+              "microbatch": 0,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 25,
+              "timestamp": 39890424.43524003,
+              "cache_lifetime_seconds": 0.1934303194284439,
+              "memory": {
+                "allocated_before": 23791997952,
+                "reserved_before": 27780972544,
+                "allocated_after": 23815074816,
+                "reserved_after": 27780972544,
+                "peak_allocated": 23945789952,
+                "peak_reserved": 27780972544
+              },
+              "step": 1,
+              "microbatch": 0,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 24,
+          "hit": true,
+          "metadata": {
+            "step": 1,
+            "microbatch": 0,
+            "layer_number": 1,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 24,
+              "timestamp": 39890424.129553966,
+              "step": 1,
+              "microbatch": 0,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_start",
+              "checkpoint_id": 24,
+              "timestamp": 39890424.236163326,
+              "trigger_site": "cross_microbatch_forward:1",
+              "step": 1,
+              "microbatch": 0,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_complete",
+              "checkpoint_id": 24,
+              "timestamp": 39890424.23740855,
+              "output_bytes": 12582912,
+              "saved_tensor_bytes": 4056554496,
+              "allocated_bytes": 23667962368,
+              "reserved_bytes": 27780972544,
+              "step": 1,
+              "microbatch": 0,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_hit",
+              "checkpoint_id": 24,
+              "timestamp": 39890424.43707231,
+              "step": 1,
+              "microbatch": 0,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_consumed",
+              "checkpoint_id": 24,
+              "timestamp": 39890424.437554725,
+              "step": 1,
+              "microbatch": 0,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 24,
+              "timestamp": 39890424.43756643,
+              "cache_lifetime_seconds": 0.20139344781637192,
+              "memory": {
+                "allocated_before": 23644885504,
+                "reserved_before": 27780972544,
+                "allocated_after": 23667962368,
+                "reserved_after": 27780972544,
+                "peak_allocated": 23945789952,
+                "peak_reserved": 27780972544
+              },
+              "step": 1,
+              "microbatch": 0,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 29,
+          "hit": false,
+          "metadata": {
+            "step": 1,
+            "microbatch": 1,
+            "layer_number": 18,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 29,
+              "timestamp": 39890424.28497519,
+              "step": 1,
+              "microbatch": 1,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "fallback",
+              "checkpoint_id": 29,
+              "timestamp": 39890424.479495555,
+              "reason": "no_completed_prefetch",
+              "step": 1,
+              "microbatch": 1,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 29,
+              "timestamp": 39890424.480361655,
+              "cache_lifetime_seconds": 0.0,
+              "memory": {},
+              "step": 1,
+              "microbatch": 1,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 28,
+          "hit": false,
+          "metadata": {
+            "step": 1,
+            "microbatch": 1,
+            "layer_number": 2,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 28,
+              "timestamp": 39890424.243565984,
+              "step": 1,
+              "microbatch": 1,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "fallback",
+              "checkpoint_id": 28,
+              "timestamp": 39890424.51185649,
+              "reason": "no_completed_prefetch",
+              "step": 1,
+              "microbatch": 1,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 28,
+              "timestamp": 39890424.512710854,
+              "cache_lifetime_seconds": 0.0,
+              "memory": {},
+              "step": 1,
+              "microbatch": 1,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 27,
+          "hit": false,
+          "metadata": {
+            "step": 1,
+            "microbatch": 1,
+            "layer_number": 1,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 27,
+              "timestamp": 39890424.23793054,
+              "step": 1,
+              "microbatch": 1,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "fallback",
+              "checkpoint_id": 27,
+              "timestamp": 39890424.514517255,
+              "reason": "no_completed_prefetch",
+              "step": 1,
+              "microbatch": 1,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 27,
+              "timestamp": 39890424.51528229,
+              "cache_lifetime_seconds": 0.0,
+              "memory": {},
+              "step": 1,
+              "microbatch": 1,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 32,
+          "hit": true,
+          "metadata": {
+            "step": 1,
+            "microbatch": 2,
+            "layer_number": 18,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 32,
+              "timestamp": 39890424.57533017,
+              "step": 1,
+              "microbatch": 2,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_start",
+              "checkpoint_id": 32,
+              "timestamp": 39890424.69975368,
+              "trigger_site": "cross_microbatch_forward:3",
+              "step": 1,
+              "microbatch": 2,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_complete",
+              "checkpoint_id": 32,
+              "timestamp": 39890424.70080415,
+              "output_bytes": 12582912,
+              "saved_tensor_bytes": 4056554496,
+              "allocated_bytes": 25986275328,
+              "reserved_bytes": 30278680576,
+              "step": 1,
+              "microbatch": 2,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_hit",
+              "checkpoint_id": 32,
+              "timestamp": 39890424.803161904,
+              "step": 1,
+              "microbatch": 2,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_consumed",
+              "checkpoint_id": 32,
+              "timestamp": 39890424.80364845,
+              "step": 1,
+              "microbatch": 2,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 32,
+              "timestamp": 39890424.80366276,
+              "cache_lifetime_seconds": 0.10389922559261322,
+              "memory": {
+                "allocated_before": 25963198464,
+                "reserved_before": 30278680576,
+                "allocated_after": 25986275328,
+                "reserved_after": 30278680576,
+                "peak_allocated": 29471580672,
+                "peak_reserved": 30278680576
+              },
+              "step": 1,
+              "microbatch": 2,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 31,
+          "hit": true,
+          "metadata": {
+            "step": 1,
+            "microbatch": 2,
+            "layer_number": 2,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 31,
+              "timestamp": 39890424.53195126,
+              "step": 1,
+              "microbatch": 2,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_start",
+              "checkpoint_id": 31,
+              "timestamp": 39890424.65853092,
+              "trigger_site": "cross_microbatch_forward:3",
+              "step": 1,
+              "microbatch": 2,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_complete",
+              "checkpoint_id": 31,
+              "timestamp": 39890424.659617834,
+              "output_bytes": 12582912,
+              "saved_tensor_bytes": 4056554496,
+              "allocated_bytes": 23819838976,
+              "reserved_bytes": 30278680576,
+              "step": 1,
+              "microbatch": 2,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_hit",
+              "checkpoint_id": 31,
+              "timestamp": 39890424.83563128,
+              "step": 1,
+              "microbatch": 2,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_consumed",
+              "checkpoint_id": 31,
+              "timestamp": 39890424.836100146,
+              "step": 1,
+              "microbatch": 2,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 31,
+              "timestamp": 39890424.83611504,
+              "cache_lifetime_seconds": 0.17757190018892288,
+              "memory": {
+                "allocated_before": 23796762112,
+                "reserved_before": 30278680576,
+                "allocated_after": 23819838976,
+                "reserved_after": 30278680576,
+                "peak_allocated": 29471580672,
+                "peak_reserved": 30278680576
+              },
+              "step": 1,
+              "microbatch": 2,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 30,
+          "hit": true,
+          "metadata": {
+            "step": 1,
+            "microbatch": 2,
+            "layer_number": 1,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 30,
+              "timestamp": 39890424.523171045,
+              "step": 1,
+              "microbatch": 2,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_start",
+              "checkpoint_id": 30,
+              "timestamp": 39890424.6533788,
+              "trigger_site": "cross_microbatch_forward:3",
+              "step": 1,
+              "microbatch": 2,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_complete",
+              "checkpoint_id": 30,
+              "timestamp": 39890424.65450362,
+              "output_bytes": 12582912,
+              "saved_tensor_bytes": 4056554496,
+              "allocated_bytes": 23672726528,
+              "reserved_bytes": 30278680576,
+              "step": 1,
+              "microbatch": 2,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_hit",
+              "checkpoint_id": 30,
+              "timestamp": 39890424.837922335,
+              "step": 1,
+              "microbatch": 2,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_consumed",
+              "checkpoint_id": 30,
+              "timestamp": 39890424.83836815,
+              "step": 1,
+              "microbatch": 2,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 30,
+              "timestamp": 39890424.83837918,
+              "cache_lifetime_seconds": 0.1849903017282486,
+              "memory": {
+                "allocated_before": 23649649664,
+                "reserved_before": 30278680576,
+                "allocated_after": 23672726528,
+                "reserved_after": 30278680576,
+                "peak_allocated": 29471580672,
+                "peak_reserved": 30278680576
+              },
+              "step": 1,
+              "microbatch": 2,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 35,
+          "hit": false,
+          "metadata": {
+            "step": 1,
+            "microbatch": 3,
+            "layer_number": 18,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 35,
+              "timestamp": 39890424.70110567,
+              "step": 1,
+              "microbatch": 3,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "fallback",
+              "checkpoint_id": 35,
+              "timestamp": 39890424.87926769,
+              "reason": "no_completed_prefetch",
+              "step": 1,
+              "microbatch": 3,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 35,
+              "timestamp": 39890424.88010144,
+              "cache_lifetime_seconds": 0.0,
+              "memory": {},
+              "step": 1,
+              "microbatch": 3,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 34,
+          "hit": false,
+          "metadata": {
+            "step": 1,
+            "microbatch": 3,
+            "layer_number": 2,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 34,
+              "timestamp": 39890424.659986064,
+              "step": 1,
+              "microbatch": 3,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "fallback",
+              "checkpoint_id": 34,
+              "timestamp": 39890424.915025614,
+              "reason": "no_completed_prefetch",
+              "step": 1,
+              "microbatch": 3,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 34,
+              "timestamp": 39890424.91586227,
+              "cache_lifetime_seconds": 0.0,
+              "memory": {},
+              "step": 1,
+              "microbatch": 3,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 33,
+          "hit": false,
+          "metadata": {
+            "step": 1,
+            "microbatch": 3,
+            "layer_number": 1,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 33,
+              "timestamp": 39890424.65481427,
+              "step": 1,
+              "microbatch": 3,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "fallback",
+              "checkpoint_id": 33,
+              "timestamp": 39890424.91767591,
+              "reason": "no_completed_prefetch",
+              "step": 1,
+              "microbatch": 3,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 33,
+              "timestamp": 39890424.91846373,
+              "cache_lifetime_seconds": 0.0,
+              "memory": {},
+              "step": 1,
+              "microbatch": 3,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 38,
+          "hit": true,
+          "metadata": {
+            "step": 1,
+            "microbatch": 4,
+            "layer_number": 18,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 38,
+              "timestamp": 39890424.97235926,
+              "step": 1,
+              "microbatch": 4,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_start",
+              "checkpoint_id": 38,
+              "timestamp": 39890425.099855036,
+              "trigger_site": "cross_microbatch_forward:5",
+              "step": 1,
+              "microbatch": 4,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_complete",
+              "checkpoint_id": 38,
+              "timestamp": 39890425.10091074,
+              "output_bytes": 12582912,
+              "saved_tensor_bytes": 4056554496,
+              "allocated_bytes": 25981672448,
+              "reserved_bytes": 30591156224,
+              "step": 1,
+              "microbatch": 4,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_hit",
+              "checkpoint_id": 38,
+              "timestamp": 39890425.206229225,
+              "step": 1,
+              "microbatch": 4,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_consumed",
+              "checkpoint_id": 38,
+              "timestamp": 39890425.206692286,
+              "step": 1,
+              "microbatch": 4,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 38,
+              "timestamp": 39890425.20670635,
+              "cache_lifetime_seconds": 0.10684113204479218,
+              "memory": {
+                "allocated_before": 25958595584,
+                "reserved_before": 30591156224,
+                "allocated_after": 25981672448,
+                "reserved_after": 30591156224,
+                "peak_allocated": 29477201408,
+                "peak_reserved": 30591156224
+              },
+              "step": 1,
+              "microbatch": 4,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 37,
+          "hit": true,
+          "metadata": {
+            "step": 1,
+            "microbatch": 4,
+            "layer_number": 2,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 37,
+              "timestamp": 39890424.93111212,
+              "step": 1,
+              "microbatch": 4,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_start",
+              "checkpoint_id": 37,
+              "timestamp": 39890425.05907228,
+              "trigger_site": "cross_microbatch_forward:5",
+              "step": 1,
+              "microbatch": 4,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_complete",
+              "checkpoint_id": 37,
+              "timestamp": 39890425.06016441,
+              "output_bytes": 12582912,
+              "saved_tensor_bytes": 4056554496,
+              "allocated_bytes": 23816616960,
+              "reserved_bytes": 30591156224,
+              "step": 1,
+              "microbatch": 4,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_hit",
+              "checkpoint_id": 37,
+              "timestamp": 39890425.23835501,
+              "step": 1,
+              "microbatch": 4,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_consumed",
+              "checkpoint_id": 37,
+              "timestamp": 39890425.23881522,
+              "step": 1,
+              "microbatch": 4,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 37,
+              "timestamp": 39890425.23882797,
+              "cache_lifetime_seconds": 0.17974627763032913,
+              "memory": {
+                "allocated_before": 23793540096,
+                "reserved_before": 30591156224,
+                "allocated_after": 23816616960,
+                "reserved_after": 30591156224,
+                "peak_allocated": 29477201408,
+                "peak_reserved": 30591156224
+              },
+              "step": 1,
+              "microbatch": 4,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 36,
+          "hit": true,
+          "metadata": {
+            "step": 1,
+            "microbatch": 4,
+            "layer_number": 1,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 36,
+              "timestamp": 39890424.925647505,
+              "step": 1,
+              "microbatch": 4,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_start",
+              "checkpoint_id": 36,
+              "timestamp": 39890425.05369236,
+              "trigger_site": "cross_microbatch_forward:5",
+              "step": 1,
+              "microbatch": 4,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_complete",
+              "checkpoint_id": 36,
+              "timestamp": 39890425.054820776,
+              "output_bytes": 12582912,
+              "saved_tensor_bytes": 4056554496,
+              "allocated_bytes": 23669504512,
+              "reserved_bytes": 30591156224,
+              "step": 1,
+              "microbatch": 4,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_hit",
+              "checkpoint_id": 36,
+              "timestamp": 39890425.240641534,
+              "step": 1,
+              "microbatch": 4,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_consumed",
+              "checkpoint_id": 36,
+              "timestamp": 39890425.2410882,
+              "step": 1,
+              "microbatch": 4,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 36,
+              "timestamp": 39890425.24109915,
+              "cache_lifetime_seconds": 0.1873975619673729,
+              "memory": {
+                "allocated_before": 23646427648,
+                "reserved_before": 30591156224,
+                "allocated_after": 23669504512,
+                "reserved_after": 30591156224,
+                "peak_allocated": 29477201408,
+                "peak_reserved": 30591156224
+              },
+              "step": 1,
+              "microbatch": 4,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 41,
+          "hit": false,
+          "metadata": {
+            "step": 1,
+            "microbatch": 5,
+            "layer_number": 18,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 41,
+              "timestamp": 39890425.10121445,
+              "step": 1,
+              "microbatch": 5,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "fallback",
+              "checkpoint_id": 41,
+              "timestamp": 39890425.28153898,
+              "reason": "no_completed_prefetch",
+              "step": 1,
+              "microbatch": 5,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 41,
+              "timestamp": 39890425.28236687,
+              "cache_lifetime_seconds": 0.0,
+              "memory": {},
+              "step": 1,
+              "microbatch": 5,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 40,
+          "hit": false,
+          "metadata": {
+            "step": 1,
+            "microbatch": 5,
+            "layer_number": 2,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 40,
+              "timestamp": 39890425.060507245,
+              "step": 1,
+              "microbatch": 5,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "fallback",
+              "checkpoint_id": 40,
+              "timestamp": 39890425.313985035,
+              "reason": "no_completed_prefetch",
+              "step": 1,
+              "microbatch": 5,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 40,
+              "timestamp": 39890425.31482155,
+              "cache_lifetime_seconds": 0.0,
+              "memory": {},
+              "step": 1,
+              "microbatch": 5,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 39,
+          "hit": false,
+          "metadata": {
+            "step": 1,
+            "microbatch": 5,
+            "layer_number": 1,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 39,
+              "timestamp": 39890425.055319995,
+              "step": 1,
+              "microbatch": 5,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "fallback",
+              "checkpoint_id": 39,
+              "timestamp": 39890425.3166226,
+              "reason": "no_completed_prefetch",
+              "step": 1,
+              "microbatch": 5,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 39,
+              "timestamp": 39890425.3174125,
+              "cache_lifetime_seconds": 0.0,
+              "memory": {},
+              "step": 1,
+              "microbatch": 5,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 44,
+          "hit": false,
+          "metadata": {
+            "step": 1,
+            "microbatch": 6,
+            "layer_number": 18,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 44,
+              "timestamp": 39890425.38082923,
+              "step": 1,
+              "microbatch": 6,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "fallback",
+              "checkpoint_id": 44,
+              "timestamp": 39890425.5024981,
+              "reason": "no_completed_prefetch",
+              "step": 1,
+              "microbatch": 6,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 44,
+              "timestamp": 39890425.50330678,
+              "cache_lifetime_seconds": 0.0,
+              "memory": {},
+              "step": 1,
+              "microbatch": 6,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 43,
+          "hit": false,
+          "metadata": {
+            "step": 1,
+            "microbatch": 6,
+            "layer_number": 2,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 43,
+              "timestamp": 39890425.333708584,
+              "step": 1,
+              "microbatch": 6,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "fallback",
+              "checkpoint_id": 43,
+              "timestamp": 39890425.53490811,
+              "reason": "no_completed_prefetch",
+              "step": 1,
+              "microbatch": 6,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 43,
+              "timestamp": 39890425.535712026,
+              "cache_lifetime_seconds": 0.0,
+              "memory": {},
+              "step": 1,
+              "microbatch": 6,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 42,
+          "hit": false,
+          "metadata": {
+            "step": 1,
+            "microbatch": 6,
+            "layer_number": 1,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 42,
+              "timestamp": 39890425.32414274,
+              "step": 1,
+              "microbatch": 6,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "fallback",
+              "checkpoint_id": 42,
+              "timestamp": 39890425.537527286,
+              "reason": "no_completed_prefetch",
+              "step": 1,
+              "microbatch": 6,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 42,
+              "timestamp": 39890425.53826616,
+              "cache_lifetime_seconds": 0.0,
+              "memory": {},
+              "step": 1,
+              "microbatch": 6,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 47,
+          "hit": false,
+          "metadata": {
+            "step": 1,
+            "microbatch": 7,
+            "layer_number": 18,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 47,
+              "timestamp": 39890425.59217605,
+              "step": 1,
+              "microbatch": 7,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "fallback",
+              "checkpoint_id": 47,
+              "timestamp": 39890425.759743705,
+              "reason": "no_completed_prefetch",
+              "step": 1,
+              "microbatch": 7,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 47,
+              "timestamp": 39890425.76058143,
+              "cache_lifetime_seconds": 0.0,
+              "memory": {},
+              "step": 1,
+              "microbatch": 7,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 46,
+          "hit": false,
+          "metadata": {
+            "step": 1,
+            "microbatch": 7,
+            "layer_number": 2,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 46,
+              "timestamp": 39890425.552361175,
+              "step": 1,
+              "microbatch": 7,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "fallback",
+              "checkpoint_id": 46,
+              "timestamp": 39890425.82079066,
+              "reason": "no_completed_prefetch",
+              "step": 1,
+              "microbatch": 7,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 46,
+              "timestamp": 39890425.82159592,
+              "cache_lifetime_seconds": 0.0,
+              "memory": {},
+              "step": 1,
+              "microbatch": 7,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 45,
+          "hit": true,
+          "metadata": {
+            "step": 1,
+            "microbatch": 7,
+            "layer_number": 1,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 45,
+              "timestamp": 39890425.54641084,
+              "step": 1,
+              "microbatch": 7,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_start",
+              "checkpoint_id": 45,
+              "timestamp": 39890425.65950029,
+              "trigger_site": "p10_first_dp_bucket",
+              "step": 1,
+              "microbatch": 7,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_complete",
+              "checkpoint_id": 45,
+              "timestamp": 39890425.6612372,
+              "output_bytes": 12582912,
+              "saved_tensor_bytes": 12582912,
+              "allocated_bytes": 23297895424,
+              "reserved_bytes": 30618419200,
+              "step": 1,
+              "microbatch": 7,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_hit",
+              "checkpoint_id": 45,
+              "timestamp": 39890425.82480982,
+              "step": 1,
+              "microbatch": 7,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_consumed",
+              "checkpoint_id": 45,
+              "timestamp": 39890425.82714165,
+              "step": 1,
+              "microbatch": 7,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 45,
+              "timestamp": 39890425.82715304,
+              "cache_lifetime_seconds": 0.16764385998249054,
+              "memory": {
+                "allocated_before": 23274818560,
+                "reserved_before": 30593253376,
+                "allocated_after": 23297895424,
+                "reserved_after": 30618419200,
+                "peak_allocated": 29477201408,
+                "peak_reserved": 30618419200
+              },
+              "step": 1,
+              "microbatch": 7,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        }
+      ],
+      "sync": [
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        }
+      ],
+      "max_cached": 3,
+      "reduce_scatter": [
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        }
+      ],
+      "target_id": 45,
+      "target_allocated_delta": 23076864,
+      "target_consumed": true,
+      "cpu_step_ms": 7188.67851793766,
+      "allocated": 29477201408,
+      "reserved": 30649876480,
+      "qkv_calls": 312,
+      "calls": {
+        "('forward', 0)": 36,
+        "('prefetch', 0)": 3,
+        "('forward', 1)": 36,
+        "('backward', 1)": 3,
+        "('forward', 2)": 36,
+        "('prefetch', 2)": 3,
+        "('forward', 3)": 36,
+        "('backward', 3)": 3,
+        "('forward', 4)": 36,
+        "('prefetch', 4)": 3,
+        "('forward', 5)": 36,
+        "('backward', 5)": 3,
+        "('forward', 6)": 36,
+        "('backward', 6)": 3,
+        "('forward', 7)": 36,
+        "('prefetch', 7)": 1,
+        "('backward', 7)": 2
+      },
+      "losses": {
+        "lm loss": 9.705361366271973
+      }
+    },
+    {
+      "iteration": 2,
+      "backwards": 8,
+      "released": 24,
+      "hits": 10,
+      "checkpoints": [
+        {
+          "id": 50,
+          "hit": true,
+          "metadata": {
+            "step": 2,
+            "microbatch": 0,
+            "layer_number": 18,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 50,
+              "timestamp": 39890431.36645852,
+              "step": 2,
+              "microbatch": 0,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_start",
+              "checkpoint_id": 50,
+              "timestamp": 39890431.47500624,
+              "trigger_site": "cross_microbatch_forward:1",
+              "step": 2,
+              "microbatch": 0,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_complete",
+              "checkpoint_id": 50,
+              "timestamp": 39890431.476027235,
+              "output_bytes": 12582912,
+              "saved_tensor_bytes": 4056554496,
+              "allocated_bytes": 25980130304,
+              "reserved_bytes": 30649876480,
+              "step": 2,
+              "microbatch": 0,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_hit",
+              "checkpoint_id": 50,
+              "timestamp": 39890431.57860599,
+              "step": 2,
+              "microbatch": 0,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_consumed",
+              "checkpoint_id": 50,
+              "timestamp": 39890431.57907199,
+              "step": 2,
+              "microbatch": 0,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 50,
+              "timestamp": 39890431.579084806,
+              "cache_lifetime_seconds": 0.10406848043203354,
+              "memory": {
+                "allocated_before": 25957053440,
+                "reserved_before": 30649876480,
+                "allocated_after": 25980130304,
+                "reserved_after": 30649876480,
+                "peak_allocated": 25980130304,
+                "peak_reserved": 30649876480
+              },
+              "step": 2,
+              "microbatch": 0,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 49,
+          "hit": true,
+          "metadata": {
+            "step": 2,
+            "microbatch": 0,
+            "layer_number": 2,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 49,
+              "timestamp": 39890431.32412021,
+              "step": 2,
+              "microbatch": 0,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_start",
+              "checkpoint_id": 49,
+              "timestamp": 39890431.428556494,
+              "trigger_site": "cross_microbatch_forward:1",
+              "step": 2,
+              "microbatch": 0,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_complete",
+              "checkpoint_id": 49,
+              "timestamp": 39890431.4296132,
+              "output_bytes": 12582912,
+              "saved_tensor_bytes": 4056554496,
+              "allocated_bytes": 23815074816,
+              "reserved_bytes": 30649876480,
+              "step": 2,
+              "microbatch": 0,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_hit",
+              "checkpoint_id": 49,
+              "timestamp": 39890431.61076198,
+              "step": 2,
+              "microbatch": 0,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_consumed",
+              "checkpoint_id": 49,
+              "timestamp": 39890431.6112245,
+              "step": 2,
+              "microbatch": 0,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 49,
+              "timestamp": 39890431.61123682,
+              "cache_lifetime_seconds": 0.18267112225294113,
+              "memory": {
+                "allocated_before": 23791997952,
+                "reserved_before": 30649876480,
+                "allocated_after": 23815074816,
+                "reserved_after": 30649876480,
+                "peak_allocated": 23945789952,
+                "peak_reserved": 30649876480
+              },
+              "step": 2,
+              "microbatch": 0,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 48,
+          "hit": true,
+          "metadata": {
+            "step": 2,
+            "microbatch": 0,
+            "layer_number": 1,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 48,
+              "timestamp": 39890431.3205625,
+              "step": 2,
+              "microbatch": 0,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_start",
+              "checkpoint_id": 48,
+              "timestamp": 39890431.42373515,
+              "trigger_site": "cross_microbatch_forward:1",
+              "step": 2,
+              "microbatch": 0,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_complete",
+              "checkpoint_id": 48,
+              "timestamp": 39890431.42487143,
+              "output_bytes": 12582912,
+              "saved_tensor_bytes": 4056554496,
+              "allocated_bytes": 23667962368,
+              "reserved_bytes": 30649876480,
+              "step": 2,
+              "microbatch": 0,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_hit",
+              "checkpoint_id": 48,
+              "timestamp": 39890431.61305042,
+              "step": 2,
+              "microbatch": 0,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_consumed",
+              "checkpoint_id": 48,
+              "timestamp": 39890431.61351094,
+              "step": 2,
+              "microbatch": 0,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 48,
+              "timestamp": 39890431.61352123,
+              "cache_lifetime_seconds": 0.1897774636745453,
+              "memory": {
+                "allocated_before": 23644885504,
+                "reserved_before": 30649876480,
+                "allocated_after": 23667962368,
+                "reserved_after": 30649876480,
+                "peak_allocated": 23945789952,
+                "peak_reserved": 30649876480
+              },
+              "step": 2,
+              "microbatch": 0,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 53,
+          "hit": false,
+          "metadata": {
+            "step": 2,
+            "microbatch": 1,
+            "layer_number": 18,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 53,
+              "timestamp": 39890431.47634025,
+              "step": 2,
+              "microbatch": 1,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "fallback",
+              "checkpoint_id": 53,
+              "timestamp": 39890431.65935235,
+              "reason": "no_completed_prefetch",
+              "step": 2,
+              "microbatch": 1,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 53,
+              "timestamp": 39890431.66021772,
+              "cache_lifetime_seconds": 0.0,
+              "memory": {},
+              "step": 2,
+              "microbatch": 1,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 52,
+          "hit": false,
+          "metadata": {
+            "step": 2,
+            "microbatch": 1,
+            "layer_number": 2,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 52,
+              "timestamp": 39890431.429965384,
+              "step": 2,
+              "microbatch": 1,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "fallback",
+              "checkpoint_id": 52,
+              "timestamp": 39890431.691830896,
+              "reason": "no_completed_prefetch",
+              "step": 2,
+              "microbatch": 1,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 52,
+              "timestamp": 39890431.692681395,
+              "cache_lifetime_seconds": 0.0,
+              "memory": {},
+              "step": 2,
+              "microbatch": 1,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 51,
+          "hit": false,
+          "metadata": {
+            "step": 2,
+            "microbatch": 1,
+            "layer_number": 1,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 51,
+              "timestamp": 39890431.42518306,
+              "step": 2,
+              "microbatch": 1,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "fallback",
+              "checkpoint_id": 51,
+              "timestamp": 39890431.69449833,
+              "reason": "no_completed_prefetch",
+              "step": 2,
+              "microbatch": 1,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 51,
+              "timestamp": 39890431.695279,
+              "cache_lifetime_seconds": 0.0,
+              "memory": {},
+              "step": 2,
+              "microbatch": 1,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 56,
+          "hit": true,
+          "metadata": {
+            "step": 2,
+            "microbatch": 2,
+            "layer_number": 18,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 56,
+              "timestamp": 39890431.7583176,
+              "step": 2,
+              "microbatch": 2,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_start",
+              "checkpoint_id": 56,
+              "timestamp": 39890431.87672995,
+              "trigger_site": "cross_microbatch_forward:3",
+              "step": 2,
+              "microbatch": 2,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_complete",
+              "checkpoint_id": 56,
+              "timestamp": 39890431.87777786,
+              "output_bytes": 12582912,
+              "saved_tensor_bytes": 4056554496,
+              "allocated_bytes": 25979459584,
+              "reserved_bytes": 30649876480,
+              "step": 2,
+              "microbatch": 2,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_hit",
+              "checkpoint_id": 56,
+              "timestamp": 39890431.97927798,
+              "step": 2,
+              "microbatch": 2,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_consumed",
+              "checkpoint_id": 56,
+              "timestamp": 39890431.9797487,
+              "step": 2,
+              "microbatch": 2,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 56,
+              "timestamp": 39890431.97976251,
+              "cache_lifetime_seconds": 0.10302171856164932,
+              "memory": {
+                "allocated_before": 25956382720,
+                "reserved_before": 30649876480,
+                "allocated_after": 25979459584,
+                "reserved_after": 30649876480,
+                "peak_allocated": 29469483520,
+                "peak_reserved": 30649876480
+              },
+              "step": 2,
+              "microbatch": 2,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 55,
+          "hit": true,
+          "metadata": {
+            "step": 2,
+            "microbatch": 2,
+            "layer_number": 2,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 55,
+              "timestamp": 39890431.715260826,
+              "step": 2,
+              "microbatch": 2,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_start",
+              "checkpoint_id": 55,
+              "timestamp": 39890431.835473076,
+              "trigger_site": "cross_microbatch_forward:3",
+              "step": 2,
+              "microbatch": 2,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_complete",
+              "checkpoint_id": 55,
+              "timestamp": 39890431.83660535,
+              "output_bytes": 12582912,
+              "saved_tensor_bytes": 4056554496,
+              "allocated_bytes": 23814404096,
+              "reserved_bytes": 30649876480,
+              "step": 2,
+              "microbatch": 2,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_hit",
+              "checkpoint_id": 55,
+              "timestamp": 39890432.01145638,
+              "step": 2,
+              "microbatch": 2,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_consumed",
+              "checkpoint_id": 55,
+              "timestamp": 39890432.0119286,
+              "step": 2,
+              "microbatch": 2,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 55,
+              "timestamp": 39890432.011941135,
+              "cache_lifetime_seconds": 0.17645801603794098,
+              "memory": {
+                "allocated_before": 23791327232,
+                "reserved_before": 30649876480,
+                "allocated_after": 23814404096,
+                "reserved_after": 30649876480,
+                "peak_allocated": 29469483520,
+                "peak_reserved": 30649876480
+              },
+              "step": 2,
+              "microbatch": 2,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 54,
+          "hit": true,
+          "metadata": {
+            "step": 2,
+            "microbatch": 2,
+            "layer_number": 1,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 54,
+              "timestamp": 39890431.70472747,
+              "step": 2,
+              "microbatch": 2,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_start",
+              "checkpoint_id": 54,
+              "timestamp": 39890431.83009621,
+              "trigger_site": "cross_microbatch_forward:3",
+              "step": 2,
+              "microbatch": 2,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_complete",
+              "checkpoint_id": 54,
+              "timestamp": 39890431.83127946,
+              "output_bytes": 12582912,
+              "saved_tensor_bytes": 4056554496,
+              "allocated_bytes": 23667291648,
+              "reserved_bytes": 30649876480,
+              "step": 2,
+              "microbatch": 2,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_hit",
+              "checkpoint_id": 54,
+              "timestamp": 39890432.01375152,
+              "step": 2,
+              "microbatch": 2,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_consumed",
+              "checkpoint_id": 54,
+              "timestamp": 39890432.01420447,
+              "step": 2,
+              "microbatch": 2,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 54,
+              "timestamp": 39890432.014215104,
+              "cache_lifetime_seconds": 0.1841098889708519,
+              "memory": {
+                "allocated_before": 23644214784,
+                "reserved_before": 30649876480,
+                "allocated_after": 23667291648,
+                "reserved_after": 30649876480,
+                "peak_allocated": 29469483520,
+                "peak_reserved": 30649876480
+              },
+              "step": 2,
+              "microbatch": 2,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 59,
+          "hit": false,
+          "metadata": {
+            "step": 2,
+            "microbatch": 3,
+            "layer_number": 18,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 59,
+              "timestamp": 39890431.878084734,
+              "step": 2,
+              "microbatch": 3,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "fallback",
+              "checkpoint_id": 59,
+              "timestamp": 39890432.05734677,
+              "reason": "no_completed_prefetch",
+              "step": 2,
+              "microbatch": 3,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 59,
+              "timestamp": 39890432.058192536,
+              "cache_lifetime_seconds": 0.0,
+              "memory": {},
+              "step": 2,
+              "microbatch": 3,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 58,
+          "hit": false,
+          "metadata": {
+            "step": 2,
+            "microbatch": 3,
+            "layer_number": 2,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 58,
+              "timestamp": 39890431.83697179,
+              "step": 2,
+              "microbatch": 3,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "fallback",
+              "checkpoint_id": 58,
+              "timestamp": 39890432.08980234,
+              "reason": "no_completed_prefetch",
+              "step": 2,
+              "microbatch": 3,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 58,
+              "timestamp": 39890432.09060705,
+              "cache_lifetime_seconds": 0.0,
+              "memory": {},
+              "step": 2,
+              "microbatch": 3,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 57,
+          "hit": false,
+          "metadata": {
+            "step": 2,
+            "microbatch": 3,
+            "layer_number": 1,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 57,
+              "timestamp": 39890431.83173986,
+              "step": 2,
+              "microbatch": 3,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "fallback",
+              "checkpoint_id": 57,
+              "timestamp": 39890432.09240654,
+              "reason": "no_completed_prefetch",
+              "step": 2,
+              "microbatch": 3,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 57,
+              "timestamp": 39890432.09317767,
+              "cache_lifetime_seconds": 0.0,
+              "memory": {},
+              "step": 2,
+              "microbatch": 3,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 62,
+          "hit": true,
+          "metadata": {
+            "step": 2,
+            "microbatch": 4,
+            "layer_number": 18,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 62,
+              "timestamp": 39890432.14888102,
+              "step": 2,
+              "microbatch": 4,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_start",
+              "checkpoint_id": 62,
+              "timestamp": 39890432.27915818,
+              "trigger_site": "cross_microbatch_forward:5",
+              "step": 2,
+              "microbatch": 4,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_complete",
+              "checkpoint_id": 62,
+              "timestamp": 39890432.28021319,
+              "output_bytes": 12582912,
+              "saved_tensor_bytes": 4056554496,
+              "allocated_bytes": 25982721024,
+              "reserved_bytes": 30649876480,
+              "step": 2,
+              "microbatch": 4,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_hit",
+              "checkpoint_id": 62,
+              "timestamp": 39890432.38701029,
+              "step": 2,
+              "microbatch": 4,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_consumed",
+              "checkpoint_id": 62,
+              "timestamp": 39890432.38749189,
+              "step": 2,
+              "microbatch": 4,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 62,
+              "timestamp": 39890432.38750586,
+              "cache_lifetime_seconds": 0.10833655297756195,
+              "memory": {
+                "allocated_before": 25959644160,
+                "reserved_before": 30649876480,
+                "allocated_after": 25982721024,
+                "reserved_after": 30649876480,
+                "peak_allocated": 29469483520,
+                "peak_reserved": 30649876480
+              },
+              "step": 2,
+              "microbatch": 4,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 61,
+          "hit": true,
+          "metadata": {
+            "step": 2,
+            "microbatch": 4,
+            "layer_number": 2,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 61,
+              "timestamp": 39890432.10920758,
+              "step": 2,
+              "microbatch": 4,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_start",
+              "checkpoint_id": 61,
+              "timestamp": 39890432.23826226,
+              "trigger_site": "cross_microbatch_forward:5",
+              "step": 2,
+              "microbatch": 4,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_complete",
+              "checkpoint_id": 61,
+              "timestamp": 39890432.23937643,
+              "output_bytes": 12582912,
+              "saved_tensor_bytes": 4056554496,
+              "allocated_bytes": 23817665536,
+              "reserved_bytes": 30649876480,
+              "step": 2,
+              "microbatch": 4,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_hit",
+              "checkpoint_id": 61,
+              "timestamp": 39890432.41902921,
+              "step": 2,
+              "microbatch": 4,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_consumed",
+              "checkpoint_id": 61,
+              "timestamp": 39890432.41948872,
+              "step": 2,
+              "microbatch": 4,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 61,
+              "timestamp": 39890432.419500865,
+              "cache_lifetime_seconds": 0.18122870475053787,
+              "memory": {
+                "allocated_before": 23794588672,
+                "reserved_before": 30649876480,
+                "allocated_after": 23817665536,
+                "reserved_after": 30649876480,
+                "peak_allocated": 29469483520,
+                "peak_reserved": 30649876480
+              },
+              "step": 2,
+              "microbatch": 4,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 60,
+          "hit": true,
+          "metadata": {
+            "step": 2,
+            "microbatch": 4,
+            "layer_number": 1,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 60,
+              "timestamp": 39890432.10181005,
+              "step": 2,
+              "microbatch": 4,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_start",
+              "checkpoint_id": 60,
+              "timestamp": 39890432.2329438,
+              "trigger_site": "cross_microbatch_forward:5",
+              "step": 2,
+              "microbatch": 4,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_complete",
+              "checkpoint_id": 60,
+              "timestamp": 39890432.23426643,
+              "output_bytes": 12582912,
+              "saved_tensor_bytes": 4056554496,
+              "allocated_bytes": 23670553088,
+              "reserved_bytes": 30649876480,
+              "step": 2,
+              "microbatch": 4,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_hit",
+              "checkpoint_id": 60,
+              "timestamp": 39890432.42129578,
+              "step": 2,
+              "microbatch": 4,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_consumed",
+              "checkpoint_id": 60,
+              "timestamp": 39890432.421766914,
+              "step": 2,
+              "microbatch": 4,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 60,
+              "timestamp": 39890432.42177825,
+              "cache_lifetime_seconds": 0.18882492929697037,
+              "memory": {
+                "allocated_before": 23647476224,
+                "reserved_before": 30649876480,
+                "allocated_after": 23670553088,
+                "reserved_after": 30649876480,
+                "peak_allocated": 29469483520,
+                "peak_reserved": 30649876480
+              },
+              "step": 2,
+              "microbatch": 4,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 65,
+          "hit": false,
+          "metadata": {
+            "step": 2,
+            "microbatch": 5,
+            "layer_number": 18,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 65,
+              "timestamp": 39890432.28052259,
+              "step": 2,
+              "microbatch": 5,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "fallback",
+              "checkpoint_id": 65,
+              "timestamp": 39890432.46653809,
+              "reason": "no_completed_prefetch",
+              "step": 2,
+              "microbatch": 5,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 65,
+              "timestamp": 39890432.467396855,
+              "cache_lifetime_seconds": 0.0,
+              "memory": {},
+              "step": 2,
+              "microbatch": 5,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 64,
+          "hit": false,
+          "metadata": {
+            "step": 2,
+            "microbatch": 5,
+            "layer_number": 2,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 64,
+              "timestamp": 39890432.23975681,
+              "step": 2,
+              "microbatch": 5,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "fallback",
+              "checkpoint_id": 64,
+              "timestamp": 39890432.49882441,
+              "reason": "no_completed_prefetch",
+              "step": 2,
+              "microbatch": 5,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 64,
+              "timestamp": 39890432.49964055,
+              "cache_lifetime_seconds": 0.0,
+              "memory": {},
+              "step": 2,
+              "microbatch": 5,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 63,
+          "hit": false,
+          "metadata": {
+            "step": 2,
+            "microbatch": 5,
+            "layer_number": 1,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 63,
+              "timestamp": 39890432.234621234,
+              "step": 2,
+              "microbatch": 5,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "fallback",
+              "checkpoint_id": 63,
+              "timestamp": 39890432.50145263,
+              "reason": "no_completed_prefetch",
+              "step": 2,
+              "microbatch": 5,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 63,
+              "timestamp": 39890432.502214655,
+              "cache_lifetime_seconds": 0.0,
+              "memory": {},
+              "step": 2,
+              "microbatch": 5,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 68,
+          "hit": false,
+          "metadata": {
+            "step": 2,
+            "microbatch": 6,
+            "layer_number": 18,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 68,
+              "timestamp": 39890432.557825126,
+              "step": 2,
+              "microbatch": 6,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "fallback",
+              "checkpoint_id": 68,
+              "timestamp": 39890432.67919425,
+              "reason": "no_completed_prefetch",
+              "step": 2,
+              "microbatch": 6,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 68,
+              "timestamp": 39890432.6800148,
+              "cache_lifetime_seconds": 0.0,
+              "memory": {},
+              "step": 2,
+              "microbatch": 6,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 67,
+          "hit": false,
+          "metadata": {
+            "step": 2,
+            "microbatch": 6,
+            "layer_number": 2,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 67,
+              "timestamp": 39890432.5182223,
+              "step": 2,
+              "microbatch": 6,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "fallback",
+              "checkpoint_id": 67,
+              "timestamp": 39890432.71149095,
+              "reason": "no_completed_prefetch",
+              "step": 2,
+              "microbatch": 6,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 67,
+              "timestamp": 39890432.712300606,
+              "cache_lifetime_seconds": 0.0,
+              "memory": {},
+              "step": 2,
+              "microbatch": 6,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 66,
+          "hit": false,
+          "metadata": {
+            "step": 2,
+            "microbatch": 6,
+            "layer_number": 1,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 66,
+              "timestamp": 39890432.51119247,
+              "step": 2,
+              "microbatch": 6,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "fallback",
+              "checkpoint_id": 66,
+              "timestamp": 39890432.71408805,
+              "reason": "no_completed_prefetch",
+              "step": 2,
+              "microbatch": 6,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 66,
+              "timestamp": 39890432.71484471,
+              "cache_lifetime_seconds": 0.0,
+              "memory": {},
+              "step": 2,
+              "microbatch": 6,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 71,
+          "hit": false,
+          "metadata": {
+            "step": 2,
+            "microbatch": 7,
+            "layer_number": 18,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 71,
+              "timestamp": 39890432.76965905,
+              "step": 2,
+              "microbatch": 7,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "fallback",
+              "checkpoint_id": 71,
+              "timestamp": 39890432.96561279,
+              "reason": "no_completed_prefetch",
+              "step": 2,
+              "microbatch": 7,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 71,
+              "timestamp": 39890432.96649481,
+              "cache_lifetime_seconds": 0.0,
+              "memory": {},
+              "step": 2,
+              "microbatch": 7,
+              "layer_number": 18,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 70,
+          "hit": false,
+          "metadata": {
+            "step": 2,
+            "microbatch": 7,
+            "layer_number": 2,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 70,
+              "timestamp": 39890432.73020053,
+              "step": 2,
+              "microbatch": 7,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "fallback",
+              "checkpoint_id": 70,
+              "timestamp": 39890433.026593804,
+              "reason": "no_completed_prefetch",
+              "step": 2,
+              "microbatch": 7,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 70,
+              "timestamp": 39890433.027442805,
+              "cache_lifetime_seconds": 0.0,
+              "memory": {},
+              "step": 2,
+              "microbatch": 7,
+              "layer_number": 2,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        },
+        {
+          "id": 69,
+          "hit": true,
+          "metadata": {
+            "step": 2,
+            "microbatch": 7,
+            "layer_number": 1,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 69,
+              "timestamp": 39890432.72354012,
+              "step": 2,
+              "microbatch": 7,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_start",
+              "checkpoint_id": 69,
+              "timestamp": 39890432.834362134,
+              "trigger_site": "p10_first_dp_bucket",
+              "step": 2,
+              "microbatch": 7,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "prefetch_complete",
+              "checkpoint_id": 69,
+              "timestamp": 39890432.83617522,
+              "output_bytes": 12582912,
+              "saved_tensor_bytes": 12582912,
+              "allocated_bytes": 23297108992,
+              "reserved_bytes": 30962352128,
+              "step": 2,
+              "microbatch": 7,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_hit",
+              "checkpoint_id": 69,
+              "timestamp": 39890433.03064645,
+              "step": 2,
+              "microbatch": 7,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "cache_consumed",
+              "checkpoint_id": 69,
+              "timestamp": 39890433.0311193,
+              "step": 2,
+              "microbatch": 7,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 69,
+              "timestamp": 39890433.0311311,
+              "cache_lifetime_seconds": 0.19675877690315247,
+              "memory": {
+                "allocated_before": 23274032128,
+                "reserved_before": 30962352128,
+                "allocated_after": 23297108992,
+                "reserved_after": 30962352128,
+                "peak_allocated": 29474171392,
+                "peak_reserved": 30962352128
+              },
+              "step": 2,
+              "microbatch": 7,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        }
+      ],
+      "sync": [
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "last": true,
+          "async_enabled": true
+        }
+      ],
+      "max_cached": 3,
+      "reduce_scatter": [
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        }
+      ],
+      "target_id": 69,
+      "target_allocated_delta": 23076864,
+      "target_consumed": true,
+      "cpu_step_ms": 7166.689924895763,
+      "allocated": 29474171392,
+      "reserved": 30962352128,
+      "qkv_calls": 312,
+      "calls": {
+        "('forward', 0)": 36,
+        "('prefetch', 0)": 3,
+        "('forward', 1)": 36,
+        "('backward', 1)": 3,
+        "('forward', 2)": 36,
+        "('prefetch', 2)": 3,
+        "('forward', 3)": 36,
+        "('backward', 3)": 3,
+        "('forward', 4)": 36,
+        "('prefetch', 4)": 3,
+        "('forward', 5)": 36,
+        "('backward', 5)": 3,
+        "('forward', 6)": 36,
+        "('backward', 6)": 3,
+        "('forward', 7)": 36,
+        "('prefetch', 7)": 1,
+        "('backward', 7)": 2
+      },
+      "losses": {
+        "lm loss": 11.732202529907227
+      }
+    }
+  ]
+}

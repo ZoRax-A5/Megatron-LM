@@ -1,0 +1,4 @@
+  File "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/qwen4b_ab/convert.py", line 31
+    (out/'mapping.json').write_text(json.dumps({'config':cfg,'padded_vocab':padded,'real_vocab':cfg['vocab_size'],'mapped_tensors':len(used),'mapping':audit,'source_files':{n:{'bytes':(src/n).stat().st_size,'sha256':hashlib.sha256((src/n).read_bytes()).hexdigest()} for n in sorted(set(index.values()))},indent=2))
+                                                                                                                                                                                                                                                                                                                        ^
+SyntaxError: closing parenthesis ')' does not match opening parenthesis '{'

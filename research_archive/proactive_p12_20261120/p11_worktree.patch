@@ -1,0 +1,266 @@
+diff --git a/megatron/core/distributed/param_and_grad_buffer.py b/megatron/core/distributed/param_and_grad_buffer.py
+index 9051fb9f4..311575601 100644
+--- a/megatron/core/distributed/param_and_grad_buffer.py
++++ b/megatron/core/distributed/param_and_grad_buffer.py
+@@ -245,6 +245,7 @@ class _ParamAndGradBucketGroup:
+         self.per_param_grad_ready_counts = {}
+         self.is_last_microbatch = True
+         self.is_first_batch = True
++        self.post_dp_reduce_scatter = None
+ 
+         # Other metadata to keep track of collectives.
+         self.param_gather_handle = None
+@@ -818,6 +819,9 @@ class _ParamAndGradBucketGroup:
+                 if self.per_param_grad_ready_counts == self.golden_per_param_grad_ready_counts:
+                     assert len(self.per_param_grad_ready_counts) == len(self.params)
+                     self.start_grad_sync(force_all_reduce=force_all_reduce)
++                    # Runs on the host after async submission, outside NCCL coalescing.
++                    if self.post_dp_reduce_scatter is not None and not force_all_reduce:
++                        self.post_dp_reduce_scatter(self)
+ 
+ 
+ def group_params_for_buffers(
+diff --git a/megatron/core/pipeline_parallel/schedules.py b/megatron/core/pipeline_parallel/schedules.py
+index 1182ce80c..91c534492 100644
+--- a/megatron/core/pipeline_parallel/schedules.py
++++ b/megatron/core/pipeline_parallel/schedules.py
+@@ -527,6 +527,10 @@ def forward_step(
+                 step=getattr(config, "proactive_recompute_step", None),
+                 microbatch=current_microbatch,
+                 replay_from=replay_from_microbatch,
++                dp_target=(
++                    config.proactive_recompute_dp_bucket is not None
++                    and current_microbatch == num_microbatches - 1
++                ),
+             )
+         else:
+             recompute_context = contextlib.nullcontext()
+@@ -555,6 +559,7 @@ def forward_step(
+     if (
+         proactive_enabled
+         and not config.cross_microbatch_recompute_schedule
++        and config.proactive_recompute_dp_bucket is None
+         and torch.is_grad_enabled()
+     ):
+         from megatron.core.tensor_parallel.random import (
+@@ -740,6 +745,58 @@ def check_first_val_step(first_val_step, forward_only, cond):
+         return cond
+ 
+ 
++@contextlib.contextmanager
++def _prefetch_after_dp_bucket(model, bucket_index, step, microbatch):
++    """Temporarily enable one host-side Replay in the final native PP1 backward."""
++    from megatron.core.tensor_parallel.random import (
++        get_recompute_checkpoint,
++        pending_recompute_checkpoints,
++    )
++
++    groups = get_attr_wrapped_model(model, "bucket_groups")
++    if not groups or any(
++        not group.ddp_config.use_distributed_optimizer
++        or not group.ddp_config.overlap_grad_reduce
++        or group.ddp_config.num_distributed_optimizer_instances != 1
++        or group.ddp_config.reduce_scatter_with_fp32_accumulation
++        or group.intra_distributed_optimizer_instance_size <= 1
++        or group.post_dp_reduce_scatter is not None
++        for group in groups
++    ):
++        raise RuntimeError("DP bucket replay requires native asynchronous Distributed Optimizer RS")
++
++    submitted = 0
++
++    def after_submit(group):
++        nonlocal submitted
++        ordinal = submitted
++        submitted += 1
++        if ordinal != bucket_index:
++            return
++        for checkpoint_id in pending_recompute_checkpoints():
++            handle = get_recompute_checkpoint(checkpoint_id)
++            if (
++                handle.metadata.get("step") == step
++                and handle.metadata.get("microbatch") == microbatch
++                and handle.metadata.get("layer_number") == 1
++                and handle.metadata.get("module") == "attn_qkv"
++            ):
++                if not any(param in group.param_to_bucket for param in handle.parameters):
++                    handle.prefetch(
++                        trigger_site=f"dp_rs_dispatch:{ordinal}",
++                        track_saved_tensor_storage=False,
++                    )
++                break
++
++    for group in groups:
++        group.post_dp_reduce_scatter = after_submit
++    try:
++        yield
++    finally:
++        for group in groups:
++            group.post_dp_reduce_scatter = None
++
++
+ def forward_backward_no_pipelining(
+     *,
+     forward_step_func,
+@@ -952,7 +1009,16 @@ def forward_backward_no_pipelining(
+         total_num_tokens += num_tokens
+ 
+         if not forward_only:
+-            backward_step(input_tensor, output_tensor, output_tensor_grad, config)
++            bucket_index = config.proactive_recompute_dp_bucket
++            replay_context = (
++                _prefetch_after_dp_bucket(
++                    model, bucket_index, config.proactive_recompute_step, num_microbatches - 1
++                )
++                if bucket_index is not None and not force_all_reduce
++                else contextlib.nullcontext()
++            )
++            with replay_context:
++                backward_step(input_tensor, output_tensor, output_tensor_grad, config)
+             del output_tensor
+ 
+     if config.finalize_model_grads_func is not None and not forward_only:
+diff --git a/megatron/core/tensor_parallel/random.py b/megatron/core/tensor_parallel/random.py
+index 7e67d74aa..d6ea59396 100644
+--- a/megatron/core/tensor_parallel/random.py
++++ b/megatron/core/tensor_parallel/random.py
+@@ -725,10 +725,10 @@ _PROACTIVE_RECOMPUTE_CONTEXT = contextvars.ContextVar(
+ 
+ 
+ @contextlib.contextmanager
+-def proactive_recompute_context(step=None, microbatch=None, *, replay_from=None):
++def proactive_recompute_context(step=None, microbatch=None, *, replay_from=None, dp_target=False):
+     """Attach training-step and microbatch identity to checkpoints created in this scope."""
+     token = _PROACTIVE_RECOMPUTE_CONTEXT.set(
+-        {"step": step, "microbatch": microbatch, "replay_from": replay_from}
++        {"step": step, "microbatch": microbatch, "replay_from": replay_from, "dp_target": dp_target}
+     )
+     try:
+         yield
+@@ -738,7 +738,15 @@ def proactive_recompute_context(step=None, microbatch=None, *, replay_from=None)
+ 
+ def get_proactive_recompute_context():
+     """Return the current scheduler identity, if a training caller supplied one."""
+-    return {k: v for k, v in _PROACTIVE_RECOMPUTE_CONTEXT.get().items() if k != "replay_from"}
++    return {
++        k: v for k, v in _PROACTIVE_RECOMPUTE_CONTEXT.get().items()
++        if k not in ("replay_from", "dp_target")
++    }
++
++
++def is_dp_recompute_target(layer_number):
++    """Only layer 1 of the PP1 schedule's last forward receives a proactive handle."""
++    return layer_number == 1 and _PROACTIVE_RECOMPUTE_CONTEXT.get().get("dp_target", False)
+ 
+ 
+ def prefetch_previous_microbatch_qkv(layer_number):
+@@ -879,7 +887,7 @@ class ProactiveCheckpoint:
+         if current_buffers != self._buffer_versions:
+             raise RuntimeError(f"checkpoint buffer changed between forward and {where}")
+ 
+-    def prefetch(self, trigger_site=None) -> bool:
++    def prefetch(self, trigger_site=None, *, track_saved_tensor_storage=True) -> bool:
+         """Run and retain a differentiable replay graph; return whether it completed."""
+         if self.state != "forward_complete":
+             raise RuntimeError(f"cannot prefetch checkpoint in state {self.state}")
+@@ -935,14 +943,17 @@ class ProactiveCheckpoint:
+             def unpack_saved_tensor(tensor):
+                 return tensor
+ 
++            # Saved-tensor hooks can change the Python wrapper returned for a
++            # saved Parameter. TE uses attributes on that wrapper to publish a
++            # fused wgrad to Megatron DDP on a gradient-synchronizing backward.
++            saved_tensor_context = (
++                torch.autograd.graph.saved_tensors_hooks(pack_saved_tensor, unpack_saved_tensor)
++                if track_saved_tensor_storage
++                else contextlib.nullcontext()
++            )
+             with _fork_rng():
+                 _set_all_rng_states(*self._rng_states)
+-                with (
+-                    torch.enable_grad(),
+-                    torch.autograd.graph.saved_tensors_hooks(
+-                        pack_saved_tensor, unpack_saved_tensor
+-                    ),
+-                ):
++                with torch.enable_grad(), saved_tensor_context:
+                     result = self.run_function(*self._cached_inputs)
+             self._check_versions("prefetch completion")
+             self._cached_outputs = result if isinstance(result, tuple) else (result,)
+diff --git a/megatron/core/transformer/attention.py b/megatron/core/transformer/attention.py
+index 8c7c2cdac..c78dd05f8 100644
+--- a/megatron/core/transformer/attention.py
++++ b/megatron/core/transformer/attention.py
+@@ -43,6 +43,7 @@ from megatron.core.tensor_parallel.mappings import all_gather_last_dim_from_tens
+ from megatron.core.tensor_parallel.random import (
+     ProactiveCheckpoint,
+     get_proactive_recompute_context,
++    is_dp_recompute_target,
+     prefetch_previous_microbatch_qkv,
+ )
+ from megatron.core.transformer.identity_op import IdentityOp
+@@ -1833,7 +1834,11 @@ class SelfAttention(Attention):
+             and self.config.recompute_granularity == "selective"
+             and "attn_qkv" in self.config.recompute_modules
+         ):
+-            if self.config.proactive_recompute:
++            dp_bucket_mode = self.config.proactive_recompute_dp_bucket is not None
++            dp_target = dp_bucket_mode and is_dp_recompute_target(self.layer_number)
++            if self.config.proactive_recompute and (not dp_bucket_mode or dp_target):
++                if dp_target and type(self.linear_qkv) is not TELayerNormColumnParallelLinear:
++                    raise RuntimeError("DP bucket replay requires the BF16 TE fused QKV projection")
+                 prefetch_previous_microbatch_qkv(self.layer_number)
+                 supported_qkv_types = (ColumnParallelLinear,)
+                 if TELayerNormColumnParallelLinear is not None:
+@@ -1859,7 +1864,8 @@ class SelfAttention(Attention):
+                             else 0
+                         ),
+                     },
+-                    collective_group=self.pg_collection.tp,
++                    # This BF16 fused projection with SP off has no forward TP collective.
++                    collective_group=None if dp_target else self.pg_collection.tp,
+                 )
+                 mixed_qkv, _ = checkpoint_handle(hidden_states)
+             else:
+diff --git a/megatron/core/transformer/transformer_config.py b/megatron/core/transformer/transformer_config.py
+index b7a928c4a..148c8494b 100644
+--- a/megatron/core/transformer/transformer_config.py
++++ b/megatron/core/transformer/transformer_config.py
+@@ -566,6 +566,9 @@ class TransformerConfig(ModelParallelConfig):
+     proactive_recompute_max_cached_checkpoints: Optional[int] = 1
+     """Maximum number of retained proactive replay graphs on this process."""
+ 
++    proactive_recompute_dp_bucket: Optional[int] = None
++    """Experimental zero-based native RS dispatch index for layer 1 on the last microbatch."""
++
+     recompute_modules: Optional[List[str]] = None
+     """The submodules to recompute.
+     choices: "core_attn", "moe_act", "layernorm", "mla_up_proj", "mlp", "moe",
+@@ -1719,6 +1722,27 @@ class TransformerConfig(ModelParallelConfig):
+         ):
+             raise ValueError("cross-microbatch schedule requires dense TE training with PP=CP=EP=1")
+ 
++        if self.proactive_recompute_dp_bucket is not None:
++            if (
++                self.proactive_recompute_dp_bucket < 0
++                or not self.proactive_recompute
++                or self.cross_microbatch_recompute_schedule
++                or not self.bf16
++                or self.transformer_impl != "transformer_engine"
++                or self.sequence_parallel
++                or self.tp_comm_overlap
++                or self.num_moe_experts
++                or self.hybrid_context_parallel
++                or self.use_transformer_engine_op_fuser
++                or self.fine_grained_activation_offloading
++                or (self.recompute_layer_config is not None
++                    and "attn_qkv" not in self.recompute_layer_config.get(0, []))
++            ):
++                raise ValueError(
++                    "DP bucket replay requires layer-1 QKV checkpointing, BF16 TE and "
++                    "native PP1 scheduling without SP, TP overlap or MoE"
++                )
++
+         if self.proactive_recompute:
+             if (
+                 self.proactive_recompute_max_cached_checkpoints is not None

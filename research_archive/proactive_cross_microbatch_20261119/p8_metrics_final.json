@@ -1,0 +1,224 @@
+{
+  "original": {
+    "peak_allocated": 4965376,
+    "peak_reserved": 23068672,
+    "cpu": {
+      "forward_A_start": 39825406.79260605,
+      "forward_A_end": 39825406.99562075,
+      "backward_0_start": 39825406.99571487,
+      "backward_0_end": 39825407.03973312,
+      "forward_B_start": 39825407.03980135,
+      "forward_B_end": 39825407.04039954,
+      "backward_1_start": 39825407.04043921,
+      "backward_1_end": 39825407.05005232
+    },
+    "counts": {
+      "forward": 4,
+      "A": 1,
+      "backward_0": 1,
+      "B": 1,
+      "backward_1": 1
+    },
+    "gpu_ms": {
+      "forward_A_start": 0.0,
+      "forward_A_end": 203.05856323242188,
+      "backward_0_start": 203.0851593017578,
+      "backward_0_end": 247.15367126464844,
+      "forward_B_start": 247.17129516601562,
+      "forward_B_end": 247.78941345214844,
+      "backward_1_start": 247.80857849121094,
+      "backward_1_end": 257.4354553222656
+    }
+  },
+  "baseline_repeat": {
+    "peak_allocated": 4965376,
+    "peak_reserved": 23068672,
+    "cpu": {
+      "forward_A_start": 39825407.06352608,
+      "forward_A_end": 39825407.06402422,
+      "backward_0_start": 39825407.06405789,
+      "backward_0_end": 39825407.06503086,
+      "forward_B_start": 39825407.06505161,
+      "forward_B_end": 39825407.06541293,
+      "backward_1_start": 39825407.06544138,
+      "backward_1_end": 39825407.06627889
+    },
+    "counts": {
+      "forward": 4,
+      "A": 1,
+      "backward_0": 1,
+      "B": 1,
+      "backward_1": 1
+    },
+    "gpu_ms": {
+      "forward_A_start": 0.0,
+      "forward_A_end": 0.49619200825691223,
+      "backward_0_start": 0.5144960284233093,
+      "backward_0_end": 1.4940799474716187,
+      "forward_B_start": 1.507040023803711,
+      "forward_B_end": 1.8810880184173584,
+      "backward_1_start": 1.8976320028305054,
+      "backward_1_end": 2.740959882736206
+    }
+  },
+  "adjusted_on_demand": {
+    "peak_allocated": 5021696,
+    "peak_reserved": 23068672,
+    "cpu": {
+      "forward_A_start": 39825407.06873696,
+      "forward_A_end": 39825407.06910746,
+      "forward_B_start": 39825407.069137424,
+      "forward_B_end": 39825407.069457345,
+      "backward_0_start": 39825407.06948504,
+      "backward_0_end": 39825407.07149154,
+      "backward_1_start": 39825407.07151346,
+      "backward_1_end": 39825407.073542655
+    },
+    "counts": {
+      "forward": 4,
+      "A": 1,
+      "B": 1,
+      "backward_0": 1,
+      "backward_1": 1
+    },
+    "gpu_ms": {
+      "forward_A_start": 0.0,
+      "forward_A_end": 0.37110400199890137,
+      "forward_B_start": 0.38710400462150574,
+      "forward_B_end": 0.7188159823417664,
+      "backward_0_start": 0.7348799705505371,
+      "backward_0_end": 2.7498559951782227,
+      "backward_1_start": 2.763360023498535,
+      "backward_1_end": 4.79804801940918
+    }
+  },
+  "adjusted_proactive": {
+    "peak_allocated": 5087744,
+    "peak_reserved": 23068672,
+    "cpu": {
+      "forward_A_start": 39825407.07596055,
+      "forward_A_end": 39825407.07647046,
+      "forward_B_start": 39825407.076499954,
+      "replay_start": 39825407.07665376,
+      "replay_end": 39825407.077752754,
+      "forward_B_end": 39825407.07803776,
+      "backward_0_start": 39825407.07806491,
+      "backward_0_end": 39825407.07966398,
+      "backward_1_start": 39825407.07968608,
+      "backward_1_end": 39825407.08149133
+    },
+    "counts": {
+      "forward": 4,
+      "A": 1,
+      "B": 1,
+      "replay_A": 1,
+      "backward_1": 1
+    },
+    "gpu_ms": {
+      "forward_A_start": 0.0,
+      "forward_A_end": 0.5083519816398621,
+      "forward_B_start": 0.5258240103721619,
+      "replay_start": 0.6893759965896606,
+      "replay_end": 1.7769279479980469,
+      "forward_B_end": 2.0736000537872314,
+      "backward_0_start": 2.0894720554351807,
+      "backward_0_end": 3.6977601051330566,
+      "backward_1_start": 3.7108800411224365,
+      "backward_1_end": 5.52239990234375
+    },
+    "cache_bytes": 49152,
+    "saved_tensor_bytes": 107520,
+    "memory": {
+      "allocated_before": 4529152,
+      "reserved_before": 23068672,
+      "allocated_after": 4595200,
+      "reserved_after": 23068672,
+      "peak_allocated": 4676608,
+      "peak_reserved": 23068672
+    },
+    "lifetime_s": 0.002257227897644043,
+    "events": [
+      {
+        "event": "forward_complete",
+        "checkpoint_id": 0,
+        "timestamp": 39825407.076355696,
+        "step": 7,
+        "microbatch": 0,
+        "layer_number": 1,
+        "module": "attn_qkv",
+        "tp_size": 1,
+        "rank": 0
+      },
+      {
+        "event": "prefetch_start",
+        "checkpoint_id": 0,
+        "timestamp": 39825407.07668393,
+        "trigger_site": "B_qkv_pre_hook",
+        "step": 7,
+        "microbatch": 0,
+        "layer_number": 1,
+        "module": "attn_qkv",
+        "tp_size": 1,
+        "rank": 0
+      },
+      {
+        "event": "prefetch_complete",
+        "checkpoint_id": 0,
+        "timestamp": 39825407.077745736,
+        "output_bytes": 49152,
+        "saved_tensor_bytes": 107520,
+        "allocated_bytes": 4595200,
+        "reserved_bytes": 23068672,
+        "step": 7,
+        "microbatch": 0,
+        "layer_number": 1,
+        "module": "attn_qkv",
+        "tp_size": 1,
+        "rank": 0
+      },
+      {
+        "event": "cache_hit",
+        "checkpoint_id": 0,
+        "timestamp": 39825407.078368746,
+        "step": 7,
+        "microbatch": 0,
+        "layer_number": 1,
+        "module": "attn_qkv",
+        "tp_size": 1,
+        "rank": 0
+      },
+      {
+        "event": "cache_consumed",
+        "checkpoint_id": 0,
+        "timestamp": 39825407.07893562,
+        "step": 7,
+        "microbatch": 0,
+        "layer_number": 1,
+        "module": "attn_qkv",
+        "tp_size": 1,
+        "rank": 0
+      },
+      {
+        "event": "released",
+        "checkpoint_id": 0,
+        "timestamp": 39825407.07895416,
+        "cache_lifetime_seconds": 0.002257227897644043,
+        "memory": {
+          "allocated_before": 4529152,
+          "reserved_before": 23068672,
+          "allocated_after": 4595200,
+          "reserved_after": 23068672,
+          "peak_allocated": 4676608,
+          "peak_reserved": 23068672
+        },
+        "step": 7,
+        "microbatch": 0,
+        "layer_number": 1,
+        "module": "attn_qkv",
+        "tp_size": 1,
+        "rank": 0
+      }
+    ]
+  },
+  "exact_equal": true
+}

@@ -1,0 +1,54 @@
+{
+  "checkpoint_id": 20,
+  "state": "consumed",
+  "events": [
+    {
+      "event": "forward_complete",
+      "checkpoint_id": 20,
+      "layer_number": 1,
+      "module": "attn_qkv"
+    },
+    {
+      "event": "prefetch_start",
+      "checkpoint_id": 20
+    },
+    {
+      "event": "prefetch_complete",
+      "checkpoint_id": 20,
+      "output_bytes": 1920,
+      "saved_tensor_bytes": 5632,
+      "allocated_bytes": 17054208,
+      "reserved_bytes": 23068672
+    },
+    {
+      "event": "cache_hit",
+      "checkpoint_id": 20
+    },
+    {
+      "event": "cache_consumed",
+      "checkpoint_id": 20
+    },
+    {
+      "event": "released",
+      "checkpoint_id": 20,
+      "cache_lifetime_seconds": 0.0018754303455352783,
+      "memory": {
+        "allocated_before": 17052160,
+        "reserved_before": 23068672,
+        "allocated_after": 17054208,
+        "reserved_after": 23068672,
+        "peak_allocated": 17054208,
+        "peak_reserved": 23068672
+      }
+    }
+  ],
+  "cache_lifetime_seconds": 0.0018754303455352783,
+  "memory_snapshot": {
+    "allocated_before": 17052160,
+    "reserved_before": 23068672,
+    "allocated_after": 17054208,
+    "reserved_after": 23068672,
+    "peak_allocated": 17054208,
+    "peak_reserved": 23068672
+  }
+}

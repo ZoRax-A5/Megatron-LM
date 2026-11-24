@@ -1,0 +1,498 @@
+[
+  {
+    "rank": 0,
+    "dp_count": 2,
+    "tp_count": 136,
+    "handshake_count": 12,
+    "dp_ms": 0.109183,
+    "tp_ms": 45.392936,
+    "dp_native_compute_intersect_ms": 0.0,
+    "dp_replay_intersect_ms": 0.0,
+    "tp_replay_intersect_ms": 0.0,
+    "dp_ms_by_kernel": [
+      0.086207,
+      0.022976
+    ],
+    "tp_ops": {
+      "allreduce": {
+        "n": 104,
+        "gpu_ms": 45.17585
+      },
+      "broadcast": {
+        "n": 32,
+        "gpu_ms": 0.217086
+      }
+    },
+    "prefetch_to_first_dp_ms": -0.751925,
+    "replay_ms": 0.059039,
+    "forward_backward_tp_api_tagged_count": 104,
+    "unknown_nccl": [
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_u32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_u32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      }
+    ]
+  },
+  {
+    "rank": 1,
+    "dp_count": 2,
+    "tp_count": 136,
+    "handshake_count": 12,
+    "dp_ms": 0.120349,
+    "tp_ms": 125.463905,
+    "dp_native_compute_intersect_ms": 0.0,
+    "dp_replay_intersect_ms": 0.0,
+    "tp_replay_intersect_ms": 0.0,
+    "dp_ms_by_kernel": [
+      0.084798,
+      0.035551
+    ],
+    "tp_ops": {
+      "allreduce": {
+        "n": 104,
+        "gpu_ms": 118.420625
+      },
+      "broadcast": {
+        "n": 32,
+        "gpu_ms": 7.04328
+      }
+    },
+    "prefetch_to_first_dp_ms": -0.768819,
+    "replay_ms": 0.060096,
+    "forward_backward_tp_api_tagged_count": 104,
+    "unknown_nccl": [
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_u32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_u32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      }
+    ]
+  },
+  {
+    "rank": 2,
+    "dp_count": 2,
+    "tp_count": 136,
+    "handshake_count": 12,
+    "dp_ms": 7.773414,
+    "tp_ms": 11.005473,
+    "dp_native_compute_intersect_ms": 0.194846,
+    "dp_replay_intersect_ms": 0.011424,
+    "tp_replay_intersect_ms": 0.0,
+    "dp_ms_by_kernel": [
+      4.634122,
+      3.139292
+    ],
+    "tp_ops": {
+      "allreduce": {
+        "n": 104,
+        "gpu_ms": 10.788679
+      },
+      "broadcast": {
+        "n": 32,
+        "gpu_ms": 0.216794
+      }
+    },
+    "prefetch_to_first_dp_ms": -1.701228,
+    "replay_ms": 0.061824,
+    "forward_backward_tp_api_tagged_count": 104,
+    "unknown_nccl": [
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_u32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_u32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      }
+    ]
+  },
+  {
+    "rank": 3,
+    "dp_count": 2,
+    "tp_count": 136,
+    "handshake_count": 12,
+    "dp_ms": 7.918549,
+    "tp_ms": 161.855803,
+    "dp_native_compute_intersect_ms": 0.165791,
+    "dp_replay_intersect_ms": 0.011904,
+    "tp_replay_intersect_ms": 0.0,
+    "dp_ms_by_kernel": [
+      5.085403,
+      2.833146
+    ],
+    "tp_ops": {
+      "allreduce": {
+        "n": 104,
+        "gpu_ms": 144.026059
+      },
+      "broadcast": {
+        "n": 32,
+        "gpu_ms": 17.829744
+      }
+    },
+    "prefetch_to_first_dp_ms": -1.774984,
+    "replay_ms": 0.062368,
+    "forward_backward_tp_api_tagged_count": 104,
+    "unknown_nccl": [
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_u32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_u32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      }
+    ]
+  },
+  {
+    "rank": 4,
+    "dp_count": 2,
+    "tp_count": 136,
+    "handshake_count": 12,
+    "dp_ms": 16.120771,
+    "tp_ms": 74.612534,
+    "dp_native_compute_intersect_ms": 0.258523,
+    "dp_replay_intersect_ms": 0.011711,
+    "tp_replay_intersect_ms": 0.0,
+    "dp_ms_by_kernel": [
+      11.918708,
+      4.202063
+    ],
+    "tp_ops": {
+      "allreduce": {
+        "n": 104,
+        "gpu_ms": 74.382647
+      },
+      "broadcast": {
+        "n": 32,
+        "gpu_ms": 0.229887
+      }
+    },
+    "prefetch_to_first_dp_ms": -1.857578,
+    "replay_ms": 0.06275,
+    "forward_backward_tp_api_tagged_count": 104,
+    "unknown_nccl": [
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_u32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_u32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      }
+    ]
+  },
+  {
+    "rank": 5,
+    "dp_count": 2,
+    "tp_count": 136,
+    "handshake_count": 12,
+    "dp_ms": 16.309234,
+    "tp_ms": 95.307729,
+    "dp_native_compute_intersect_ms": 0.254174,
+    "dp_replay_intersect_ms": 0.011744,
+    "tp_replay_intersect_ms": 0.0,
+    "dp_ms_by_kernel": [
+      12.134023,
+      4.175211
+    ],
+    "tp_ops": {
+      "allreduce": {
+        "n": 104,
+        "gpu_ms": 84.166237
+      },
+      "broadcast": {
+        "n": 32,
+        "gpu_ms": 11.141492
+      }
+    },
+    "prefetch_to_first_dp_ms": -1.703818,
+    "replay_ms": 0.061725,
+    "forward_backward_tp_api_tagged_count": 104,
+    "unknown_nccl": [
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_u32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_u32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      }
+    ]
+  },
+  {
+    "rank": 6,
+    "dp_count": 2,
+    "tp_count": 136,
+    "handshake_count": 12,
+    "dp_ms": 18.758215,
+    "tp_ms": 30.432993,
+    "dp_native_compute_intersect_ms": 0.247487,
+    "dp_replay_intersect_ms": 0.012,
+    "tp_replay_intersect_ms": 0.0,
+    "dp_ms_by_kernel": [
+      14.567896,
+      4.190319
+    ],
+    "tp_ops": {
+      "allreduce": {
+        "n": 104,
+        "gpu_ms": 30.215779
+      },
+      "broadcast": {
+        "n": 32,
+        "gpu_ms": 0.217214
+      }
+    },
+    "prefetch_to_first_dp_ms": -0.994453,
+    "replay_ms": 0.06256,
+    "forward_backward_tp_api_tagged_count": 104,
+    "unknown_nccl": [
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_u32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_u32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      }
+    ]
+  },
+  {
+    "rank": 7,
+    "dp_count": 2,
+    "tp_count": 136,
+    "handshake_count": 12,
+    "dp_ms": 17.524763,
+    "tp_ms": 124.370371,
+    "dp_native_compute_intersect_ms": 0.241085,
+    "dp_replay_intersect_ms": 0.011584,
+    "tp_replay_intersect_ms": 0.0,
+    "dp_ms_by_kernel": [
+      13.355385,
+      4.169378
+    ],
+    "tp_ops": {
+      "allreduce": {
+        "n": 104,
+        "gpu_ms": 111.77459
+      },
+      "broadcast": {
+        "n": 32,
+        "gpu_ms": 12.595781
+      }
+    },
+    "prefetch_to_first_dp_ms": -0.78466,
+    "replay_ms": 0.061952,
+    "forward_backward_tp_api_tagged_count": 104,
+    "unknown_nccl": [
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_u32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_u32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      }
+    ]
+  }
+]

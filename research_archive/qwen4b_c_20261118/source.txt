@@ -1,0 +1,576 @@
+diff --git a/examples/qwen/test_memory_profile_8gpu.sh b/examples/qwen/test_memory_profile_8gpu.sh
+index 83517baa2..f88d9ce98 100755
+--- a/examples/qwen/test_memory_profile_8gpu.sh
++++ b/examples/qwen/test_memory_profile_8gpu.sh
+@@ -11,6 +11,7 @@ SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+ CHECKPOINT_PATH=${1:-/tmp/megatron_qwen_memory_profile_8gpu}
+ TOKENIZER_PATH=${2:-MOCK}
+ DATA_PATH=${3:-MOCK}
++RESULTS_DIR=${RESULTS_DIR:-"./results"}
+ 
+ export GPUS_PER_NODE=${GPUS_PER_NODE:-8}
+ export NNODES=${NNODES:-1}
+@@ -35,10 +36,19 @@ export TRAIN_ITERS=${TRAIN_ITERS:-20}
+ # eval_micro_batch_size defaults to micro_batch_size, so same constraint applies.
+ EVAL_GLOBAL_BATCH_SIZE=$(( GLOBAL_BATCH_SIZE > MICRO_BATCH_SIZE * DATA_PARALLEL_SIZE ? GLOBAL_BATCH_SIZE : MICRO_BATCH_SIZE * DATA_PARALLEL_SIZE ))
+ 
+-MEMORY_PROFILE_DIR=${MEMORY_PROFILE_DIR:-"${CHECKPOINT_PATH}/memory_profile_smoke"}
+-MEMORY_PROFILE_MODE=${MEMORY_PROFILE_MODE:-light}
+-MEMORY_PROFILE_WARMUP_ITERS=${MEMORY_PROFILE_WARMUP_ITERS:-1}
+-MEMORY_PROFILE_ITERS=${MEMORY_PROFILE_ITERS:-1}
++MEMORY_PROFILE_MODE=${MEMORY_PROFILE_MODE:-deep}
++
++# Mode-dependent defaults: deep mode needs more warmup and profile iterations
++# to collect meaningful breakdowns and allocator snapshots.
++if [ "${MEMORY_PROFILE_MODE}" = "deep" ]; then
++    MEMORY_PROFILE_WARMUP_ITERS=${MEMORY_PROFILE_WARMUP_ITERS:-3}
++    MEMORY_PROFILE_ITERS=${MEMORY_PROFILE_ITERS:-5}
++else
++    MEMORY_PROFILE_WARMUP_ITERS=${MEMORY_PROFILE_WARMUP_ITERS:-1}
++    MEMORY_PROFILE_ITERS=${MEMORY_PROFILE_ITERS:-1}
++fi
++
++MEMORY_PROFILE_DIR=${MEMORY_PROFILE_DIR:-"${RESULTS_DIR}/memory_profile_${MEMORY_PROFILE_MODE}_$(date +%Y%m%d_%H%M%S)"}
+ 
+ mkdir -p "${CHECKPOINT_PATH}" "${MEMORY_PROFILE_DIR}"
+ 
+@@ -75,4 +85,4 @@ python "${SCRIPT_DIR}/../../tools/memory_profile/plot_memory_profile.py" \
+     --input-dir "${MEMORY_PROFILE_DIR}" \
+     --expected-ranks "${GPUS_PER_NODE}"
+ 
+-echo "Memory profile smoke test report: ${MEMORY_PROFILE_DIR}/plots/index.html"
++echo "[${MEMORY_PROFILE_MODE}] Memory profile smoke test report: ${MEMORY_PROFILE_DIR}/plots/index.html"
+diff --git a/megatron/core/distributed/distributed_data_parallel.py b/megatron/core/distributed/distributed_data_parallel.py
+index e313113a4..6724dcc21 100644
+--- a/megatron/core/distributed/distributed_data_parallel.py
++++ b/megatron/core/distributed/distributed_data_parallel.py
+@@ -459,10 +459,14 @@ class DistributedDataParallel(_BaseDataParallel):
+ 
+             if param in self.param_to_bucket_group:
+                 assert param.requires_grad
+-                if self.ddp_config.overlap_grad_reduce:
+-                    assert (
+-                        param.grad is not None
+-                    ), 'param.grad being None is not safe when overlap_grad_reduce is True'
++                if self.ddp_config.overlap_grad_reduce and param.grad is None:
++                    # When using pipeline parallelism, parameters on non-first PP
++                    # stages may have a None grad when the backward pass does not
++                    # reach them (e.g., the last PP stage receives no incoming
++                    # gradient for a particular microbatch). Skip gradient
++                    # accumulation and reduce registration for this parameter
++                    # rather than asserting.
++                    return
+                 if param.grad is not None and (
+                     not param.grad_added_to_main_grad or getattr(param, 'zero_out_wgrad', False)
+                 ):
+diff --git a/megatron/core/transformer/attention.py b/megatron/core/transformer/attention.py
+index d875367e9..e7119d00d 100644
+--- a/megatron/core/transformer/attention.py
++++ b/megatron/core/transformer/attention.py
+@@ -2,6 +2,7 @@
+ from __future__ import annotations
+ 
+ import copy
++import functools
+ import inspect
+ from abc import ABC, abstractmethod
+ from dataclasses import dataclass
+@@ -1460,14 +1461,21 @@ class Attention(MegatronModule, ABC):
+                 if q_pos_emb is not None:
+                     # TODO VIJAY: simplify
+                     if inference_context is None or inference_context.is_static_batching():
+-                        query = apply_rotary_pos_emb(
+-                            query,
+-                            q_pos_emb,
++                        rope_fn = functools.partial(
++                            apply_rotary_pos_emb,
+                             config=self.config,
+                             cu_seqlens=cu_seqlens_q,
+                             mscale=self._yarn_concentration_factor,
+                             cp_group=self.pg_collection.cp,
+                         )
++                        if (
++                            self.training
++                            and self.config.recompute_granularity == "selective"
++                            and "attn_rope_q" in self.config.recompute_modules
++                        ):
++                            query = tensor_parallel.checkpoint(rope_fn, False, query, q_pos_emb)
++                        else:
++                            query = rope_fn(query, q_pos_emb)
+                     else:
+                         query = inference_context.apply_rotary_emb_query(
+                             query,
+@@ -1478,14 +1486,21 @@ class Attention(MegatronModule, ABC):
+                             mscale=self._yarn_concentration_factor,
+                         )
+                 if k_pos_emb is not None:
+-                    key = apply_rotary_pos_emb(
+-                        key,
+-                        k_pos_emb,
++                    rope_fn = functools.partial(
++                        apply_rotary_pos_emb,
+                         config=self.config,
+                         cu_seqlens=cu_seqlens_kv,
+                         mscale=self._yarn_concentration_factor,
+                         cp_group=self.pg_collection.cp,
+                     )
++                    if (
++                        self.training
++                        and self.config.recompute_granularity == "selective"
++                        and "attn_rope_k" in self.config.recompute_modules
++                    ):
++                        key = tensor_parallel.checkpoint(rope_fn, False, key, k_pos_emb)
++                    else:
++                        key = rope_fn(key, k_pos_emb)
+             else:
+                 query, key, value = apply_fused_qkv_rotary_pos_emb(
+                     mixed_qkv, q_pos_emb, k_pos_emb, qkv_split_arg_list
+@@ -1577,7 +1592,16 @@ class Attention(MegatronModule, ABC):
+         # =================
+         nvtx_range_push(suffix="linear_proj")
+         with off_interface(self.offload_attn_proj, core_attn_out, "attn_proj") as core_attn_out:
+-            output, bias = apply_module(self.linear_proj)(core_attn_out)
++            if (
++                self.training
++                and self.config.recompute_granularity == "selective"
++                and "attn_proj" in self.config.recompute_modules
++            ):
++                output, bias = tensor_parallel.checkpoint(
++                    apply_module(self.linear_proj), False, core_attn_out
++                )
++            else:
++                output, bias = apply_module(self.linear_proj)(core_attn_out)
+         if self.offload_attn_proj:
+             output = off_interface.group_commit(
+                 output, name="attn_proj", forced_released_tensors=[core_attn_out]
+@@ -1793,7 +1817,16 @@ class SelfAttention(Attention):
+         """
+         # If no output gate: Attention heads [sq, b, h] --> [sq, b, ng * (np/ng + 2) * hn)]
+         # If have output gate: Attention heads [sq, b, h] --> [sq, b, ng * (2 * np/ng + 2) * hn)]
+-        mixed_qkv, _ = apply_module(self.linear_qkv)(hidden_states)
++        if (
++            self.training
++            and self.config.recompute_granularity == "selective"
++            and "attn_qkv" in self.config.recompute_modules
++        ):
++            mixed_qkv, _ = tensor_parallel.checkpoint(
++                apply_module(self.linear_qkv), False, hidden_states
++            )
++        else:
++            mixed_qkv, _ = apply_module(self.linear_qkv)(hidden_states)
+         num_query_heads_per_group = (
+             self.num_attention_heads_per_partition // self.num_query_groups_per_partition
+         )
+@@ -1884,10 +1917,24 @@ class SelfAttention(Attention):
+             query = query[:, :, idx * size : (idx + 1) * size, :]
+ 
+         if self.q_layernorm is not None:
+-            query = apply_module(self.q_layernorm)(query)
++            if (
++                self.training
++                and self.config.recompute_granularity == "selective"
++                and "attn_q_norm" in self.config.recompute_modules
++            ):
++                query = tensor_parallel.checkpoint(apply_module(self.q_layernorm), False, query)
++            else:
++                query = apply_module(self.q_layernorm)(query)
+ 
+         if self.k_layernorm is not None:
+-            key = apply_module(self.k_layernorm)(key)
++            if (
++                self.training
++                and self.config.recompute_granularity == "selective"
++                and "attn_k_norm" in self.config.recompute_modules
++            ):
++                key = tensor_parallel.checkpoint(apply_module(self.k_layernorm), False, key)
++            else:
++                key = apply_module(self.k_layernorm)(key)
+ 
+         if self.config.test_mode:
+             self.run_realtime_tests()
+diff --git a/megatron/core/transformer/mlp.py b/megatron/core/transformer/mlp.py
+index 1a578151f..d393f2640 100644
+--- a/megatron/core/transformer/mlp.py
++++ b/megatron/core/transformer/mlp.py
+@@ -10,6 +10,7 @@ import numpy as np
+ import torch
+ import torch.nn.functional as F
+ 
++from megatron.core import tensor_parallel
+ from megatron.core.dist_checkpointing import ShardedTensor
+ from megatron.core.dist_checkpointing.mapping import (
+     ReplicaId,
+@@ -255,10 +256,60 @@ class MLP(MegatronModule):
+         """Perform the forward pass through the MLP block."""
+         # [s, b, 4 * h/p]
+         nvtx_range_push(suffix="linear_fc1")
+-        intermediate_parallel, bias_parallel = apply_module(self.linear_fc1)(hidden_states)
++        if (
++            self.training
++            and self.config.recompute_granularity == "selective"
++            and "mlp_fc1" in self.config.recompute_modules
++        ):
++            intermediate_parallel, bias_parallel = tensor_parallel.checkpoint(
++                apply_module(self.linear_fc1), False, hidden_states
++            )
++        else:
++            intermediate_parallel, bias_parallel = apply_module(self.linear_fc1)(hidden_states)
+         nvtx_range_pop(suffix="linear_fc1")
+ 
+         nvtx_range_push(suffix="activation")
++        if (
++            self.training
++            and self.config.recompute_granularity == "selective"
++            and "mlp_act" in self.config.recompute_modules
++        ):
++            intermediate_parallel = tensor_parallel.checkpoint(
++                self._fine_activation, False, intermediate_parallel, bias_parallel, per_token_scale
++            )
++        else:
++            intermediate_parallel = self._fine_activation(
++                intermediate_parallel, bias_parallel, per_token_scale
++            )
++        nvtx_range_pop(suffix="activation")
++
++        # [s, b, h]
++        nvtx_range_push(suffix="linear_fc2")
++
++        if (
++            self.training
++            and self.config.recompute_granularity == "selective"
++            and "mlp_fc2" in self.config.recompute_modules
++        ):
++            output, output_bias = tensor_parallel.checkpoint(
++                apply_module(self.linear_fc2), False, cast(torch.Tensor, intermediate_parallel)
++            )
++        else:
++            output, output_bias = apply_module(self.linear_fc2)(
++                cast(torch.Tensor, intermediate_parallel)
++            )
++        nvtx_range_pop(suffix="linear_fc2")
++
++        if per_token_scale is not None and output_bias is not None:
++            # if this MLP is an expert, and bias is required, we add the bias to output directly
++            # without doing bda later.
++            output += output_bias.unsqueeze(0) * per_token_scale.unsqueeze(-1)
++            output_bias = None
++
++        return output, output_bias
++
++    def _fine_activation(self, intermediate_parallel, bias_parallel, per_token_scale):
++        """Apply the MLP activation, optionally as a checkpoint boundary."""
+         if self.config.use_te_activation_func:
+             if bias_parallel is not None:
+                 intermediate_parallel = intermediate_parallel + bias_parallel
+@@ -332,23 +383,7 @@ class MLP(MegatronModule):
+                 original_dtype = intermediate_parallel.dtype
+                 intermediate_parallel = intermediate_parallel * per_token_scale.unsqueeze(-1)
+                 intermediate_parallel = intermediate_parallel.to(original_dtype)
+-        nvtx_range_pop(suffix="activation")
+-
+-        # [s, b, h]
+-        nvtx_range_push(suffix="linear_fc2")
+-
+-        output, output_bias = apply_module(self.linear_fc2)(
+-            cast(torch.Tensor, intermediate_parallel)
+-        )
+-        nvtx_range_pop(suffix="linear_fc2")
+-
+-        if per_token_scale is not None and output_bias is not None:
+-            # if this MLP is an expert, and bias is required, we add the bias to output directly
+-            # without doing bda later.
+-            output += output_bias.unsqueeze(0) * per_token_scale.unsqueeze(-1)
+-            output_bias = None
+-
+-        return output, output_bias
++        return intermediate_parallel
+ 
+     # pylint: disable=missing-function-docstring
+     def sharded_state_dict(
+diff --git a/megatron/core/transformer/moe/experts.py b/megatron/core/transformer/moe/experts.py
+index bde1737fc..fa9f18495 100644
+--- a/megatron/core/transformer/moe/experts.py
++++ b/megatron/core/transformer/moe/experts.py
+@@ -259,6 +259,8 @@ class TEGroupedMLP(MegatronModule):
+             self.config.recompute_granularity == 'selective'
+             and "moe_act" in self.config.recompute_modules
+         )
++        self.fc1_recompute = config.recompute_granularity == 'selective' and 'moe_fc1' in config.recompute_modules
++        self.fc2_recompute = config.recompute_granularity == 'selective' and 'moe_fc2' in config.recompute_modules
+         if self.activation_recompute and (self.config.fp8 or self.config.fp4):
+             from megatron.core.extensions.transformer_engine import set_save_original_input
+ 
+@@ -698,9 +700,15 @@ class TEGroupedMLP(MegatronModule):
+         with off_interface(
+             self.offload_expert_fc1, permuted_local_hidden_states, "expert_fc1"
+         ) as permuted_local_hidden_states:
+-            fc1_output, bias_parallel = apply_module(self.linear_fc1)(
+-                permuted_local_hidden_states, tokens_per_expert
+-            )
++            if self.fc1_recompute and self.training and torch.is_grad_enabled():
++                def fc1(x):
++                    return apply_module(self.linear_fc1)(x, tokens_per_expert)[0]
++                fc1_output = tensor_parallel.checkpoint(fc1, False, permuted_local_hidden_states)
++                bias_parallel = None
++            else:
++                fc1_output, bias_parallel = apply_module(self.linear_fc1)(
++                    permuted_local_hidden_states, tokens_per_expert
++                )
+         if self.offload_expert_fc1:
+             fc1_output = off_interface.group_commit(
+                 fc1_output,
+@@ -792,7 +800,13 @@ class TEGroupedMLP(MegatronModule):
+         else:
+             with off_interface(self.offload_moe_act, fc1_output, "moe_act") as fc1_output:
+                 bias_act_output = bias_act_func(fc1_output, bias_parallel, permuted_probs)
+-        output, output_bias = apply_module(self.linear_fc2)(bias_act_output, tokens_per_expert)
++        if self.fc2_recompute and self.training and torch.is_grad_enabled():
++            def fc2(x):
++                return apply_module(self.linear_fc2)(x, tokens_per_expert)[0]
++            output = tensor_parallel.checkpoint(fc2, False, bias_act_output)
++            output_bias = None
++        else:
++            output, output_bias = apply_module(self.linear_fc2)(bias_act_output, tokens_per_expert)
+         if self.activation_recompute:
+             self.activation_checkpoint.discard_output_and_register_recompute(output)
+ 
+diff --git a/megatron/core/transformer/moe/moe_layer.py b/megatron/core/transformer/moe/moe_layer.py
+index 608e36a4e..f57686789 100644
+--- a/megatron/core/transformer/moe/moe_layer.py
++++ b/megatron/core/transformer/moe/moe_layer.py
+@@ -336,6 +336,11 @@ class MoELayer(BaseMoELayer):
+             pg_collection=pg_collection,
+             name=(name + ".experts") if name is not None else None,
+         )
++        if {"moe_fc1", "moe_fc2"} & set(config.recompute_modules):
++            from megatron.core.transformer.moe.experts import TEGroupedMLP
++
++            if not isinstance(self.experts, TEGroupedMLP):
++                raise ValueError("moe_fc1/moe_fc2 require TEGroupedMLP experts")
+ 
+         # Initialize shared experts
+         if self.use_shared_expert:
+diff --git a/megatron/core/transformer/transformer_config.py b/megatron/core/transformer/transformer_config.py
+index 812470a73..0354fb079 100644
+--- a/megatron/core/transformer/transformer_config.py
++++ b/megatron/core/transformer/transformer_config.py
+@@ -1,5 +1,6 @@
+ # Copyright (c) 2025 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+ 
++import json
+ import logging
+ import math
+ import warnings
+@@ -50,6 +51,20 @@ except ImportError:
+     HAVE_PACKAGING = False
+ 
+ 
++def _parse_recompute_layer_config(value: str) -> dict:
++    """Parse a layer mapping while rejecting duplicate JSON keys."""
++
++    def unique_pairs(pairs):
++        result = {}
++        for key, item in pairs:
++            if key in result:
++                raise ValueError(f"Duplicate JSON key: {key!r}")
++            result[key] = item
++        return result
++
++    return json.loads(value, object_pairs_hook=unique_pairs)
++
++
+ @dataclass
+ class TransformerConfig(ModelParallelConfig):
+     """Configuration object for megatron-core transformers.
+@@ -533,6 +548,15 @@ class TransformerConfig(ModelParallelConfig):
+     distribute_saved_activations: Optional[bool] = False
+     """If True, distribute recomputed activations across the model parallel group."""
+ 
++    recompute_layer_config: Optional[dict] = field(
++        default=None, metadata={"argparse_meta": {"type": _parse_recompute_layer_config}}
++    )
++    """Optional JSON object mapping zero-based global layer indices to module lists.
++
++    When supplied it replaces the global module list; unspecified layers have no
++    selective recomputation. For example, {"0": ["attn_qkv"], "3": []}.
++    """
++
+     recompute_modules: Optional[List[str]] = None
+     """The submodules to recompute.
+     choices: "core_attn", "moe_act", "layernorm", "mla_up_proj", "mlp", "moe",
+@@ -540,12 +564,16 @@ class TransformerConfig(ModelParallelConfig):
+     default: ["core_attn"].
+     "core_attn": recompute the core attention part of the transformer layer.
+     "moe_act": recompute the MoE MLP activation function.
++    "moe_fc1", "moe_fc2": recompute the respective TE grouped expert linear call.
+     "layernorm": recompute the input_layernorm and pre_mlp_layernorm.
+     "mla_up_proj": recompute the MLA up projection and RoPE applying parts.
+     "mlp": recompute the dense MLP submodule.
+     "moe": recompute the MoE layer.
+     "shared_experts": recompute the shared experts in the MoE layer.
+     "gdn_norm_out": recompute the GatedDeltaNet output norm and HP-to-CP all-to-all.
++    "attn_qkv", "attn_q_norm", "attn_k_norm", "attn_rope_q", "attn_rope_k",
++    "attn_proj", "mlp_fc1", "mlp_act", "mlp_fc2": fine-grained dense
++    attention and MLP module boundaries. Fused modules may include normalization.
+     "moe_act", "layernorm", "mla_up_proj", and "gdn_norm_out" use output-discarding checkpointing,
+     "core_attn", "mlp", "moe", and "shared_experts" use normal checkpointing.
+     """
+@@ -1637,7 +1665,35 @@ class TransformerConfig(ModelParallelConfig):
+                     f"false when sequence parallel is enabled: {self.sequence_parallel}"
+                 )
+ 
+-        if self.recompute_modules is None:
++        if self.recompute_layer_config is not None:
++            if self.recompute_granularity != "selective":
++                raise ValueError("recompute_layer_config requires selective recomputation")
++            if not isinstance(self.recompute_layer_config, dict):
++                raise ValueError("recompute_layer_config must be an object")
++            normalized = {}
++            for key, modules in self.recompute_layer_config.items():
++                if isinstance(key, bool) or not (
++                    isinstance(key, int) or isinstance(key, str) and key.isdecimal()
++                ):
++                    raise ValueError(f"Invalid global layer index: {key!r}")
++                index = int(key)
++                if index < 0 or index >= self.num_layers or index in normalized:
++                    raise ValueError(f"Invalid or duplicate global layer index: {key!r}")
++                if not isinstance(modules, list) or not all(isinstance(m, str) for m in modules):
++                    raise ValueError(f"Layer {index} requires a list of module names")
++                if len(modules) != len(set(modules)):
++                    raise ValueError(f"Duplicate module for layer {index}")
++                if "mlp" in modules and set(modules) & {"mlp_fc1", "mlp_act", "mlp_fc2"}:
++                    raise ValueError(
++                        f"Layer {index}: cannot combine whole-MLP and fine MLP checkpointing"
++                    )
++                if "moe" in modules and set(modules) & {"moe_act", "moe_fc1", "moe_fc2", "shared_experts"}:
++                    raise ValueError(f"Layer {index}: cannot combine whole MoE and internal checkpoints")
++                normalized[index] = list(modules)
++            self.recompute_layer_config = normalized
++            # Validate and advertise the union at model level; layers receive their own lists.
++            self.recompute_modules = sorted({m for modules in normalized.values() for m in modules})
++        elif self.recompute_modules is None:
+             self.recompute_modules = ["core_attn"]
+ 
+         if self.recompute_granularity == "selective":
+@@ -1645,12 +1701,23 @@ class TransformerConfig(ModelParallelConfig):
+                 allowed_modules = {
+                     "core_attn",
+                     "moe_act",
++                    "moe_fc1",
++                    "moe_fc2",
+                     "layernorm",
+                     "mla_up_proj",
+                     "mlp",
+                     "moe",
+                     "shared_experts",
+                     "gdn_norm_out",
++                    "attn_qkv",
++                    "attn_q_norm",
++                    "attn_k_norm",
++                    "attn_rope_q",
++                    "attn_rope_k",
++                    "attn_proj",
++                    "mlp_fc1",
++                    "mlp_act",
++                    "mlp_fc2",
+                 }
+                 invalid_modules = set(self.recompute_modules) - allowed_modules
+                 assert not invalid_modules, (
+@@ -1658,6 +1725,59 @@ class TransformerConfig(ModelParallelConfig):
+                     f"Allowed modules are: {allowed_modules}"
+                 )
+ 
++            fine_modules = {
++                "attn_qkv",
++                "attn_q_norm",
++                "attn_k_norm",
++                "attn_rope_q",
++                "attn_rope_k",
++                "attn_proj",
++                "mlp_fc1",
++                "mlp_act",
++                "mlp_fc2",
++            }
++            selected_fine = fine_modules.intersection(self.recompute_modules)
++            moe_fine = {"moe_fc1", "moe_fc2"}.intersection(self.recompute_modules)
++            if moe_fine:
++                if (not self.num_moe_experts or not self.moe_grouped_gemm or self.fp8 or self.fp4
++                    or self.add_bias_linear or self.use_transformer_engine_op_fuser
++                    or self.fine_grained_activation_offloading or self.cpu_offloading
++                    or self.cuda_graph_impl != "none" or self.overlap_moe_expert_parallel_comm):
++                    raise ValueError("MoE FC checkpoints require bias-free BF16/FP32 grouped experts without fused ops, offloading, CUDA graphs or EP overlap")
++            if "moe_act" in self.recompute_modules and self.use_transformer_engine_op_fuser:
++                raise ValueError("moe_act checkpointing is unsupported with fused grouped MLP")
++            if self.recompute_layer_config is None and "moe" in self.recompute_modules and set(self.recompute_modules) & {"moe_act", "moe_fc1", "moe_fc2", "shared_experts"}:
++                raise ValueError("Cannot combine whole MoE and internal checkpoints")
++            if selected_fine:
++                if self.num_moe_experts and selected_fine.intersection({"mlp_fc1", "mlp_act", "mlp_fc2"}):
++                    raise ValueError("Use moe_fc1, moe_act or moe_fc2 for MoE experts")
++                if (
++                    self.recompute_layer_config is None
++                    and "mlp" in self.recompute_modules
++                    and selected_fine.intersection({"mlp_fc1", "mlp_act", "mlp_fc2"})
++                ):
++                    raise ValueError("Cannot combine whole-MLP and fine MLP checkpointing")
++                if (
++                    self.fp8
++                    or self.fp4
++                    or self.fine_grained_activation_offloading
++                ):
++                    raise ValueError(
++                        "Fine checkpointing currently supports BF16/FP32 without activation offloading"
++                    )
++                if self.fused_single_qkv_rope and selected_fine.intersection(
++                    {"attn_rope_q", "attn_rope_k"}
++                ):
++                    raise ValueError("Separate RoPE checkpointing requires unfused QKV RoPE")
++                if self.cpu_offloading:
++                    raise ValueError("Fine checkpointing with CPU offloading is not supported")
++                if self.sequence_parallel or self.multi_latent_attention:
++                    raise ValueError(
++                        "Fine checkpointing with sequence parallel or MLA is not supported"
++                    )
++                if self.cuda_graph_impl != "none":
++                    raise ValueError("Fine checkpointing with CUDA graphs is not supported")
++
+             if "moe_act" in self.recompute_modules and not self.moe_grouped_gemm:
+                 raise ValueError(
+                     "moe_act in recompute_modules is only supported with moe_grouped_gemm."
+diff --git a/megatron/core/transformer/transformer_layer.py b/megatron/core/transformer/transformer_layer.py
+index ddd1e7d34..2b213c2b7 100644
+--- a/megatron/core/transformer/transformer_layer.py
++++ b/megatron/core/transformer/transformer_layer.py
+@@ -1,6 +1,7 @@
+ # Copyright (c) 2025 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+ from __future__ import annotations
+ 
++import copy
+ import functools
+ import logging
+ import warnings
+@@ -333,6 +334,15 @@ class TransformerLayer(GraphableMegatronModule, BaseTransformerLayer):
+             self.layer_number = layer_number + get_transformer_layer_offset(
+                 self.config, vp_stage, get_pg_rank(pg_collection.pp)
+             )
++        if config.recompute_layer_config is not None:
++            if is_mtp_layer:
++                raise ValueError("Layer-wise recomputation is not supported for MTP layers")
++            # Layer numbers are one-based and already include the PP/virtual PP offset.
++            config = copy.copy(config)
++            config.recompute_modules = list(
++                config.recompute_layer_config.get(self.layer_number - 1, [])
++            )
++            self.config = config
+         self.hidden_dropout = config.hidden_dropout if hidden_dropout is None else hidden_dropout
+         self.is_mtp_layer = is_mtp_layer
+ 
+@@ -430,6 +440,9 @@ class TransformerLayer(GraphableMegatronModule, BaseTransformerLayer):
+         self.mlp_bda = build_module(submodules.mlp_bda)
+ 
+         self.is_moe_layer = isinstance(self.mlp, MoELayer)
++        if (config.recompute_layer_config is not None and not self.is_moe_layer
++            and {"moe", "moe_act", "moe_fc1", "moe_fc2", "shared_experts"} & set(config.recompute_modules)):
++            raise ValueError(f"MoE recomputation selected for dense layer {self.layer_number - 1}")
+ 
+         self.recompute_input_layernorm = False
+         self.recompute_pre_mlp_layernorm = False

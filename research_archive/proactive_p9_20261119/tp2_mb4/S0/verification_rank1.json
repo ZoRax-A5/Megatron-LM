@@ -1,0 +1,54 @@
+{
+  "rank": 1,
+  "completed": true,
+  "checks": [],
+  "replays": {
+    "1:1:qkv": 4,
+    "1:0:qkv": 4,
+    "2:1:qkv": 4,
+    "2:0:qkv": 4,
+    "3:1:qkv": 4,
+    "3:0:qkv": 4
+  },
+  "bucket_layout": [
+    {
+      "group": 0,
+      "bucket": 0,
+      "bytes": 1969664,
+      "params": [
+        "module.decoder.final_layernorm.weight",
+        "module.decoder.layers.1.self_attention.k_layernorm.weight",
+        "module.decoder.layers.1.self_attention.linear_qkv.weight",
+        "module.decoder.layers.1.self_attention.linear_proj.weight",
+        "module.decoder.layers.0.mlp.linear_fc2.weight",
+        "module.decoder.layers.1.mlp.linear_fc1.layer_norm_weight",
+        "module.decoder.layers.1.mlp.linear_fc1.weight",
+        "module.decoder.layers.1.mlp.linear_fc2.weight",
+        "module.decoder.layers.1.self_attention.q_layernorm.weight",
+        "module.decoder.layers.1.self_attention.linear_qkv.layer_norm_weight",
+        "module.decoder.layers.0.mlp.linear_fc1.weight"
+      ],
+      "members": [
+        1
+      ]
+    },
+    {
+      "group": 1,
+      "bucket": 0,
+      "bytes": 1444352,
+      "params": [
+        "module.decoder.layers.0.self_attention.k_layernorm.weight",
+        "module.decoder.layers.0.self_attention.linear_qkv.weight",
+        "module.decoder.layers.0.self_attention.q_layernorm.weight",
+        "module.embedding.word_embeddings.weight",
+        "module.decoder.layers.0.mlp.linear_fc1.layer_norm_weight",
+        "module.decoder.layers.0.self_attention.linear_qkv.layer_norm_weight",
+        "module.decoder.layers.0.self_attention.linear_proj.weight"
+      ],
+      "members": [
+        1
+      ]
+    }
+  ],
+  "gradient_scope": "all owned fully reduced RS output shard elements, including padding; before optimizer unscale/clip; collective union across DP covers all padded gradient buffers"
+}

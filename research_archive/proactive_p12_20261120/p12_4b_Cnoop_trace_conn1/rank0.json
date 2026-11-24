@@ -1,0 +1,2734 @@
+{
+  "steps": [
+    {
+      "iteration": 0,
+      "backwards": 8,
+      "released": 1,
+      "hits": 0,
+      "checkpoints": [
+        {
+          "id": 0,
+          "hit": false,
+          "metadata": {
+            "step": 0,
+            "microbatch": 7,
+            "layer_number": 1,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 0,
+              "timestamp": 39912876.31812374,
+              "step": 0,
+              "microbatch": 7,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "fallback",
+              "checkpoint_id": 0,
+              "timestamp": 39912876.49981123,
+              "reason": "no_completed_prefetch",
+              "step": 0,
+              "microbatch": 7,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 0,
+              "timestamp": 39912876.50069869,
+              "cache_lifetime_seconds": 0.0,
+              "memory": {},
+              "step": 0,
+              "microbatch": 7,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        }
+      ],
+      "sync": [
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 0,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 1,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 2,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 3,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 4,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 5,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 6,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 7,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 8,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 9,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 10,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 11,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 12,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 13,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 14,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 15,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 16,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 17,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 18,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 19,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 20,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 21,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 22,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 23,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 24,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 25,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 26,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 27,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 28,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 29,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 30,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 31,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 32,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 33,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 34,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 35,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 36,
+          "last": true,
+          "async_enabled": true
+        }
+      ],
+      "max_cached": 0,
+      "reduce_scatter": [
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        }
+      ],
+      "schedule": [
+        [
+          "forward",
+          0
+        ],
+        [
+          "backward",
+          0
+        ],
+        [
+          "forward",
+          1
+        ],
+        [
+          "backward",
+          1
+        ],
+        [
+          "forward",
+          2
+        ],
+        [
+          "backward",
+          2
+        ],
+        [
+          "forward",
+          3
+        ],
+        [
+          "backward",
+          3
+        ],
+        [
+          "forward",
+          4
+        ],
+        [
+          "backward",
+          4
+        ],
+        [
+          "forward",
+          5
+        ],
+        [
+          "backward",
+          5
+        ],
+        [
+          "forward",
+          6
+        ],
+        [
+          "backward",
+          6
+        ],
+        [
+          "forward",
+          7
+        ],
+        [
+          "backward",
+          7
+        ]
+      ],
+      "trigger_count": 0,
+      "cpu_step_ms": 9223.795890808105,
+      "allocated": 19922920448,
+      "reserved": 21330132992,
+      "qkv_calls": 312,
+      "calls": {
+        "('forward', 0)": 36,
+        "('backward', 0)": 3,
+        "('forward', 1)": 36,
+        "('backward', 1)": 3,
+        "('forward', 2)": 36,
+        "('backward', 2)": 3,
+        "('forward', 3)": 36,
+        "('backward', 3)": 3,
+        "('forward', 4)": 36,
+        "('backward', 4)": 3,
+        "('forward', 5)": 36,
+        "('backward', 5)": 3,
+        "('forward', 6)": 36,
+        "('backward', 6)": 3,
+        "('forward', 7)": 36,
+        "('backward', 7)": 3
+      },
+      "losses": {
+        "lm loss": 9.929666519165039
+      },
+      "timeline": [
+        [
+          "forward:0:start",
+          39912872.256892145,
+          0.0
+        ],
+        [
+          "forward:0:end",
+          39912874.78206678,
+          2521.7099609375
+        ],
+        [
+          "backward:0:start",
+          39912874.782195985,
+          2521.841064453125
+        ],
+        [
+          "backward:0:end",
+          39912875.16277793,
+          2904.117431640625
+        ],
+        [
+          "forward:1:start",
+          39912875.16386324,
+          2904.12158203125
+        ],
+        [
+          "forward:1:end",
+          39912875.27228106,
+          3017.39111328125
+        ],
+        [
+          "backward:1:start",
+          39912875.272316426,
+          3017.398681640625
+        ],
+        [
+          "backward:1:end",
+          39912875.34996562,
+          3135.462646484375
+        ],
+        [
+          "forward:2:start",
+          39912875.35100009,
+          3135.46630859375
+        ],
+        [
+          "forward:2:end",
+          39912875.448290616,
+          3200.308837890625
+        ],
+        [
+          "backward:2:start",
+          39912875.44832726,
+          3200.314697265625
+        ],
+        [
+          "backward:2:end",
+          39912875.52522967,
+          3318.1083984375
+        ],
+        [
+          "forward:3:start",
+          39912875.526274994,
+          3318.11181640625
+        ],
+        [
+          "forward:3:end",
+          39912875.62878609,
+          3379.678466796875
+        ],
+        [
+          "backward:3:start",
+          39912875.62882008,
+          3379.685302734375
+        ],
+        [
+          "backward:3:end",
+          39912875.70620821,
+          3497.64599609375
+        ],
+        [
+          "forward:4:start",
+          39912875.70742795,
+          3497.649658203125
+        ],
+        [
+          "forward:4:end",
+          39912875.81283643,
+          3557.98779296875
+        ],
+        [
+          "backward:4:start",
+          39912875.812888876,
+          3557.993896484375
+        ],
+        [
+          "backward:4:end",
+          39912875.922012925,
+          3676.929931640625
+        ],
+        [
+          "forward:5:start",
+          39912875.923269056,
+          3676.93359375
+        ],
+        [
+          "forward:5:end",
+          39912876.02940675,
+          3774.672119140625
+        ],
+        [
+          "backward:5:start",
+          39912876.02945838,
+          3774.677978515625
+        ],
+        [
+          "backward:5:end",
+          39912876.131309696,
+          3892.766357421875
+        ],
+        [
+          "forward:6:start",
+          39912876.132220484,
+          3892.77001953125
+        ],
+        [
+          "forward:6:end",
+          39912876.22606395,
+          3971.792724609375
+        ],
+        [
+          "backward:6:start",
+          39912876.22609782,
+          3971.798828125
+        ],
+        [
+          "backward:6:end",
+          39912876.31499336,
+          4089.95849609375
+        ],
+        [
+          "forward:7:start",
+          39912876.31589118,
+          4089.9619140625
+        ],
+        [
+          "forward:7:end",
+          39912876.41400738,
+          4159.1943359375
+        ],
+        [
+          "backward:7:start",
+          39912876.41414407,
+          4159.20068359375
+        ],
+        [
+          "backward:7:end",
+          39912876.501779616,
+          4277.40185546875
+        ]
+      ]
+    },
+    {
+      "iteration": 1,
+      "backwards": 8,
+      "released": 1,
+      "hits": 0,
+      "checkpoints": [
+        {
+          "id": 1,
+          "hit": false,
+          "metadata": {
+            "step": 1,
+            "microbatch": 7,
+            "layer_number": 1,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 1,
+              "timestamp": 39912882.95249833,
+              "step": 1,
+              "microbatch": 7,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "fallback",
+              "checkpoint_id": 1,
+              "timestamp": 39912883.24492686,
+              "reason": "no_completed_prefetch",
+              "step": 1,
+              "microbatch": 7,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 1,
+              "timestamp": 39912883.24574637,
+              "cache_lifetime_seconds": 0.0,
+              "memory": {},
+              "step": 1,
+              "microbatch": 7,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        }
+      ],
+      "sync": [
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 0,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 1,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 2,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 3,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 4,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 5,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 6,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 7,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 8,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 9,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 10,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 11,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 12,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 13,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 14,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 15,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 16,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 17,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 18,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 19,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 20,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 21,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 22,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 23,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 24,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 25,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 26,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 27,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 28,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 29,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 30,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 31,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 32,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 33,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 34,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 35,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 36,
+          "last": true,
+          "async_enabled": true
+        }
+      ],
+      "max_cached": 0,
+      "reduce_scatter": [
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        }
+      ],
+      "schedule": [
+        [
+          "forward",
+          0
+        ],
+        [
+          "backward",
+          0
+        ],
+        [
+          "forward",
+          1
+        ],
+        [
+          "backward",
+          1
+        ],
+        [
+          "forward",
+          2
+        ],
+        [
+          "backward",
+          2
+        ],
+        [
+          "forward",
+          3
+        ],
+        [
+          "backward",
+          3
+        ],
+        [
+          "forward",
+          4
+        ],
+        [
+          "backward",
+          4
+        ],
+        [
+          "forward",
+          5
+        ],
+        [
+          "backward",
+          5
+        ],
+        [
+          "forward",
+          6
+        ],
+        [
+          "backward",
+          6
+        ],
+        [
+          "forward",
+          7
+        ],
+        [
+          "backward",
+          7
+        ]
+      ],
+      "trigger_count": 1,
+      "cpu_step_ms": 1764.900878071785,
+      "allocated": 23943937024,
+      "reserved": 24834473984,
+      "qkv_calls": 312,
+      "calls": {
+        "('forward', 0)": 36,
+        "('backward', 0)": 3,
+        "('forward', 1)": 36,
+        "('backward', 1)": 3,
+        "('forward', 2)": 36,
+        "('backward', 2)": 3,
+        "('forward', 3)": 36,
+        "('backward', 3)": 3,
+        "('forward', 4)": 36,
+        "('backward', 4)": 3,
+        "('forward', 5)": 36,
+        "('backward', 5)": 3,
+        "('forward', 6)": 36,
+        "('backward', 6)": 3,
+        "('forward', 7)": 36,
+        "('backward', 7)": 3
+      },
+      "losses": {
+        "lm loss": 9.705361366271973
+      },
+      "timeline": [
+        [
+          "forward:0:start",
+          39912881.53790544,
+          0.0
+        ],
+        [
+          "forward:0:end",
+          39912881.69385704,
+          152.27821350097656
+        ],
+        [
+          "backward:0:start",
+          39912881.69390344,
+          152.3263397216797
+        ],
+        [
+          "backward:0:end",
+          39912881.78266154,
+          270.9513244628906
+        ],
+        [
+          "forward:1:start",
+          39912881.784814894,
+          270.9556884765625
+        ],
+        [
+          "forward:1:end",
+          39912881.89175368,
+          350.1771240234375
+        ],
+        [
+          "backward:1:start",
+          39912881.89178714,
+          350.21148681640625
+        ],
+        [
+          "backward:1:end",
+          39912881.97842811,
+          468.7552185058594
+        ],
+        [
+          "forward:2:start",
+          39912881.98056698,
+          468.7587890625
+        ],
+        [
+          "forward:2:end",
+          39912882.08756749,
+          545.991943359375
+        ],
+        [
+          "backward:2:start",
+          39912882.08760043,
+          546.0260620117188
+        ],
+        [
+          "backward:2:end",
+          39912882.17375589,
+          665.2694091796875
+        ],
+        [
+          "forward:3:start",
+          39912882.17459413,
+          665.2733154296875
+        ],
+        [
+          "forward:3:end",
+          39912882.28135017,
+          739.7760620117188
+        ],
+        [
+          "backward:3:start",
+          39912882.28138416,
+          739.811279296875
+        ],
+        [
+          "backward:3:end",
+          39912882.36881536,
+          859.92919921875
+        ],
+        [
+          "forward:4:start",
+          39912882.36966619,
+          859.9327392578125
+        ],
+        [
+          "forward:4:end",
+          39912882.480274685,
+          938.7007446289062
+        ],
+        [
+          "backward:4:start",
+          39912882.48031057,
+          938.73876953125
+        ],
+        [
+          "backward:4:end",
+          39912882.56563576,
+          1057.13037109375
+        ],
+        [
+          "forward:5:start",
+          39912882.56651149,
+          1057.1339111328125
+        ],
+        [
+          "forward:5:end",
+          39912882.674673244,
+          1133.099609375
+        ],
+        [
+          "backward:5:start",
+          39912882.67471095,
+          1133.140380859375
+        ],
+        [
+          "backward:5:end",
+          39912882.760240674,
+          1251.8878173828125
+        ],
+        [
+          "forward:6:start",
+          39912882.76112813,
+          1251.8914794921875
+        ],
+        [
+          "forward:6:end",
+          39912882.86310396,
+          1321.5333251953125
+        ],
+        [
+          "backward:6:start",
+          39912882.86313794,
+          1321.568603515625
+        ],
+        [
+          "backward:6:end",
+          39912882.94939414,
+          1440.46875
+        ],
+        [
+          "forward:7:start",
+          39912882.950320184,
+          1440.4722900390625
+        ],
+        [
+          "forward:7:end",
+          39912883.05176109,
+          1510.192138671875
+        ],
+        [
+          "backward:7:start",
+          39912883.05183337,
+          1510.265380859375
+        ],
+        [
+          "backward:7:end",
+          39912883.249818735,
+          1708.7196044921875
+        ]
+      ]
+    },
+    {
+      "iteration": 2,
+      "backwards": 8,
+      "released": 1,
+      "hits": 0,
+      "checkpoints": [
+        {
+          "id": 2,
+          "hit": false,
+          "metadata": {
+            "step": 2,
+            "microbatch": 7,
+            "layer_number": 1,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          "events": [
+            {
+              "event": "forward_complete",
+              "checkpoint_id": 2,
+              "timestamp": 39912887.43250101,
+              "step": 2,
+              "microbatch": 7,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "fallback",
+              "checkpoint_id": 2,
+              "timestamp": 39912887.68969102,
+              "reason": "no_completed_prefetch",
+              "step": 2,
+              "microbatch": 7,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            },
+            {
+              "event": "released",
+              "checkpoint_id": 2,
+              "timestamp": 39912887.69068204,
+              "cache_lifetime_seconds": 0.0,
+              "memory": {},
+              "step": 2,
+              "microbatch": 7,
+              "layer_number": 1,
+              "module": "attn_qkv",
+              "tp_size": 2,
+              "rank": 0
+            }
+          ],
+          "final_state": "consumed"
+        }
+      ],
+      "sync": [
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 0,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 1,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 2,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 3,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 4,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 5,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 6,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 7,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 8,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 9,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 10,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 11,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 12,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 13,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 14,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 15,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 16,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 17,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 18,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 19,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 20,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 21,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 22,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 23,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 24,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 25,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 26,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 27,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 28,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 29,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 30,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 31,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 32,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 33,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 34,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 35,
+          "last": true,
+          "async_enabled": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "group": 36,
+          "last": true,
+          "async_enabled": true
+        }
+      ],
+      "max_cached": 0,
+      "reduce_scatter": [
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        },
+        {
+          "stage": [
+            "backward",
+            7
+          ],
+          "async_op": true
+        }
+      ],
+      "schedule": [
+        [
+          "forward",
+          0
+        ],
+        [
+          "backward",
+          0
+        ],
+        [
+          "forward",
+          1
+        ],
+        [
+          "backward",
+          1
+        ],
+        [
+          "forward",
+          2
+        ],
+        [
+          "backward",
+          2
+        ],
+        [
+          "forward",
+          3
+        ],
+        [
+          "backward",
+          3
+        ],
+        [
+          "forward",
+          4
+        ],
+        [
+          "backward",
+          4
+        ],
+        [
+          "forward",
+          5
+        ],
+        [
+          "backward",
+          5
+        ],
+        [
+          "forward",
+          6
+        ],
+        [
+          "backward",
+          6
+        ],
+        [
+          "forward",
+          7
+        ],
+        [
+          "backward",
+          7
+        ]
+      ],
+      "trigger_count": 1,
+      "cpu_step_ms": 4443.735286593437,
+      "allocated": 23942946304,
+      "reserved": 24834473984,
+      "qkv_calls": 312,
+      "calls": {
+        "('forward', 0)": 36,
+        "('backward', 0)": 3,
+        "('forward', 1)": 36,
+        "('backward', 1)": 3,
+        "('forward', 2)": 36,
+        "('backward', 2)": 3,
+        "('forward', 3)": 36,
+        "('backward', 3)": 3,
+        "('forward', 4)": 36,
+        "('backward', 4)": 3,
+        "('forward', 5)": 36,
+        "('backward', 5)": 3,
+        "('forward', 6)": 36,
+        "('backward', 6)": 3,
+        "('forward', 7)": 36,
+        "('backward', 7)": 3
+      },
+      "losses": {
+        "lm loss": 11.732202529907227
+      },
+      "timeline": [
+        [
+          "forward:0:start",
+          39912885.83698824,
+          0.0
+        ],
+        [
+          "forward:0:end",
+          39912885.960096,
+          119.7806396484375
+        ],
+        [
+          "backward:0:start",
+          39912885.960137695,
+          119.82393646240234
+        ],
+        [
+          "backward:0:end",
+          39912886.06635318,
+          240.0419464111328
+        ],
+        [
+          "forward:1:start",
+          39912886.06819537,
+          240.04550170898438
+        ],
+        [
+          "forward:1:end",
+          39912886.18975287,
+          349.4394226074219
+        ],
+        [
+          "backward:1:start",
+          39912886.189797625,
+          349.4854431152344
+        ],
+        [
+          "backward:1:end",
+          39912886.28709741,
+          468.238525390625
+        ],
+        [
+          "forward:2:start",
+          39912886.28811423,
+          468.2420654296875
+        ],
+        [
+          "forward:2:end",
+          39912886.40849743,
+          568.1851806640625
+        ],
+        [
+          "backward:2:start",
+          39912886.4085384,
+          568.2275390625
+        ],
+        [
+          "backward:2:end",
+          39912886.516187154,
+          690.2367553710938
+        ],
+        [
+          "forward:3:start",
+          39912886.51801205,
+          690.24072265625
+        ],
+        [
+          "forward:3:end",
+          39912886.641503066,
+          801.1917114257812
+        ],
+        [
+          "backward:3:start",
+          39912886.64154394,
+          801.234619140625
+        ],
+        [
+          "backward:3:end",
+          39912886.74725414,
+          921.2594604492188
+        ],
+        [
+          "forward:4:start",
+          39912886.74959571,
+          921.2630615234375
+        ],
+        [
+          "forward:4:end",
+          39912886.87006255,
+          1029.753173828125
+        ],
+        [
+          "backward:4:start",
+          39912886.870102614,
+          1029.794677734375
+        ],
+        [
+          "backward:4:end",
+          39912886.977104194,
+          1151.64501953125
+        ],
+        [
+          "forward:5:start",
+          39912886.97892031,
+          1151.6485595703125
+        ],
+        [
+          "forward:5:end",
+          39912887.100942254,
+          1260.63427734375
+        ],
+        [
+          "backward:5:start",
+          39912887.10098129,
+          1260.6748046875
+        ],
+        [
+          "backward:5:end",
+          39912887.204976045,
+          1380.024658203125
+        ],
+        [
+          "forward:6:start",
+          39912887.20614561,
+          1380.0281982421875
+        ],
+        [
+          "forward:6:end",
+          39912887.323002726,
+          1482.6961669921875
+        ],
+        [
+          "backward:6:start",
+          39912887.32304309,
+          1482.738037109375
+        ],
+        [
+          "backward:6:end",
+          39912887.42895179,
+          1603.6019287109375
+        ],
+        [
+          "forward:7:start",
+          39912887.42997517,
+          1603.60546875
+        ],
+        [
+          "forward:7:end",
+          39912887.54085767,
+          1700.552490234375
+        ],
+        [
+          "backward:7:start",
+          39912887.54092727,
+          1700.62353515625
+        ],
+        [
+          "backward:7:end",
+          39912887.694539435,
+          1854.8780517578125
+        ]
+      ]
+    }
+  ]
+}

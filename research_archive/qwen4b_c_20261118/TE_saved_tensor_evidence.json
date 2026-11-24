@@ -1,0 +1,29 @@
+{
+  "source": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+  "sha256": "be1f5bad1ff6217787fab2c0a4ec213fb27c903356a6bdacc930d7b6ec125a1b",
+  "normalization_lines": [
+    179,
+    190
+  ],
+  "gemm_lines": [
+    296,
+    308
+  ],
+  "saved_tensors_lines": [
+    369,
+    381
+  ],
+  "saved_tensors": [
+    "inputmat",
+    "weightmat",
+    "weight",
+    "bias",
+    "ln_weight",
+    "ln_out",
+    "mu",
+    "rsigma"
+  ],
+  "save_condition": "is_grad_enabled",
+  "local_hidden_BF16_bytes": 83886080,
+  "interpretation": "projection output remains used downstream; measured saving close to one normalized hidden cache per selected layer; no memory-history peak-stack attribution performed"
+}

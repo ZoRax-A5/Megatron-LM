@@ -1,0 +1,10 @@
+{
+  "run": "probe_s8192_m4_r1",
+  "status": "OOM during probe; no successful step peak",
+  "source": "probe_s8192_m4_r1/train.log",
+  "first_error": "[default2]:[rank2]: torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 128.00 MiB. GPU 2 has a total capacity of 79.25 GiB of which 55.94 MiB is free. Including non-PyTorch memory, this process has 79.19 GiB memory in use. Of the allocated memory 77.55 GiB is allocated by PyTorch, and 86.33 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)",
+  "recorded_rank_errors": 16,
+  "peak_memory": null,
+  "warning": "memory_rank peak=0 on interrupted first step is an empty completed-step reduction, not a physical zero; do not use as peak",
+  "mbs8_status": "not measured; skipped larger MBS after same-sequence OOM"
+}

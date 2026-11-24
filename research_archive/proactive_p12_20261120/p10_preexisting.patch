@@ -1,0 +1,37 @@
+diff --git a/megatron/core/tensor_parallel/random.py b/megatron/core/tensor_parallel/random.py
+index 7e67d74aa..c5f506fa2 100644
+--- a/megatron/core/tensor_parallel/random.py
++++ b/megatron/core/tensor_parallel/random.py
+@@ -879,7 +879,7 @@ class ProactiveCheckpoint:
+         if current_buffers != self._buffer_versions:
+             raise RuntimeError(f"checkpoint buffer changed between forward and {where}")
+ 
+-    def prefetch(self, trigger_site=None) -> bool:
++    def prefetch(self, trigger_site=None, *, track_saved_tensor_storage=True) -> bool:
+         """Run and retain a differentiable replay graph; return whether it completed."""
+         if self.state != "forward_complete":
+             raise RuntimeError(f"cannot prefetch checkpoint in state {self.state}")
+@@ -935,14 +935,17 @@ class ProactiveCheckpoint:
+             def unpack_saved_tensor(tensor):
+                 return tensor
+ 
++            # Saved-tensor hooks can change the Python wrapper returned for a
++            # saved Parameter. TE uses attributes on that wrapper to publish a
++            # fused wgrad to Megatron DDP on a gradient-synchronizing backward.
++            saved_tensor_context = (
++                torch.autograd.graph.saved_tensors_hooks(pack_saved_tensor, unpack_saved_tensor)
++                if track_saved_tensor_storage
++                else contextlib.nullcontext()
++            )
+             with _fork_rng():
+                 _set_all_rng_states(*self._rng_states)
+-                with (
+-                    torch.enable_grad(),
+-                    torch.autograd.graph.saved_tensors_hooks(
+-                        pack_saved_tensor, unpack_saved_tensor
+-                    ),
+-                ):
++                with torch.enable_grad(), saved_tensor_context:
+                     result = self.run_function(*self._cached_inputs)
+             self._check_versions("prefetch completion")
+             self._cached_outputs = result if isinstance(result, tuple) else (result,)

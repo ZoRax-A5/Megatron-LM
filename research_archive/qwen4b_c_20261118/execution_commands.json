@@ -1,0 +1,37 @@
+{
+  "cwd": "/mnt/si002365wekc/zwx/code/recom",
+  "completed_utc": "2026-11-18T13:50:58.057946+00:00",
+  "entry_commands": [
+    [
+      "python",
+      "qwen3_bench/qwen4b_c/suite.py",
+      "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/qwen4b_c_20261118"
+    ],
+    [
+      "python",
+      "qwen3_bench/qwen4b_c/postprocess.py",
+      "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/qwen4b_c_20261118"
+    ],
+    [
+      "python",
+      "qwen3_bench/qwen4b_c/refresh.py",
+      "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/qwen4b_c_20261118"
+    ],
+    [
+      "python",
+      "qwen3_bench/qwen4b_c/correct_gate.py",
+      "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/qwen4b_c_20261118"
+    ],
+    [
+      "python",
+      "qwen3_bench/qwen4b_c/continue_suite.py",
+      "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/qwen4b_c_20261118"
+    ]
+  ],
+  "restarts": [
+    "postprocess.py and refresh.py after observation-only recovery, same arguments, distinct retained log files"
+  ],
+  "actual_original_runner": "tools_initial/suite.py",
+  "future_runner_formula_fix": "postrun_orchestrator_formula_fix.json",
+  "reproduction_note": "Use a new output directory; exact training commands/environment are in individual manifests."
+}

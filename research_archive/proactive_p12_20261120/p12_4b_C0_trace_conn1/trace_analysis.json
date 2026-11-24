@@ -1,0 +1,1898 @@
+[
+  {
+    "rank": 0,
+    "dp_count": 37,
+    "tp_count": 1224,
+    "handshake_count": 0,
+    "dp_ms": 35.034506,
+    "tp_ms": 139.569928,
+    "dp_native_compute_intersect_ms": 28.817932,
+    "dp_replay_intersect_ms": 0.0,
+    "tp_replay_intersect_ms": 0.0,
+    "dp_ms_by_kernel": [
+      0.735324,
+      0.758907,
+      0.886523,
+      0.92761,
+      0.927867,
+      0.890715,
+      0.899067,
+      0.901178,
+      0.89097,
+      0.88009,
+      0.901562,
+      0.891835,
+      0.897051,
+      0.882171,
+      0.900858,
+      0.905178,
+      0.907259,
+      0.896603,
+      0.896187,
+      0.899866,
+      0.900539,
+      0.879099,
+      0.888379,
+      0.892827,
+      0.909946,
+      0.90297,
+      0.908282,
+      0.880666,
+      0.898139,
+      0.896603,
+      0.885531,
+      0.900122,
+      0.888986,
+      0.883418,
+      0.886362,
+      0.898779,
+      3.057037
+    ],
+    "tp_ops": {
+      "allreduce": {
+        "n": 1192,
+        "gpu_ms": 139.223243
+      },
+      "broadcast": {
+        "n": 32,
+        "gpu_ms": 0.346685
+      }
+    },
+    "prefetch_to_first_dp_ms": null,
+    "replay_ms": 0.0,
+    "forward_backward_tp_api_tagged_count": 1192,
+    "unknown_nccl": [
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_u32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_u32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      }
+    ]
+  },
+  {
+    "rank": 1,
+    "dp_count": 37,
+    "tp_count": 1224,
+    "handshake_count": 0,
+    "dp_ms": 35.22351,
+    "tp_ms": 595.835593,
+    "dp_native_compute_intersect_ms": 29.179026,
+    "dp_replay_intersect_ms": 0.0,
+    "tp_replay_intersect_ms": 0.0,
+    "dp_ms_by_kernel": [
+      0.721308,
+      0.743612,
+      0.894586,
+      0.922233,
+      0.920122,
+      0.89657,
+      0.90057,
+      0.89449,
+      0.890554,
+      0.897338,
+      0.892218,
+      0.902266,
+      0.91081,
+      0.90281,
+      0.906682,
+      0.901562,
+      0.901434,
+      0.901242,
+      0.904474,
+      0.892378,
+      0.896314,
+      0.890842,
+      0.894234,
+      0.918074,
+      0.903514,
+      0.902906,
+      0.902458,
+      0.90073,
+      0.924858,
+      0.899898,
+      0.899578,
+      0.907386,
+      0.907066,
+      0.905722,
+      0.917242,
+      0.908121,
+      3.047308
+    ],
+    "tp_ops": {
+      "allreduce": {
+        "n": 1192,
+        "gpu_ms": 594.807823
+      },
+      "broadcast": {
+        "n": 32,
+        "gpu_ms": 1.02777
+      }
+    },
+    "prefetch_to_first_dp_ms": null,
+    "replay_ms": 0.0,
+    "forward_backward_tp_api_tagged_count": 1192,
+    "unknown_nccl": [
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_u32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_u32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      }
+    ]
+  },
+  {
+    "rank": 2,
+    "dp_count": 37,
+    "tp_count": 1224,
+    "handshake_count": 0,
+    "dp_ms": 142.374027,
+    "tp_ms": 308.012134,
+    "dp_native_compute_intersect_ms": 57.121686,
+    "dp_replay_intersect_ms": 0.0,
+    "tp_replay_intersect_ms": 0.0,
+    "dp_ms_by_kernel": [
+      81.347583,
+      2.893337,
+      2.958937,
+      2.436634,
+      2.129403,
+      1.792635,
+      1.64054,
+      1.5479,
+      1.511517,
+      1.491708,
+      1.46438,
+      1.493213,
+      1.485341,
+      1.465821,
+      1.546204,
+      1.52854,
+      1.492317,
+      1.48358,
+      1.492348,
+      1.64918,
+      1.587964,
+      1.534076,
+      1.49174,
+      1.477277,
+      1.477437,
+      1.477724,
+      1.483196,
+      1.439037,
+      1.445021,
+      1.436861,
+      1.420828,
+      1.465436,
+      1.449501,
+      1.441341,
+      1.43974,
+      1.596892,
+      3.858838
+    ],
+    "tp_ops": {
+      "allreduce": {
+        "n": 1192,
+        "gpu_ms": 307.68439
+      },
+      "broadcast": {
+        "n": 32,
+        "gpu_ms": 0.327744
+      }
+    },
+    "prefetch_to_first_dp_ms": null,
+    "replay_ms": 0.0,
+    "forward_backward_tp_api_tagged_count": 1192,
+    "unknown_nccl": [
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_u32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_u32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      }
+    ]
+  },
+  {
+    "rank": 3,
+    "dp_count": 37,
+    "tp_count": 1224,
+    "handshake_count": 0,
+    "dp_ms": 141.761683,
+    "tp_ms": 332.564039,
+    "dp_native_compute_intersect_ms": 56.702466,
+    "dp_replay_intersect_ms": 0.0,
+    "tp_replay_intersect_ms": 0.0,
+    "dp_ms_by_kernel": [
+      81.315167,
+      3.358259,
+      2.813333,
+      2.376951,
+      2.081751,
+      1.760793,
+      1.62633,
+      1.523354,
+      1.49129,
+      1.510074,
+      1.446203,
+      1.455194,
+      1.48057,
+      1.480507,
+      1.60201,
+      1.50633,
+      1.468603,
+      1.463674,
+      1.43993,
+      1.48025,
+      1.540058,
+      1.519738,
+      1.488603,
+      1.466906,
+      1.465242,
+      1.463771,
+      1.465018,
+      1.452346,
+      1.476603,
+      1.430362,
+      1.424826,
+      1.429274,
+      1.445307,
+      1.454618,
+      1.459802,
+      1.498202,
+      3.600434
+    ],
+    "tp_ops": {
+      "allreduce": {
+        "n": 1192,
+        "gpu_ms": 332.274695
+      },
+      "broadcast": {
+        "n": 32,
+        "gpu_ms": 0.289344
+      }
+    },
+    "prefetch_to_first_dp_ms": null,
+    "replay_ms": 0.0,
+    "forward_backward_tp_api_tagged_count": 1192,
+    "unknown_nccl": [
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_u32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_u32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      }
+    ]
+  },
+  {
+    "rank": 4,
+    "dp_count": 37,
+    "tp_count": 1224,
+    "handshake_count": 0,
+    "dp_ms": 125.578322,
+    "tp_ms": 310.573892,
+    "dp_native_compute_intersect_ms": 54.894379,
+    "dp_replay_intersect_ms": 0.0,
+    "tp_replay_intersect_ms": 0.0,
+    "dp_ms_by_kernel": [
+      67.270606,
+      2.906008,
+      3.028728,
+      2.522425,
+      2.184602,
+      1.896571,
+      1.650683,
+      1.579324,
+      1.535804,
+      1.519036,
+      1.521724,
+      1.526684,
+      1.500924,
+      1.502748,
+      1.582108,
+      1.531932,
+      1.500732,
+      1.485884,
+      1.5151,
+      1.682875,
+      1.640284,
+      1.527611,
+      1.506076,
+      1.483996,
+      1.49478,
+      1.51446,
+      1.541596,
+      1.492156,
+      1.448508,
+      0.933853,
+      0.945182,
+      0.999774,
+      0.999549,
+      0.993789,
+      1.007294,
+      1.194653,
+      3.410263
+    ],
+    "tp_ops": {
+      "allreduce": {
+        "n": 1192,
+        "gpu_ms": 310.251396
+      },
+      "broadcast": {
+        "n": 32,
+        "gpu_ms": 0.322496
+      }
+    },
+    "prefetch_to_first_dp_ms": null,
+    "replay_ms": 0.0,
+    "forward_backward_tp_api_tagged_count": 1192,
+    "unknown_nccl": [
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_u32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_u32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      }
+    ]
+  },
+  {
+    "rank": 5,
+    "dp_count": 37,
+    "tp_count": 1224,
+    "handshake_count": 0,
+    "dp_ms": 124.849677,
+    "tp_ms": 311.083787,
+    "dp_native_compute_intersect_ms": 54.324242,
+    "dp_replay_intersect_ms": 0.0,
+    "tp_replay_intersect_ms": 0.0,
+    "dp_ms_by_kernel": [
+      67.105832,
+      3.356181,
+      2.940919,
+      2.486392,
+      2.123961,
+      1.865114,
+      1.629723,
+      1.552379,
+      1.519323,
+      1.525051,
+      1.483899,
+      1.478203,
+      1.498683,
+      1.506779,
+      1.615706,
+      1.499419,
+      1.480764,
+      1.478491,
+      1.48342,
+      1.554331,
+      1.592827,
+      1.526683,
+      1.482107,
+      1.475387,
+      1.470843,
+      1.484443,
+      1.486619,
+      1.497179,
+      1.518459,
+      1.067068,
+      0.969757,
+      0.952413,
+      0.977149,
+      0.995965,
+      1.012861,
+      1.047005,
+      3.108342
+    ],
+    "tp_ops": {
+      "allreduce": {
+        "n": 1192,
+        "gpu_ms": 310.791276
+      },
+      "broadcast": {
+        "n": 32,
+        "gpu_ms": 0.292511
+      }
+    },
+    "prefetch_to_first_dp_ms": null,
+    "replay_ms": 0.0,
+    "forward_backward_tp_api_tagged_count": 1192,
+    "unknown_nccl": [
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_u32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_u32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      }
+    ]
+  },
+  {
+    "rank": 6,
+    "dp_count": 37,
+    "tp_count": 1224,
+    "handshake_count": 0,
+    "dp_ms": 147.982975,
+    "tp_ms": 163.715267,
+    "dp_native_compute_intersect_ms": 57.486388,
+    "dp_replay_intersect_ms": 0.0,
+    "tp_replay_intersect_ms": 0.0,
+    "dp_ms_by_kernel": [
+      86.500114,
+      2.937049,
+      3.043032,
+      2.53097,
+      2.220219,
+      1.960699,
+      1.784475,
+      1.648284,
+      1.56678,
+      1.537885,
+      1.509532,
+      1.512668,
+      1.497373,
+      1.507549,
+      1.569692,
+      1.509245,
+      1.500029,
+      1.49654,
+      1.516892,
+      1.684924,
+      1.637564,
+      1.5703,
+      1.513724,
+      1.485821,
+      1.507932,
+      1.492508,
+      1.498333,
+      1.464349,
+      1.378588,
+      1.352445,
+      1.329341,
+      1.346813,
+      1.370717,
+      1.376316,
+      1.393981,
+      1.507325,
+      3.722967
+    ],
+    "tp_ops": {
+      "allreduce": {
+        "n": 1192,
+        "gpu_ms": 163.378723
+      },
+      "broadcast": {
+        "n": 32,
+        "gpu_ms": 0.336544
+      }
+    },
+    "prefetch_to_first_dp_ms": null,
+    "replay_ms": 0.0,
+    "forward_backward_tp_api_tagged_count": 1192,
+    "unknown_nccl": [
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_u32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_u32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      }
+    ]
+  },
+  {
+    "rank": 7,
+    "dp_count": 37,
+    "tp_count": 1224,
+    "handshake_count": 0,
+    "dp_ms": 147.600858,
+    "tp_ms": 465.956295,
+    "dp_native_compute_intersect_ms": 57.478443,
+    "dp_replay_intersect_ms": 0.0,
+    "tp_replay_intersect_ms": 0.0,
+    "dp_ms_by_kernel": [
+      86.606249,
+      3.398158,
+      2.866321,
+      2.464435,
+      2.134644,
+      1.911637,
+      1.744086,
+      1.604375,
+      1.548887,
+      1.562808,
+      1.500792,
+      1.505752,
+      1.508919,
+      1.513399,
+      1.622328,
+      1.48572,
+      1.471736,
+      1.484056,
+      1.487768,
+      1.572311,
+      1.603384,
+      1.554551,
+      1.529175,
+      1.49932,
+      1.495736,
+      1.48076,
+      1.462648,
+      1.472888,
+      1.269593,
+      1.308057,
+      1.324857,
+      1.335896,
+      1.367768,
+      1.38396,
+      1.404248,
+      1.480184,
+      3.633452
+    ],
+    "tp_ops": {
+      "allreduce": {
+        "n": 1192,
+        "gpu_ms": 465.66052
+      },
+      "broadcast": {
+        "n": 32,
+        "gpu_ms": 0.295775
+      }
+    },
+    "prefetch_to_first_dp_ms": null,
+    "replay_ms": 0.0,
+    "forward_backward_tp_api_tagged_count": 1192,
+    "unknown_nccl": [
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_u32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllGather_RING_LL",
+        "operation": "allgather"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_u32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      },
+      {
+        "name": "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+        "operation": "allreduce"
+      }
+    ]
+  }
+]

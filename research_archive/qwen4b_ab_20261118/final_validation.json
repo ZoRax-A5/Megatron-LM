@@ -1,0 +1,33 @@
+{
+  "validated_utc": "2026-11-18T08:26:45.501693+00:00",
+  "state": "complete",
+  "formal_runs": 12,
+  "formal_total_steps": 600,
+  "formal_measured_steps": 360,
+  "diagnostic_profiles": 15,
+  "diagnostic_rank_steps": 360,
+  "all_formal_losses_and_logged_grad_norm_finite": true,
+  "all_formal_valid": true,
+  "all_raw_traces_and_rank_logs_present": true,
+  "report_alias_identical": true,
+  "report_sha256": "286128cb5d9fbe4c6cfb3bb73df45ba5c4cb923b1e9d2fb6a031ebb5fd4fa28d",
+  "all_tool_archive_hashes_valid": true,
+  "megatron_sources_unchanged": true,
+  "gpu_processes_remaining": 0,
+  "stage_C_executed": false,
+  "scheduler_developed": false,
+  "oom_runs_preserved": [
+    {
+      "run": "probe_s8192_m4_r1",
+      "oom": true,
+      "returncode": 1
+    }
+  ],
+  "skipped_not_measured": [
+    {
+      "seq": 8192,
+      "mbs": 8,
+      "reason": "larger MBS after same-sequence OOM; not measured"
+    }
+  ]
+}

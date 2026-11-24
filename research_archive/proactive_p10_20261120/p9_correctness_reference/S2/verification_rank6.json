@@ -1,0 +1,120 @@
+{
+  "rank": 6,
+  "completed": true,
+  "checks": [
+    {
+      "step": 1,
+      "kind": "reduced_gradients",
+      "tensors": 2,
+      "elements": 213376,
+      "max_abs": 0.0,
+      "relative_l2": 0.0,
+      "bad_elements": 0,
+      "atol": 1e-05,
+      "rtol": 0.001
+    },
+    {
+      "step": 1,
+      "kind": "parameters",
+      "tensors": 18,
+      "elements": 853504,
+      "max_abs": 0.0,
+      "relative_l2": 0.0,
+      "bad_elements": 0,
+      "atol": 0.001,
+      "rtol": 0.01
+    },
+    {
+      "step": 2,
+      "kind": "reduced_gradients",
+      "tensors": 2,
+      "elements": 213376,
+      "max_abs": 0.0,
+      "relative_l2": 0.0,
+      "bad_elements": 0,
+      "atol": 1e-05,
+      "rtol": 0.001
+    },
+    {
+      "step": 2,
+      "kind": "parameters",
+      "tensors": 18,
+      "elements": 853504,
+      "max_abs": 0.0,
+      "relative_l2": 0.0,
+      "bad_elements": 0,
+      "atol": 0.001,
+      "rtol": 0.01
+    },
+    {
+      "step": 3,
+      "kind": "reduced_gradients",
+      "tensors": 2,
+      "elements": 213376,
+      "max_abs": 0.0,
+      "relative_l2": 0.0,
+      "bad_elements": 0,
+      "atol": 1e-05,
+      "rtol": 0.001
+    },
+    {
+      "step": 3,
+      "kind": "parameters",
+      "tensors": 18,
+      "elements": 853504,
+      "max_abs": 0.0,
+      "relative_l2": 0.0,
+      "bad_elements": 0,
+      "atol": 0.001,
+      "rtol": 0.01
+    }
+  ],
+  "replays": {},
+  "bucket_layout": [
+    {
+      "group": 0,
+      "bucket": 0,
+      "bytes": 1969664,
+      "params": [
+        "module.decoder.final_layernorm.weight",
+        "module.decoder.layers.1.mlp.linear_fc1.layer_norm_weight",
+        "module.decoder.layers.1.mlp.linear_fc1.weight",
+        "module.decoder.layers.1.self_attention.k_layernorm.weight",
+        "module.decoder.layers.1.self_attention.q_layernorm.weight",
+        "module.decoder.layers.1.self_attention.linear_proj.weight",
+        "module.decoder.layers.0.mlp.linear_fc2.weight",
+        "module.decoder.layers.1.mlp.linear_fc2.weight",
+        "module.decoder.layers.1.self_attention.linear_qkv.weight",
+        "module.decoder.layers.1.self_attention.linear_qkv.layer_norm_weight",
+        "module.decoder.layers.0.mlp.linear_fc1.weight"
+      ],
+      "members": [
+        0,
+        2,
+        4,
+        6
+      ]
+    },
+    {
+      "group": 1,
+      "bucket": 0,
+      "bytes": 1444352,
+      "params": [
+        "module.decoder.layers.0.mlp.linear_fc1.layer_norm_weight",
+        "module.decoder.layers.0.self_attention.linear_qkv.layer_norm_weight",
+        "module.decoder.layers.0.self_attention.q_layernorm.weight",
+        "module.decoder.layers.0.self_attention.k_layernorm.weight",
+        "module.decoder.layers.0.self_attention.linear_qkv.weight",
+        "module.decoder.layers.0.self_attention.linear_proj.weight",
+        "module.embedding.word_embeddings.weight"
+      ],
+      "members": [
+        0,
+        2,
+        4,
+        6
+      ]
+    }
+  ],
+  "gradient_scope": "all owned fully reduced RS output shard elements, including padding; before optimizer unscale/clip; collective union across DP covers all padded gradient buffers"
+}

@@ -1,0 +1,68 @@
+{
+  "assumptions": [
+    "fixed sequential micro-batch order, no inter-micro-batch rescheduling",
+    "only mb3 can meet this step gradient RS",
+    "sampled replay kernel duration held fixed",
+    "ignore layer dependencies, bucket ordering, stream scheduling and resource contention",
+    "interval capacity only, not end-to-end speedup or a realizable schedule"
+  ],
+  "rows": [
+    {
+      "strategy": "B1",
+      "last_mb_replay_ms": {
+        "mean": 0.0,
+        "sd": 0.0
+      },
+      "relaxed_upper_ms": {
+        "mean": 0.0,
+        "sd": 0.0
+      },
+      "relaxed_upper_step_pct": {
+        "mean": 0.0,
+        "sd": 0.0
+      },
+      "actual_intersection_ms": {
+        "mean": 0.0,
+        "sd": 0.0
+      }
+    },
+    {
+      "strategy": "fc1_18",
+      "last_mb_replay_ms": {
+        "mean": 62.95972331944444,
+        "sd": 0.0848718185016786
+      },
+      "relaxed_upper_ms": {
+        "mean": 56.30308448611111,
+        "sd": 0.3877648476096614
+      },
+      "relaxed_upper_step_pct": {
+        "mean": 0.9204989079307665,
+        "sd": 0.004198454789480728
+      },
+      "actual_intersection_ms": {
+        "mean": 0.0,
+        "sd": 0.0
+      }
+    },
+    {
+      "strategy": "qkv_18",
+      "last_mb_replay_ms": {
+        "mean": 23.39017473611111,
+        "sd": 0.02410674906831976
+      },
+      "relaxed_upper_ms": {
+        "mean": 23.39017473611111,
+        "sd": 0.02410674906831976
+      },
+      "relaxed_upper_step_pct": {
+        "mean": 0.3926314699174291,
+        "sd": 0.00024334942654258987
+      },
+      "actual_intersection_ms": {
+        "mean": 0.0,
+        "sd": 0.0
+      }
+    }
+  ]
+}

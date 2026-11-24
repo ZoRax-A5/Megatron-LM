@@ -1,0 +1,33 @@
+{
+  "runnable": [
+    [
+      2048,
+      1
+    ],
+    [
+      2048,
+      2
+    ],
+    [
+      8192,
+      1
+    ],
+    [
+      8192,
+      2
+    ]
+  ],
+  "skipped": [
+    {
+      "seq": 8192,
+      "mbs": 8,
+      "reason": "larger MBS after same-sequence OOM; not measured"
+    }
+  ],
+  "preferred_pressure_pct": [
+    70,
+    85
+  ],
+  "pressure_is_hard_stop": false,
+  "selection": "all runnable configurations enter stable repeated baseline measurement; no recompute"
+}

@@ -1,0 +1,480 @@
+
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+Running 1 items in this shard
+Test data not found at /opt/data. Downloading...
+INFO:tests.test_utils.python_scripts.download_unit_tests_dataset:  Downloading datasets.zip...
+Running 1 items in this shard
+Test data not found at /opt/data. Downloading...
+INFO:tests.test_utils.python_scripts.download_unit_tests_dataset:  Downloading datasets.zip...
+ERROR:tests.test_utils.python_scripts.download_unit_tests_dataset:  Error downloading/extracting datasets.zip: [Errno 2] No such file or directory: '/opt/data/datasets.zip'
+INFO:tests.test_utils.python_scripts.download_unit_tests_dataset:  Downloading tokenizers.zip...
+ERROR:tests.test_utils.python_scripts.download_unit_tests_dataset:  Error downloading/extracting tokenizers.zip: [Errno 2] No such file or directory: '/opt/data/tokenizers.zip'
+Test data downloaded successfully.
+ERROR:tests.test_utils.python_scripts.download_unit_tests_dataset:  Error downloading/extracting datasets.zip: [Errno 2] No such file or directory: '/opt/data/datasets.zip'
+INFO:tests.test_utils.python_scripts.download_unit_tests_dataset:  Downloading tokenizers.zip...
+F[rank1]:[W1119 15:20:59.160536387 ProcessGroupNCCL.cpp:4751] [PG ID 0 PG GUID 0 Rank 1]  using GPU 1 as device used by this process is currently unknown. This can potentially cause a hang if this rank to GPU mapping is incorrect. You can pecify device_id in init_process_group() to force use of a particular device.
+ERROR:tests.test_utils.python_scripts.download_unit_tests_dataset:  Error downloading/extracting tokenizers.zip: [Errno 2] No such file or directory: '/opt/data/tokenizers.zip'
+Test data downloaded successfully.
+F[rank0]:[W1119 15:21:00.409812376 ProcessGroupNCCL.cpp:4751] [PG ID 0 PG GUID 0 Rank 0]  using GPU 0 as device used by this process is currently unknown. This can potentially cause a hang if this rank to GPU mapping is incorrect. You can pecify device_id in init_process_group() to force use of a particular device.
+NCCL version 2.26.3+cuda12.9
+
+=================================== FAILURES ===================================
+_______________ test_tp2_sequence_parallel_te_qkv_replay_matches _______________
+
+
+    def test_tp2_sequence_parallel_te_qkv_replay_matches():
+=================================== FAILURES ===================================        pytest.importorskip("transformer_engine")
+
+        if int(os.environ.get("WORLD_SIZE", "1")) != 2:
+            pytest.skip("launch with exactly two ranks to exercise TP2")
+_______________ test_tp2_sequence_parallel_te_qkv_replay_matches _______________    
+
+        from megatron.core.models.gpt.gpt_layer_specs import (
+            get_gpt_layer_with_transformer_engine_submodules,
+
+        )
+        from megatron.core.process_groups_config import ProcessGroupCollection
+        from megatron.core.tensor_parallel.random import (
+            get_recompute_checkpoint,
+            model_parallel_cuda_manual_seed,
+            pending_recompute_checkpoints,
+            prefetch_recompute,
+        )
+    def test_tp2_sequence_parallel_te_qkv_replay_matches():        from megatron.core.transformer.attention import SelfAttention
+
+        pytest.importorskip("transformer_engine")        from megatron.core.transformer.enums import AttnMaskType
+
+        if int(os.environ.get("WORLD_SIZE", "1")) != 2:        from megatron.core.transformer.transformer_config import TransformerConfig
+
+            pytest.skip("launch with exactly two ranks to exercise TP2")        from megatron.core.utils import init_method_normal
+
+        
+
+        from megatron.core.models.gpt.gpt_layer_specs import (        local_rank = int(os.environ["LOCAL_RANK"])
+
+            get_gpt_layer_with_transformer_engine_submodules,
+        torch.cuda.set_device(local_rank)        )
+
+        if not dist.is_initialized():        from megatron.core.process_groups_config import ProcessGroupCollection
+
+            dist.init_process_group("nccl")        from megatron.core.tensor_parallel.random import (
+
+        model_parallel_cuda_manual_seed(            get_recompute_checkpoint,
+
+            431,            model_parallel_cuda_manual_seed,
+
+            tp_rank=dist.get_rank(),            pending_recompute_checkpoints,
+
+            ep_rank=0,            prefetch_recompute,
+
+            etp_rank=dist.get_rank(),        )
+
+            force_reset_rng=True,        from megatron.core.transformer.attention import SelfAttention
+
+        )        from megatron.core.transformer.enums import AttnMaskType
+
+        config = TransformerConfig(        from megatron.core.transformer.transformer_config import TransformerConfig
+
+            num_layers=1,        from megatron.core.utils import init_method_normal
+
+            hidden_size=16,    
+
+            num_attention_heads=4,        local_rank = int(os.environ["LOCAL_RANK"])
+
+            num_query_groups=4,        torch.cuda.set_device(local_rank)
+
+            kv_channels=4,        if not dist.is_initialized():
+
+            ffn_hidden_size=32,            dist.init_process_group("nccl")
+
+            params_dtype=torch.bfloat16,        model_parallel_cuda_manual_seed(
+
+            normalization="RMSNorm",            431,
+
+            tensor_model_parallel_size=2,            tp_rank=dist.get_rank(),
+
+            sequence_parallel=False,            ep_rank=0,
+
+            gradient_accumulation_fusion=True,            etp_rank=dist.get_rank(),
+
+            transformer_impl="transformer_engine",            force_reset_rng=True,
+
+            init_method=init_method_normal(0.02),        )
+
+            recompute_granularity="selective",        config = TransformerConfig(
+
+            recompute_modules=["attn_qkv"],            num_layers=1,
+
+            proactive_recompute=True,            hidden_size=16,
+
+        )            num_attention_heads=4,
+
+        submodules = get_gpt_layer_with_transformer_engine_submodules(            num_query_groups=4,
+
+            qk_layernorm=False            kv_channels=4,
+
+        ).self_attention.submodules            ffn_hidden_size=32,
+
+        process_groups = ProcessGroupCollection()            params_dtype=torch.bfloat16,
+
+        process_groups.tp = dist.group.WORLD            normalization="RMSNorm",
+
+        process_groups.cp = None            tensor_model_parallel_size=2,
+
+        template = SelfAttention(            sequence_parallel=False,
+
+            config=config,            gradient_accumulation_fusion=True,
+
+            submodules=submodules,            transformer_impl="transformer_engine",
+
+            layer_number=1,            init_method=init_method_normal(0.02),
+
+            attn_mask_type=AttnMaskType.causal,            recompute_granularity="selective",
+
+            pg_collection=process_groups,            recompute_modules=["attn_qkv"],
+
+        ).cuda().to(torch.bfloat16).train()            proactive_recompute=True,
+
+        initial_state = copy.deepcopy(template.state_dict())        )
+
+        input_value = torch.randn(4, 2, 16, device="cuda", dtype=torch.bfloat16)        submodules = get_gpt_layer_with_transformer_engine_submodules(
+
+                qk_layernorm=False
+
+        def run(mode):        ).self_attention.submodules
+
+            attention = copy.deepcopy(template)        process_groups = ProcessGroupCollection()
+
+            attention.load_state_dict(initial_state)        process_groups.tp = dist.group.WORLD
+
+            attention.linear_qkv.is_first_microbatch = True        process_groups.cp = None
+
+            attention.config.recompute_modules = [] if mode == "none" else ["attn_qkv"]        template = SelfAttention(
+
+            attention.config.proactive_recompute = mode == "proactive"            config=config,
+
+            for parameter in attention.parameters():            submodules=submodules,
+
+                parameter.main_grad = torch.zeros_like(parameter)            layer_number=1,
+
+                parameter.grad_added_to_main_grad = False            attn_mask_type=AttnMaskType.causal,
+
+            hidden_states = input_value.detach().clone().requires_grad_(True)            pg_collection=process_groups,
+
+            mixed_qkv, _ = attention.get_query_key_value_tensors(        ).cuda().to(torch.bfloat16).train()
+
+                hidden_states, split_qkv=False        initial_state = copy.deepcopy(template.state_dict())
+
+            )        input_value = torch.randn(4, 2, 16, device="cuda", dtype=torch.bfloat16)
+
+            handle = None    
+
+            if mode == "proactive":        def run(mode):
+
+                checkpoint_id = pending_recompute_checkpoints()[-1]            attention = copy.deepcopy(template)
+
+                handle = get_recompute_checkpoint(checkpoint_id)            attention.load_state_dict(initial_state)
+
+                assert prefetch_recompute(checkpoint_id, trigger_site="all_rank_tp_gate")            attention.linear_qkv.is_first_microbatch = True
+
+            loss = mixed_qkv.float().square().mean()            attention.config.recompute_modules = [] if mode == "none" else ["attn_qkv"]
+
+            loss.backward()            attention.config.proactive_recompute = mode == "proactive"
+
+            effective_grads = []            for parameter in attention.parameters():
+
+            for parameter in attention.parameters():                parameter.main_grad = torch.zeros_like(parameter)
+
+                if getattr(parameter, "grad_added_to_main_grad", False):                parameter.grad_added_to_main_grad = False
+
+                    grad = parameter.main_grad            hidden_states = input_value.detach().clone().requires_grad_(True)
+
+                elif parameter.grad is not None:            mixed_qkv, _ = attention.get_query_key_value_tensors(
+
+                    grad = parameter.grad                hidden_states, split_qkv=False
+
+                else:            )
+
+                    grad = parameter.main_grad            handle = None
+
+                effective_grads.append(grad.detach().clone())            if mode == "proactive":
+
+                parameter.grad = grad                checkpoint_id = pending_recompute_checkpoints()[-1]
+
+            torch.optim.SGD(attention.parameters(), lr=0.01).step()                handle = get_recompute_checkpoint(checkpoint_id)
+
+            updated = [parameter.detach().clone() for parameter in attention.parameters()]                assert prefetch_recompute(checkpoint_id, trigger_site="all_rank_tp_gate")
+
+            return mixed_qkv.detach(), hidden_states.grad.detach(), effective_grads, updated, loss.detach(), handle            loss = mixed_qkv.float().square().mean()
+
+                loss.backward()
+
+>       reference = run("none")            effective_grads = []
+
+            for parameter in attention.parameters():
+
+tests/unit_tests/tensor_parallel/test_proactive_checkpoint_distributed.py                if getattr(parameter, "grad_added_to_main_grad", False)::110: 
+
+                    grad = parameter.main_grad
+                elif parameter.grad is not None:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _                     grad = parameter.grad
+
+tests/unit_tests/tensor_parallel/test_proactive_checkpoint_distributed.py                else::77: in run
+
+                    grad = parameter.main_grad
+    attention = copy.deepcopy(template)                effective_grads.append(grad.detach().clone())
+
+/usr/lib/python3.12/copy.py                parameter.grad = grad:162: in deepcopy
+
+            torch.optim.SGD(attention.parameters(), lr=0.01).step()    y = _reconstruct(x, memo, *rv)
+
+            updated = [parameter.detach().clone() for parameter in attention.parameters()]/usr/lib/python3.12/copy.py
+:259: in _reconstruct            return mixed_qkv.detach(), hidden_states.grad.detach(), effective_grads, updated, loss.detach(), handle
+
+    state = deepcopy(state, memo)    
+
+/usr/lib/python3.12/copy.py>       reference = run("none"):136: in deepcopy
+
+
+    y = copier(x, memo)tests/unit_tests/tensor_parallel/test_proactive_checkpoint_distributed.py
+:110: /usr/lib/python3.12/copy.py
+:221: in _deepcopy_dict
+    y[deepcopy(key, memo)] = deepcopy(value, memo)_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+/usr/lib/python3.12/copy.pytests/unit_tests/tensor_parallel/test_proactive_checkpoint_distributed.py:136: in deepcopy:77: in run
+
+    y = copier(x, memo)
+    attention = copy.deepcopy(template)/usr/lib/python3.12/copy.py
+:221: in _deepcopy_dict/usr/lib/python3.12/copy.py
+:162: in deepcopy    y[deepcopy(key, memo)] = deepcopy(value, memo)
+
+    y = _reconstruct(x, memo, *rv)/usr/lib/python3.12/copy.py
+:162: in deepcopy/usr/lib/python3.12/copy.py
+:259: in _reconstruct    y = _reconstruct(x, memo, *rv)
+
+    state = deepcopy(state, memo)/usr/lib/python3.12/copy.py
+:259: in _reconstruct/usr/lib/python3.12/copy.py
+:136: in deepcopy    state = deepcopy(state, memo)
+
+    y = copier(x, memo)/usr/lib/python3.12/copy.py
+:136: in deepcopy/usr/lib/python3.12/copy.py
+:221: in _deepcopy_dict    y = copier(x, memo)
+
+    y[deepcopy(key, memo)] = deepcopy(value, memo)/usr/lib/python3.12/copy.py
+:221: in _deepcopy_dict/usr/lib/python3.12/copy.py
+:136: in deepcopy    y[deepcopy(key, memo)] = deepcopy(value, memo)
+
+    y = copier(x, memo)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ /usr/lib/python3.12/copy.py
+:221: in _deepcopy_dict
+
+    y[deepcopy(key, memo)] = deepcopy(value, memo)
+x = <torch.distributed.distributed_c10d.ProcessGroup object at 0x7f82261fa9b0>/usr/lib/python3.12/copy.py
+:162: in deepcopy
+memo = {140196961635776: OrderedDict(), 140196961637056: OrderedDict(), 140196961638592: OrderedDict(), 140196961641664: OrderedDict(), ...}    y = _reconstruct(x, memo, *rv)
+
+_nil = []/usr/lib/python3.12/copy.py
+:259: in _reconstruct
+
+    state = deepcopy(state, memo)
+/usr/lib/python3.12/copy.py    def deepcopy(x, memo=None, _nil=[])::136: in deepcopy
+
+        """Deep copy operation on arbitrary Python objects.    y = copier(x, memo)
+
+    /usr/lib/python3.12/copy.py
+:221: in _deepcopy_dict        See the module's __doc__ string for more info.
+
+    y[deepcopy(key, memo)] = deepcopy(value, memo)        """
+
+    _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+        if memo is None:
+
+            memo = {}
+    x = <torch.distributed.distributed_c10d.ProcessGroup object at 0x7f92cecaa170>
+
+        d = id(x)
+memo = {140268511342592: {'_backward_hooks': OrderedDict(), '_backward_pre_hooks': OrderedDict(), '_buffers': {}, '_forward_h...ine_split': False, 'activation_func': <built-in function gelu>, ...}, 140268511411648: {'mean': 0.0, 'std': 0.02}, ...}        y = memo.get(d, _nil)
+
+_nil = []        if y is not _nil:
+
+
+            return y
+    
+        cls = type(x)    def deepcopy(x, memo=None, _nil=[]):
+
+            """Deep copy operation on arbitrary Python objects.
+
+        copier = _deepcopy_dispatch.get(cls)    
+
+        if copier is not None:        See the module's __doc__ string for more info.
+
+            y = copier(x, memo)        """
+
+        else:    
+
+            if issubclass(cls, type):        if memo is None:
+
+                y = _deepcopy_atomic(x, memo)            memo = {}
+
+            else:    
+
+                copier = getattr(x, "__deepcopy__", None)        d = id(x)
+
+                if copier is not None:        y = memo.get(d, _nil)
+
+                    y = copier(memo)        if y is not _nil:
+
+                else:            return y
+
+                    reductor = dispatch_table.get(cls)    
+
+                    if reductor:        cls = type(x)
+
+                        rv = reductor(x)    
+
+                    else:        copier = _deepcopy_dispatch.get(cls)
+
+                        reductor = getattr(x, "__reduce_ex__", None)        if copier is not None:
+
+                        if reductor is not None:            y = copier(x, memo)
+
+>                           rv = reductor(4)        else:
+
+E                           TypeError: cannot pickle 'torch._C._distributed_c10d.ProcessGroup' object            if issubclass(cls, type):
+
+
+                y = _deepcopy_atomic(x, memo)/usr/lib/python3.12/copy.py
+:151: TypeError            else:
+
+                copier = getattr(x, "__deepcopy__", None)
+                if copier is not None:------------------------------ Captured log setup ------------------------------
+
+                    y = copier(memo)INFO     tests.test_utils.python_scripts.download_unit_tests_dataset:download_unit_tests_dataset.py:48   Downloading datasets.zip...
+ERROR    tests.test_utils.python_scripts.download_unit_tests_dataset:download_unit_tests_dataset.py:80   Error downloading/extracting datasets.zip: [Errno 2] No such file or directory: '/opt/data/datasets.zip'
+INFO     tests.test_utils.python_scripts.download_unit_tests_dataset:download_unit_tests_dataset.py:48   Downloading tokenizers.zip...
+ERROR    tests.test_utils.python_scripts.download_unit_tests_dataset:download_unit_tests_dataset.py:80   Error downloading/extracting tokenizers.zip: [Errno 2] No such file or directory: '/opt/data/tokenizers.zip'
+
+                else:
+                    reductor = dispatch_table.get(cls)
+                    if reductor:
+                        rv = reductor(x)
+                    else:
+                        reductor = getattr(x, "__reduce_ex__", None)
+                        if reductor is not None:
+>                           rv = reductor(4)
+E                           TypeError: cannot pickle 'torch._C._distributed_c10d.ProcessGroup' object
+
+/usr/lib/python3.12/copy.py:151: TypeError
+=============================== warnings summary ===============================
+------------------------------ Captured log setup ------------------------------
+INFO     tests.test_utils.python_scripts.download_unit_tests_dataset:download_unit_tests_dataset.py:48   Downloading datasets.zip...
+ERROR    tests.test_utils.python_scripts.download_unit_tests_dataset:download_unit_tests_dataset.py:80   Error downloading/extracting datasets.zip: [Errno 2] No such file or directory: '/opt/data/datasets.zip'
+INFO     tests.test_utils.python_scripts.download_unit_tests_dataset:download_unit_tests_dataset.py:48   Downloading tokenizers.zip...
+ERROR    tests.test_utils.python_scripts.download_unit_tests_dataset:download_unit_tests_dataset.py:80   Error downloading/extracting tokenizers.zip: [Errno 2] No such file or directory: '/opt/data/tokenizers.zip'
+=============================== warnings summary ===============================
+megatron/core/inference/contexts/__init__.py:9
+  /mnt/si002365wekc/zwx/code/recom/Megatron-LM-layerwise/megatron/core/inference/contexts/__init__.py:9: DeprecationWarning: The following imports from `dynamic_context.py` will be removed in this file in `megatron-core` 0.14. The imports here result in a cyclic import issue that causes rotary embeddings to import from Apex rather than Transformer Engine.
+    warnings.warn(
+
+megatron/core/inference/contexts/__init__.py:9<frozen importlib._bootstrap>:488
+
+  /mnt/si002365wekc/zwx/code/recom/Megatron-LM-layerwise/megatron/core/inference/contexts/__init__.py:9: DeprecationWarning: The following imports from `dynamic_context.py` will be removed in this file in `megatron-core` 0.14. The imports here result in a cyclic import issue that causes rotary embeddings to import from Apex rather than Transformer Engine.
+    warnings.warn(  <frozen importlib._bootstrap>:488: DeprecationWarning: Type google._upb._message.MessageMapContainer uses PyType_Spec with a metaclass that has custom tp_new. This is deprecated and will no longer be allowed in Python 3.14.
+
+
+
+<frozen importlib._bootstrap>:488
+<frozen importlib._bootstrap>:488  <frozen importlib._bootstrap>:488: DeprecationWarning: Type google._upb._message.ScalarMapContainer uses PyType_Spec with a metaclass that has custom tp_new. This is deprecated and will no longer be allowed in Python 3.14.
+
+  <frozen importlib._bootstrap>:488: DeprecationWarning: Type google._upb._message.MessageMapContainer uses PyType_Spec with a metaclass that has custom tp_new. This is deprecated and will no longer be allowed in Python 3.14.
+
+
+<frozen importlib._bootstrap>:488
+  <frozen importlib._bootstrap>:488: DeprecationWarning: Type google._upb._message.ScalarMapContainer uses PyType_Spec with a metaclass that has custom tp_new. This is deprecated and will no longer be allowed in Python 3.14.
+
+../../../../../../usr/local/lib/python3.12/dist-packages/google/protobuf/internal/well_known_types.py:93
+  /usr/local/lib/python3.12/dist-packages/google/protobuf/internal/well_known_types.py:93: DeprecationWarning: datetime.datetime.utcfromtimestamp() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.fromtimestamp(timestamp, datetime.UTC).
+    _EPOCH_DATETIME_NAIVE = datetime.datetime.utcfromtimestamp(0)
+
+../../../../../../usr/local/lib/python3.12/dist-packages/google/protobuf/internal/well_known_types.py:93
+  /usr/local/lib/python3.12/dist-packages/google/protobuf/internal/well_known_types.py:93: DeprecationWarning: datetime.datetime.utcfromtimestamp() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.fromtimestamp(timestamp, datetime.UTC).
+    _EPOCH_DATETIME_NAIVE = datetime.datetime.utcfromtimestamp(0)
+
+../../../../../../usr/local/lib/python3.12/dist-packages/pydantic/_internal/_config.py:323
+  /usr/local/lib/python3.12/dist-packages/pydantic/_internal/_config.py:323: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.11/migration/
+    warnings.warn(DEPRECATION_MESSAGE, DeprecationWarning)
+
+tests/unit_tests/tensor_parallel/test_proactive_checkpoint_distributed.py::test_tp2_sequence_parallel_te_qkv_replay_matches
+  /mnt/si002365wekc/zwx/code/recom/Megatron-LM-layerwise/megatron/core/transformer/transformer_config.py:2418: UserWarning: full scope is deprecated. Use empty cuda_graph_modules to capture the whole layer.
+    warnings.warn(
+
+tests/unit_tests/tensor_parallel/test_proactive_checkpoint_distributed.py::test_tp2_sequence_parallel_te_qkv_replay_matches
+  /usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/base.py:804: UserWarning: To guarantee overlapping TP and SP collectives with the backwardGEMMs, set environment variable CUDA_DEVICE_MAX_CONNECTIONS = 1
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+../../../../../../usr/local/lib/python3.12/dist-packages/pydantic/_internal/_config.py:323
+  /usr/local/lib/python3.12/dist-packages/pydantic/_internal/_config.py:323: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.11/migration/
+    warnings.warn(DEPRECATION_MESSAGE, DeprecationWarning)
+
+tests/unit_tests/tensor_parallel/test_proactive_checkpoint_distributed.py::test_tp2_sequence_parallel_te_qkv_replay_matches
+  /mnt/si002365wekc/zwx/code/recom/Megatron-LM-layerwise/megatron/core/transformer/transformer_config.py:2418: UserWarning: full scope is deprecated. Use empty cuda_graph_modules to capture the whole layer.
+    warnings.warn(
+
+tests/unit_tests/tensor_parallel/test_proactive_checkpoint_distributed.py::test_tp2_sequence_parallel_te_qkv_replay_matches
+  /usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/base.py:804: UserWarning: To guarantee overlapping TP and SP collectives with the backwardGEMMs, set environment variable CUDA_DEVICE_MAX_CONNECTIONS = 1
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+============================= slowest 15 durations =============================
+2.72s teardown tests/unit_tests/tensor_parallel/test_proactive_checkpoint_distributed.py::test_tp2_sequence_parallel_te_qkv_replay_matches
+2.04s setup    tests/unit_tests/tensor_parallel/test_proactive_checkpoint_distributed.py::test_tp2_sequence_parallel_te_qkv_replay_matches
+0.19s call     tests/unit_tests/tensor_parallel/test_proactive_checkpoint_distributed.py::test_tp2_sequence_parallel_te_qkv_replay_matches
+=========================== short test summary info ============================
+FAILED tests/unit_tests/tensor_parallel/test_proactive_checkpoint_distributed.py::test_tp2_sequence_parallel_te_qkv_replay_matches
+1 failed, 7 warnings in 5.12s
+============================= slowest 15 durations =============================
+3.57s setup    tests/unit_tests/tensor_parallel/test_proactive_checkpoint_distributed.py::test_tp2_sequence_parallel_te_qkv_replay_matches
+1.47s teardown tests/unit_tests/tensor_parallel/test_proactive_checkpoint_distributed.py::test_tp2_sequence_parallel_te_qkv_replay_matches
+0.20s call     tests/unit_tests/tensor_parallel/test_proactive_checkpoint_distributed.py::test_tp2_sequence_parallel_te_qkv_replay_matches
+=========================== short test summary info ============================
+FAILED tests/unit_tests/tensor_parallel/test_proactive_checkpoint_distributed.py::test_tp2_sequence_parallel_te_qkv_replay_matches
+1 failed, 7 warnings in 5.41s
+W1119 15:21:03.779000 84896 torch/distributed/elastic/multiprocessing/api.py:900] Sending process 85939 closing signal SIGTERM
+E1119 15:21:04.346000 84896 torch/distributed/elastic/multiprocessing/api.py:874] failed (exitcode: 1) local_rank: 0 (pid: 85934) of binary: /usr/bin/python
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 896, in <module>
+    main()
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 355, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 892, in main
+    run(args)
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 883, in run
+    elastic_launch(
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 139, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 270, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+pytest FAILED
+------------------------------------------------------------
+Failures:
+  <NO_OTHER_FAILURES>
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-11-19_15:21:03
+  host      : NH-DC-NM129-A09-28U-GPU-25.inspur.com
+  rank      : 0 (local_rank: 0)
+  exitcode  : 1 (pid: 85934)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================

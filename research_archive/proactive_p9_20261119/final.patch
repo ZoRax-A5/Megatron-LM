@@ -1,0 +1,1068 @@
+diff --git a/megatron/core/pipeline_parallel/schedules.py b/megatron/core/pipeline_parallel/schedules.py
+index abb846008..1182ce80c 100644
+--- a/megatron/core/pipeline_parallel/schedules.py
++++ b/megatron/core/pipeline_parallel/schedules.py
+@@ -420,6 +420,7 @@ def forward_step(
+     current_microbatch=None,
+     vp_stage=None,
+     is_last_stage=True,
++    replay_from_microbatch=None,
+ ):
+     """Forward step for passed-in model.
+ 
+@@ -518,12 +519,24 @@ def forward_step(
+     else:
+         context_manager = contextlib.nullcontext()
+     with context_manager:
+-        if checkpoint_activations_microbatch is None:
+-            output_tensor, loss_func = forward_step_func(data_iterator, model)
+-        else:
+-            output_tensor, loss_func = forward_step_func(
+-                data_iterator, model, checkpoint_activations_microbatch
++        proactive_enabled = getattr(config, "_proactive_recompute_schedule_enabled", False)
++        if proactive_enabled:
++            from megatron.core.tensor_parallel.random import proactive_recompute_context
++
++            recompute_context = proactive_recompute_context(
++                step=getattr(config, "proactive_recompute_step", None),
++                microbatch=current_microbatch,
++                replay_from=replay_from_microbatch,
+             )
++        else:
++            recompute_context = contextlib.nullcontext()
++        with recompute_context:
++            if checkpoint_activations_microbatch is None:
++                output_tensor, loss_func = forward_step_func(data_iterator, model)
++            else:
++                output_tensor, loss_func = forward_step_func(
++                    data_iterator, model, checkpoint_activations_microbatch
++                )
+     output_tensor, num_tokens = forward_step_calc_loss(
+         model,
+         output_tensor,
+@@ -539,6 +552,32 @@ def forward_step(
+         input_tensor=input_tensor,
+     )
+ 
++    if (
++        proactive_enabled
++        and not config.cross_microbatch_recompute_schedule
++        and torch.is_grad_enabled()
++    ):
++        from megatron.core.tensor_parallel.random import (
++            get_recompute_checkpoint,
++            pending_recompute_checkpoints,
++            prefetch_recompute,
++            set_proactive_recompute_cache_limit,
++        )
++
++        set_proactive_recompute_cache_limit(
++            getattr(config, "proactive_recompute_max_cached_checkpoints", 1)
++        )
++        step = getattr(config, "proactive_recompute_step", None)
++        for checkpoint_id in pending_recompute_checkpoints():
++            handle = get_recompute_checkpoint(checkpoint_id)
++            if (
++                handle.metadata.get("step") == step
++                and handle.metadata.get("microbatch") == current_microbatch
++            ):
++                prefetch_recompute(
++                    checkpoint_id, trigger_site="forward_backward_boundary"
++                )
++
+     if memory_profiler is not None:
+         memory_profiler.sample(
+             "forward_end",
+@@ -756,6 +795,17 @@ def forward_backward_no_pipelining(
+     ), "adjust_tensor_shapes_fn is not supported for non-pipeline-parallel schedule"
+ 
+     config = get_model_config(model)
++    proactive_requested = bool(getattr(config, "proactive_recompute", False))
++    config._proactive_recompute_schedule_enabled = proactive_requested and not forward_only
++    if proactive_requested and not forward_only:
++        from megatron.core.tensor_parallel.random import set_proactive_recompute_cache_limit
++
++        set_proactive_recompute_cache_limit(
++            getattr(config, "proactive_recompute_max_cached_checkpoints", 1)
++        )
++    elif proactive_requested and forward_only:
++        # Forward-only evaluation has no backward to consume a retained replay graph.
++        config.proactive_recompute = False
+     if config.timers is not None:
+         config.timers('forward-backward', log_level=1).start(barrier=config.barrier_with_L1_time)
+ 
+@@ -807,6 +857,54 @@ def forward_backward_no_pipelining(
+             check_first_val_step,
+             model_type,
+         )
++    elif config.cross_microbatch_recompute_schedule and not forward_only:
++        def window_forward(index, replay_from=None):
++            return forward_step(
++                forward_step_func,
++                data_iterator,
++                model,
++                num_microbatches,
++                input_tensor,
++                forward_data_store,
++                config,
++                pg_collection.cp.size(),
++                collect_non_loss_data,
++                is_first_microbatch=(index == 0),
++                current_microbatch=index,
++                replay_from_microbatch=replay_from,
++            )
++
++        last = num_microbatches - 1
++        dp_group = getattr(pg_collection, "dp_cp", None)
++        # DP>1 retains the last forward and backward outside no_sync.
++        pair_last = dp_group is not None and dp_group.size() == 1 and last % 2 == 1
++        unsynced_end = last - int(pair_last)
++        with no_sync_func():
++            index = 0
++            while index < unsynced_end:
++                first, tokens = window_forward(index)
++                total_num_tokens += tokens
++                paired = index + 1 < unsynced_end
++                if paired:
++                    second, tokens = window_forward(index + 1, index)
++                    total_num_tokens += tokens
++                backward_step(input_tensor, first, output_tensor_grad, config)
++                del first
++                if paired:
++                    backward_step(input_tensor, second, output_tensor_grad, config)
++                    del second
++                index += 2 if paired else 1
++            if pair_last:
++                first, tokens = window_forward(last - 1)
++                total_num_tokens += tokens
++        output_tensor, tokens = window_forward(last, last - 1 if pair_last else None)
++        total_num_tokens += tokens
++        if pair_last:
++            with no_sync_func():
++                backward_step(input_tensor, first, output_tensor_grad, config)
++            del first
++        backward_step(input_tensor, output_tensor, output_tensor_grad, config)
++        del output_tensor
+     else:
+         with no_sync_func():
+             for i in range(num_microbatches - 1):
+@@ -879,6 +977,16 @@ def forward_backward_no_pipelining(
+             ):
+                 model_chunk.synchronize_param_gather()
+ 
++    if config._proactive_recompute_schedule_enabled:
++        from megatron.core.tensor_parallel.random import (
++            assert_no_live_proactive_recompute_checkpoints,
++        )
++
++        assert_no_live_proactive_recompute_checkpoints()
++    config._proactive_recompute_schedule_enabled = False
++    if proactive_requested and forward_only:
++        config.proactive_recompute = True
++
+     if config.timers is not None:
+         config.timers('forward-backward').stop()
+ 
+diff --git a/megatron/core/tensor_parallel/random.py b/megatron/core/tensor_parallel/random.py
+index f2ce05d92..7e67d74aa 100644
+--- a/megatron/core/tensor_parallel/random.py
++++ b/megatron/core/tensor_parallel/random.py
+@@ -5,6 +5,7 @@
+ from __future__ import annotations
+ 
+ import contextlib
++import contextvars
+ import functools
+ import itertools
+ import json
+@@ -718,6 +719,59 @@ def _discover_module_state(function):
+     return tuple(parameters.values()), tuple(buffers.values())
+ 
+ 
++_PROACTIVE_RECOMPUTE_CONTEXT = contextvars.ContextVar(
++    "megatron_proactive_recompute_context", default={}
++)
++
++
++@contextlib.contextmanager
++def proactive_recompute_context(step=None, microbatch=None, *, replay_from=None):
++    """Attach training-step and microbatch identity to checkpoints created in this scope."""
++    token = _PROACTIVE_RECOMPUTE_CONTEXT.set(
++        {"step": step, "microbatch": microbatch, "replay_from": replay_from}
++    )
++    try:
++        yield
++    finally:
++        _PROACTIVE_RECOMPUTE_CONTEXT.reset(token)
++
++
++def get_proactive_recompute_context():
++    """Return the current scheduler identity, if a training caller supplied one."""
++    return {k: v for k, v in _PROACTIVE_RECOMPUTE_CONTEXT.get().items() if k != "replay_from"}
++
++
++def prefetch_previous_microbatch_qkv(layer_number):
++    """Called at the QKV boundary of the second forward in a scheduler window."""
++    context = _PROACTIVE_RECOMPUTE_CONTEXT.get()
++    previous = context.get("replay_from")
++    if previous is None:
++        return
++    for checkpoint_id in pending_recompute_checkpoints():
++        handle = get_recompute_checkpoint(checkpoint_id)
++        if (
++            handle.metadata.get("step") == context["step"]
++            and handle.metadata.get("microbatch") == previous
++            and handle.metadata.get("layer_number") == layer_number
++            and handle.metadata.get("module") == "attn_qkv"
++        ):
++            prefetch_recompute(
++                checkpoint_id, trigger_site=f'cross_microbatch_forward:{context["microbatch"]}'
++            )
++
++
++def set_proactive_recompute_cache_limit(max_cached_checkpoints=None):
++    """Set a process-local upper bound on simultaneously cached replay graphs."""
++    if max_cached_checkpoints is not None and max_cached_checkpoints < 1:
++        raise ValueError("max_cached_checkpoints must be positive or None")
++    if (
++        max_cached_checkpoints is not None
++        and len(ProactiveCheckpoint._cached_ids) > max_cached_checkpoints
++    ):
++        raise RuntimeError("new cache limit is below the number of live prefetched graphs")
++    ProactiveCheckpoint._max_cached_checkpoints = max_cached_checkpoints
++
++
+ class ProactiveCheckpoint:
+     """Single-invocation checkpoint handle with explicitly prefetched replay.
+ 
+@@ -726,15 +780,18 @@ class ProactiveCheckpoint:
+     call ``prefetch()`` before backward. The backward consumes the prefetched graph
+     exactly once; otherwise it follows the ordinary on-demand replay path.
+ 
+-    Inputs must be tensors; outputs may be tensors or ``None``. Module parameters
++    Inputs must be tensors; outputs may be tensors, tuples of tensors, or ``None``. Module parameters
+     and buffers are discovered from bound modules and closures, and callers may pass
+     them explicitly. Prefetch failures are terminal unless the caller explicitly
+-    certifies safe replay fallback. This API is not compatible with distributed
+-    saved activations, CUDA graph capture, TE contexts, or repeated handle use.
++    certifies safe replay fallback. The current Megatron integration supports
++    BF16/FP32 TE LayerNormLinear QKV replay. FP8/FP4, distributed saved activations,
++    CUDA graph capture, and repeated handle use remain unsupported.
+     """
+ 
+     _next_id = itertools.count()
+     _registry = weakref.WeakValueDictionary()
++    _cached_ids = set()
++    _max_cached_checkpoints = None
+ 
+     def __init__(
+         self,
+@@ -743,6 +800,7 @@ class ProactiveCheckpoint:
+         buffers=None,
+         allow_prefetch_fallback=False,
+         metadata=None,
++        collective_group=None,
+     ):
+         self.run_function = run_function
+         discovered_parameters, discovered_buffers = _discover_module_state(run_function)
+@@ -760,6 +818,7 @@ class ProactiveCheckpoint:
+         self.buffers = tuple({id(tensor): tensor for tensor in buffer_values}.values())
+         self.allow_prefetch_fallback = allow_prefetch_fallback
+         self.metadata = metadata or {}
++        self.collective_group = collective_group
+         self.checkpoint_id = next(ProactiveCheckpoint._next_id)
+         self.state = "created"
+         self.events = []
+@@ -780,6 +839,7 @@ class ProactiveCheckpoint:
+     def __call__(self, *args: Unpack[_Ts]) -> _R:
+         if self.state != "created":
+             raise RuntimeError("ProactiveCheckpoint handles exactly one invocation")
++        self.metadata = {**get_proactive_recompute_context(), **self.metadata}
+         if any(not isinstance(arg, torch.Tensor) for arg in args):
+             raise TypeError("ProactiveCheckpoint prototype requires tensor-only inputs")
+         self._inputs = tuple(args)
+@@ -799,6 +859,7 @@ class ProactiveCheckpoint:
+             {
+                 "event": "forward_complete",
+                 "checkpoint_id": self.checkpoint_id,
++                "timestamp": time.perf_counter(),
+                 **self.metadata,
+             }
+         )
+@@ -818,15 +879,43 @@ class ProactiveCheckpoint:
+         if current_buffers != self._buffer_versions:
+             raise RuntimeError(f"checkpoint buffer changed between forward and {where}")
+ 
+-    def prefetch(self) -> bool:
++    def prefetch(self, trigger_site=None) -> bool:
+         """Run and retain a differentiable replay graph; return whether it completed."""
+         if self.state != "forward_complete":
+             raise RuntimeError(f"cannot prefetch checkpoint in state {self.state}")
++        self._verify_collective_order(trigger_site)
++        if (
++            self._max_cached_checkpoints is not None
++            and len(self._cached_ids) >= self._max_cached_checkpoints
++        ):
++            self.events.append(
++                {
++                    "event": "prefetch_rejected_cache_limit",
++                    "checkpoint_id": self.checkpoint_id,
++                    "timestamp": time.perf_counter(),
++                    "max_cached_checkpoints": self._max_cached_checkpoints,
++                    "trigger_site": trigger_site,
++                    **self.metadata,
++                }
++            )
++            return False
+         self.events.append(
+-            {"event": "prefetch_start", "checkpoint_id": self.checkpoint_id}
++            {
++                "event": "prefetch_start",
++                "checkpoint_id": self.checkpoint_id,
++                "timestamp": time.perf_counter(),
++                "trigger_site": trigger_site,
++                **self.metadata,
++            }
+         )
+         self.state = "prefetch_submitted"
++        self._cached_ids.add(self.checkpoint_id)
+         self.cache_started_at = time.perf_counter()
++        self._cuda_events = {}
++        if torch.cuda.is_available():
++            torch.cuda.nvtx.range_push(f"proactive_recompute.prefetch.{self.checkpoint_id}")
++            self._cuda_events["prefetch_start"] = torch.cuda.Event(enable_timing=True)
++            self._cuda_events["prefetch_start"].record(torch.cuda.current_stream())
+         if torch.cuda.is_available():
+             self.memory_snapshot["allocated_before"] = torch.cuda.memory_allocated()
+             self.memory_snapshot["reserved_before"] = torch.cuda.memory_reserved()
+@@ -886,14 +975,19 @@ class ProactiveCheckpoint:
+                 )
+                 self.memory_snapshot["peak_reserved"] = torch.cuda.max_memory_reserved()
+             self.state = "prefetch_complete"
++            if torch.cuda.is_available():
++                self._cuda_events["prefetch_complete"] = torch.cuda.Event(enable_timing=True)
++                self._cuda_events["prefetch_complete"].record(torch.cuda.current_stream())
+             self.events.append(
+                 {
+                     "event": "prefetch_complete",
+                     "checkpoint_id": self.checkpoint_id,
++                    "timestamp": time.perf_counter(),
+                     "output_bytes": self.cache_bytes,
+                     "saved_tensor_bytes": self.saved_tensor_bytes,
+                     "allocated_bytes": self.memory_snapshot.get("allocated_after"),
+                     "reserved_bytes": self.memory_snapshot.get("reserved_after"),
++                    **self.metadata,
+                 }
+             )
+             return True
+@@ -907,8 +1001,10 @@ class ProactiveCheckpoint:
+                 {
+                     "event": "prefetch_failed",
+                     "checkpoint_id": self.checkpoint_id,
++                    "timestamp": time.perf_counter(),
+                     "reason": repr(exc),
+                     "fallback_allowed": safe_to_fallback,
++                    **self.metadata,
+                 }
+             )
+             if not safe_to_fallback:
+@@ -920,6 +1016,52 @@ class ProactiveCheckpoint:
+             self._release_cache()
+             self.state = "prefetch_failed_safe"
+             return False
++        finally:
++            if torch.cuda.is_available():
++                torch.cuda.nvtx.range_pop()
++
++    def _verify_collective_order(self, trigger_site):
++        """Make TP peers agree on replay identity before any replay-side collectives."""
++        if (
++            self.collective_group is None
++            or not torch.distributed.is_available()
++            or not torch.distributed.is_initialized()
++            or torch.distributed.get_world_size(self.collective_group) == 1
++        ):
++            return
++        import zlib
++
++        values = [
++            self.checkpoint_id,
++            int(self.metadata.get("step") if self.metadata.get("step") is not None else -1),
++            int(
++                self.metadata.get("microbatch")
++                if self.metadata.get("microbatch") is not None
++                else -1
++            ),
++            int(self.metadata.get("layer_number", -1)),
++            zlib.crc32(str(trigger_site).encode("utf-8")),
++            int(
++                self._max_cached_checkpoints is None
++                or len(self._cached_ids) < self._max_cached_checkpoints
++            ),
++        ]
++        backend = str(torch.distributed.get_backend(self.collective_group)).lower()
++        device = torch.device("cuda", torch.cuda.current_device()) if "nccl" in backend else torch.device("cpu")
++        identity = torch.tensor(values, dtype=torch.int64, device=device)
++        minimum = identity.clone()
++        maximum = identity.clone()
++        torch.distributed.all_reduce(
++            minimum, op=torch.distributed.ReduceOp.MIN, group=self.collective_group
++        )
++        torch.distributed.all_reduce(
++            maximum, op=torch.distributed.ReduceOp.MAX, group=self.collective_group
++        )
++        if not torch.equal(minimum, maximum):
++            raise RuntimeError(
++                "TP ranks requested different proactive checkpoint identities/order: "
++                f"min={minimum.tolist()} max={maximum.tolist()}"
++            )
+ 
+     def write_events(self, path):
+         """Write this invocation's lifecycle and memory observations as JSON."""
+@@ -931,6 +1073,17 @@ class ProactiveCheckpoint:
+                     "events": self.events,
+                     "cache_lifetime_seconds": self.cache_lifetime_seconds,
+                     "memory_snapshot": self.memory_snapshot,
++                    "cuda_events": {
++                        name: {
++                            "query": event.query(),
++                            "elapsed_from_prefetch_start_ms": (
++                                self._cuda_events["prefetch_start"].elapsed_time(event)
++                                if name != "prefetch_start" and event.query()
++                                else None
++                            ),
++                        }
++                        for name, event in getattr(self, "_cuda_events", {}).items()
++                    },
+                 },
+                 event_file,
+                 indent=2,
+@@ -979,14 +1132,29 @@ class ProactiveCheckpoint:
+             if hit:
+                 outputs, detached_inputs = self._cached_outputs, self._cached_inputs
+                 self.events.append(
+-                    {"event": "cache_hit", "checkpoint_id": self.checkpoint_id}
++                    {
++                        "event": "cache_hit",
++                        "checkpoint_id": self.checkpoint_id,
++                        "timestamp": time.perf_counter(),
++                        **self.metadata,
++                    }
+                 )
++                if torch.cuda.is_available():
++                    torch.cuda.nvtx.range_push(
++                        f"proactive_recompute.consume.{self.checkpoint_id}"
++                    )
++                    self._cuda_events["backward_consume"] = torch.cuda.Event(
++                        enable_timing=True
++                    )
++                    self._cuda_events["backward_consume"].record(torch.cuda.current_stream())
+             elif self.state in ("forward_complete", "prefetch_failed_safe"):
+                 self.events.append(
+                     {
+                         "event": "fallback",
+                         "checkpoint_id": self.checkpoint_id,
++                        "timestamp": time.perf_counter(),
+                         "reason": "no_completed_prefetch",
++                        **self.metadata,
+                     }
+                 )
+                 detached_inputs = tuple(
+@@ -1013,10 +1181,19 @@ class ProactiveCheckpoint:
+             )
+             if hit:
+                 self.events.append(
+-                    {"event": "cache_consumed", "checkpoint_id": self.checkpoint_id}
++                    {
++                        "event": "cache_consumed",
++                        "checkpoint_id": self.checkpoint_id,
++                        "timestamp": time.perf_counter(),
++                        **self.metadata,
++                    }
+                 )
+             return grads
+-        except Exception:
++        except Exception as exc:
++            main_grad_state_present = any(
++                getattr(parameter, "main_grad", None) is not None
++                for parameter in self.parameters
++            )
+             for param, previous, previous_ref in zip(
+                 self.parameters, previous_parameter_grads, previous_parameter_grad_refs
+             ):
+@@ -1029,11 +1206,27 @@ class ProactiveCheckpoint:
+                     param.grad = previous_ref
+             self.state = "backward_failed"
+             self.events.append(
+-                {"event": "backward_failed", "checkpoint_id": self.checkpoint_id}
++                {
++                    "event": "backward_failed",
++                    "checkpoint_id": self.checkpoint_id,
++                    "timestamp": time.perf_counter(),
++                    "main_grad_state_may_be_partial": main_grad_state_present,
++                    **self.metadata,
++                }
+             )
++            if main_grad_state_present:
++                raise RuntimeError(
++                    "proactive checkpoint backward failed after Megatron main_grad state "
++                    "became potentially writable; terminate this training attempt because "
++                    "main_grad cannot be rolled back safely"
++                ) from exc
+             raise
+         finally:
+             self._cleanup_after_backward()
++            if torch.cuda.is_available() and "backward_consume" in getattr(
++                self, "_cuda_events", {}
++            ):
++                torch.cuda.nvtx.range_pop()
+ 
+     def _cleanup_after_backward(self):
+         self._release_cache()
+@@ -1049,10 +1242,25 @@ class ProactiveCheckpoint:
+             {
+                 "event": "released",
+                 "checkpoint_id": self.checkpoint_id,
++                "timestamp": time.perf_counter(),
+                 "cache_lifetime_seconds": self.cache_lifetime_seconds,
+                 "memory": dict(self.memory_snapshot),
++                **self.metadata,
+             }
+         )
++        logging.getLogger(__name__).info(
++            "PROACTIVE_RECOMPUTE_EVENT %s",
++            json.dumps(
++                {
++                    "checkpoint_id": self.checkpoint_id,
++                    "metadata": self.metadata,
++                    "events": self.events,
++                    "cache_lifetime_seconds": self.cache_lifetime_seconds,
++                    "memory_snapshot": self.memory_snapshot,
++                },
++                sort_keys=True,
++            ),
++        )
+ 
+     def _abort(self, state, reason):
+         self.events.append(
+@@ -1067,6 +1275,7 @@ class ProactiveCheckpoint:
+         self._cached_inputs = None
+         self.cache_bytes = 0
+         self.saved_tensor_bytes = 0
++        self._cached_ids.discard(self.checkpoint_id)
+         if self.cache_started_at is not None:
+             self.cache_lifetime_seconds = time.perf_counter() - self.cache_started_at
+             self.cache_started_at = None
+@@ -1105,12 +1314,12 @@ class ProactiveCheckpointFunction(torch.autograd.Function):
+         return (None, None) + grads + (None,) * (len(all_inputs) - input_count)
+ 
+ 
+-def prefetch_recompute(checkpoint_id: int) -> bool:
++def prefetch_recompute(checkpoint_id: int, trigger_site=None) -> bool:
+     """Explicitly prefetch a live checkpoint invocation by its unique ID."""
+     handle = ProactiveCheckpoint._registry.get(checkpoint_id)
+     if handle is None:
+         raise KeyError(f"no live proactive checkpoint with id {checkpoint_id}")
+-    return handle.prefetch()
++    return handle.prefetch(trigger_site=trigger_site)
+ 
+ 
+ def pending_recompute_checkpoints():
+@@ -1122,6 +1331,68 @@ def pending_recompute_checkpoints():
+     )
+ 
+ 
++def proactive_recompute_cache_stats():
++    """Return process-local count and byte estimates for retained replay graphs."""
++    handles = [
++        ProactiveCheckpoint._registry[checkpoint_id]
++        for checkpoint_id in tuple(ProactiveCheckpoint._cached_ids)
++        if checkpoint_id in ProactiveCheckpoint._registry
++    ]
++    return {
++        "cached_checkpoint_ids": tuple(handle.checkpoint_id for handle in handles),
++        "cached_checkpoint_count": len(handles),
++        "output_bytes": sum(handle.cache_bytes for handle in handles),
++        "saved_tensor_bytes": sum(handle.saved_tensor_bytes for handle in handles),
++        "max_cached_checkpoints": ProactiveCheckpoint._max_cached_checkpoints,
++    }
++
++
++def assert_no_live_proactive_recompute_checkpoints():
++    """Raise at a training-step boundary if a checkpoint still owns graph state."""
++    live = [
++        (checkpoint_id, handle.state, handle.metadata)
++        for checkpoint_id, handle in tuple(ProactiveCheckpoint._registry.items())
++    ]
++    if live:
++        raise RuntimeError(f"unreleased proactive recompute checkpoints at step end: {live}")
++    if ProactiveCheckpoint._cached_ids:
++        raise RuntimeError(
++            "proactive recompute cache accounting contains IDs without live handles: "
++            f"{tuple(ProactiveCheckpoint._cached_ids)}"
++        )
++
++
++def proactive_recompute_cache_stats():
++    """Return process-local count and byte estimates for retained replay graphs."""
++    handles = [
++        ProactiveCheckpoint._registry[checkpoint_id]
++        for checkpoint_id in tuple(ProactiveCheckpoint._cached_ids)
++        if checkpoint_id in ProactiveCheckpoint._registry
++    ]
++    return {
++        "cached_checkpoint_ids": tuple(handle.checkpoint_id for handle in handles),
++        "cached_checkpoint_count": len(handles),
++        "output_bytes": sum(handle.cache_bytes for handle in handles),
++        "saved_tensor_bytes": sum(handle.saved_tensor_bytes for handle in handles),
++        "max_cached_checkpoints": ProactiveCheckpoint._max_cached_checkpoints,
++    }
++
++
++def assert_no_live_proactive_recompute_checkpoints():
++    """Raise at a training-step boundary if a checkpoint still owns graph state."""
++    live = [
++        (checkpoint_id, handle.state, handle.metadata)
++        for checkpoint_id, handle in tuple(ProactiveCheckpoint._registry.items())
++    ]
++    if live:
++        raise RuntimeError(f"unreleased proactive recompute checkpoints at step end: {live}")
++    if ProactiveCheckpoint._cached_ids:
++        raise RuntimeError(
++            "proactive recompute cache accounting contains IDs without live handles: "
++            f"{tuple(ProactiveCheckpoint._cached_ids)}"
++        )
++
++
+ def get_recompute_checkpoint(checkpoint_id: int):
+     """Return a live invocation handle for diagnostics and lifecycle control."""
+     handle = ProactiveCheckpoint._registry.get(checkpoint_id)
+diff --git a/megatron/core/transformer/attention.py b/megatron/core/transformer/attention.py
+index 25ba8766b..8c7c2cdac 100644
+--- a/megatron/core/transformer/attention.py
++++ b/megatron/core/transformer/attention.py
+@@ -13,6 +13,11 @@ from torch import Tensor
+ 
+ from megatron.core import tensor_parallel
+ from megatron.core.extensions.transformer_engine import HAVE_TE
++
++if HAVE_TE:
++    from megatron.core.extensions.transformer_engine import TELayerNormColumnParallelLinear
++else:
++    TELayerNormColumnParallelLinear = None
+ from megatron.core.inference.contexts import BaseInferenceContext
+ from megatron.core.inference.utils import InferenceMode
+ from megatron.core.jit import jit_fuser
+@@ -35,7 +40,11 @@ from megatron.core.pipeline_parallel.fine_grained_activation_offload import (
+ from megatron.core.process_groups_config import ProcessGroupCollection
+ from megatron.core.tensor_parallel.layers import ColumnParallelLinear
+ from megatron.core.tensor_parallel.mappings import all_gather_last_dim_from_tensor_parallel_region
+-from megatron.core.tensor_parallel.random import ProactiveCheckpoint
++from megatron.core.tensor_parallel.random import (
++    ProactiveCheckpoint,
++    get_proactive_recompute_context,
++    prefetch_previous_microbatch_qkv,
++)
+ from megatron.core.transformer.identity_op import IdentityOp
+ from megatron.core.transformer.module import MegatronModule
+ from megatron.core.transformer.torch_norm import L2Norm, LayerNormBuilder
+@@ -1825,33 +1834,32 @@ class SelfAttention(Attention):
+             and "attn_qkv" in self.config.recompute_modules
+         ):
+             if self.config.proactive_recompute:
+-                if self.world_size != 1:
+-                    raise NotImplementedError(
+-                        "proactive QKV recomputation is currently validated only with tensor parallel size 1"
+-                    )
+-                dp_group = getattr(self.pg_collection, "dp", None)
+-                if dp_group is not None and get_pg_size(dp_group) != 1:
+-                    raise NotImplementedError(
+-                        "proactive QKV recomputation is currently validated only with data parallel size 1"
+-                    )
+-                if (
+-                    dp_group is None
+-                    and torch.distributed.is_initialized()
+-                    and torch.distributed.get_world_size() != 1
+-                ):
+-                    raise NotImplementedError(
+-                        "proactive QKV recomputation requires a single-process default group when the DP group is unavailable"
+-                    )
+-                if not isinstance(self.linear_qkv, ColumnParallelLinear):
++                prefetch_previous_microbatch_qkv(self.layer_number)
++                supported_qkv_types = (ColumnParallelLinear,)
++                if TELayerNormColumnParallelLinear is not None:
++                    supported_qkv_types += (TELayerNormColumnParallelLinear,)
++                if not isinstance(self.linear_qkv, supported_qkv_types):
+                     raise NotImplementedError(
+-                        "proactive QKV recomputation currently requires local ColumnParallelLinear; "
++                        "proactive QKV recomputation requires local ColumnParallelLinear or "
++                        "Transformer Engine TELayerNormColumnParallelLinear; "
+                         f"got {type(self.linear_qkv).__module__}.{type(self.linear_qkv).__name__}"
+                     )
+                 checkpoint_handle = ProactiveCheckpoint(
+                     apply_module(self.linear_qkv),
+                     parameters=self.linear_qkv.parameters(),
+                     buffers=self.linear_qkv.buffers(),
+-                    metadata={"layer_number": self.layer_number, "module": "attn_qkv"},
++                    metadata={
++                        **get_proactive_recompute_context(),
++                        "layer_number": self.layer_number,
++                        "module": "attn_qkv",
++                        "tp_size": self.world_size,
++                        "rank": (
++                            torch.distributed.get_rank()
++                            if torch.distributed.is_initialized()
++                            else 0
++                        ),
++                    },
++                    collective_group=self.pg_collection.tp,
+                 )
+                 mixed_qkv, _ = checkpoint_handle(hidden_states)
+             else:
+diff --git a/megatron/core/transformer/transformer_config.py b/megatron/core/transformer/transformer_config.py
+index 02c375f68..b7a928c4a 100644
+--- a/megatron/core/transformer/transformer_config.py
++++ b/megatron/core/transformer/transformer_config.py
+@@ -557,9 +557,15 @@ class TransformerConfig(ModelParallelConfig):
+     selective recomputation. For example, {"0": ["attn_qkv"], "3": []}.
+     """
+ 
++    cross_microbatch_recompute_schedule: bool = False
++    """Experiment with two-microbatch forward windows in the PP1 training schedule."""
++
+     proactive_recompute: bool = False
+     """Enable the experimental explicit-prefetch path for supported selective QKV checkpoints."""
+ 
++    proactive_recompute_max_cached_checkpoints: Optional[int] = 1
++    """Maximum number of retained proactive replay graphs on this process."""
++
+     recompute_modules: Optional[List[str]] = None
+     """The submodules to recompute.
+     choices: "core_attn", "moe_act", "layernorm", "mla_up_proj", "mlp", "moe",
+@@ -1699,22 +1705,44 @@ class TransformerConfig(ModelParallelConfig):
+         elif self.recompute_modules is None:
+             self.recompute_modules = ["core_attn"]
+ 
++        if self.cross_microbatch_recompute_schedule and (
++            self.pipeline_model_parallel_size != 1
++            or self.context_parallel_size != 1
++            or self.expert_model_parallel_size != 1
++            or self.num_moe_experts
++            or self.transformer_impl != "transformer_engine"
++            or self.cuda_graph_impl != "none"
++            or self.cpu_offloading
++            or self.hybrid_context_parallel
++            or self.fp8
++            or self.fp4
++        ):
++            raise ValueError("cross-microbatch schedule requires dense TE training with PP=CP=EP=1")
++
+         if self.proactive_recompute:
++            if (
++                self.proactive_recompute_max_cached_checkpoints is not None
++                and self.proactive_recompute_max_cached_checkpoints < 1
++            ):
++                raise ValueError("proactive_recompute_max_cached_checkpoints must be positive")
+             if self.recompute_granularity != "selective":
+                 raise ValueError("proactive_recompute requires selective recomputation")
+             if "attn_qkv" not in self.recompute_modules:
+                 raise ValueError("proactive_recompute currently requires attn_qkv recomputation")
+-            if self.transformer_impl != "local" or self.fp8 or self.fp4:
++            if self.transformer_impl not in ("local", "transformer_engine") or self.fp8 or self.fp4:
+                 raise ValueError(
+-                    "proactive_recompute currently supports only local non-FP8/FP4 linear modules"
++                    "proactive_recompute supports local or Transformer Engine BF16/FP32 "
++                    "linear modules; FP8/FP4 is not supported"
+                 )
+             if (
+-                self.tensor_model_parallel_size != 1
+-                or self.pipeline_model_parallel_size != 1
++                self.pipeline_model_parallel_size != 1
+                 or self.context_parallel_size != 1
+                 or self.expert_model_parallel_size != 1
+             ):
+-                raise ValueError("proactive_recompute is currently limited to single-GPU parallel sizes")
++                raise ValueError(
++                    "proactive_recompute currently requires PP=CP=EP=1; TP/DP support "
++                    "requires rank-synchronous prefetch calls"
++                )
+             if self.cuda_graph_impl != "none" or self.cpu_offloading or self.distribute_saved_activations:
+                 raise ValueError(
+                     "proactive_recompute is incompatible with CUDA graphs, CPU offload, and distributed saved activations"
+diff --git a/megatron/training/training.py b/megatron/training/training.py
+index cfa8de41e..087a539b7 100644
+--- a/megatron/training/training.py
++++ b/megatron/training/training.py
+@@ -2247,6 +2247,8 @@ def train_step(forward_step_func, data_iterator, model, optimizer, opt_param_sch
+     """
+     args = get_args()
+     timers = get_timers()
++    if getattr(config, "proactive_recompute", False):
++        config.proactive_recompute_step = iteration
+     memory_profiler = getattr(config, "memory_profiler", None)
+     if memory_profiler is not None:
+         memory_profiler.sample("train_step_start")
+diff --git a/tests/unit_tests/tensor_parallel/test_proactive_checkpoint.py b/tests/unit_tests/tensor_parallel/test_proactive_checkpoint.py
+index 95fb3d607..1a8ee3798 100644
+--- a/tests/unit_tests/tensor_parallel/test_proactive_checkpoint.py
++++ b/tests/unit_tests/tensor_parallel/test_proactive_checkpoint.py
+@@ -1,12 +1,19 @@
+ """Single-device correctness tests for the experimental proactive checkpoint API."""
+ 
++import copy
+ import pytest
+ import torch
+ 
+ from megatron.core.tensor_parallel.random import (
+     ProactiveCheckpoint,
+     checkpoint,
++    assert_no_live_proactive_recompute_checkpoints,
++    get_proactive_recompute_context,
+     pending_recompute_checkpoints,
++    prefetch_recompute,
++    proactive_recompute_cache_stats,
++    proactive_recompute_context,
++    set_proactive_recompute_cache_limit,
+ )
+ 
+ 
+@@ -260,6 +267,203 @@ def test_proactive_checkpoint_duplicate_prefetch_and_backward_are_rejected():
+         output.sum().backward()
+ 
+ 
++def test_proactive_te_qkv_matches_on_demand_and_no_recompute():
++    """Exercise the actual SelfAttention QKV branch with Megatron's fused TE module."""
++    pytest.importorskip("transformer_engine")
++    from megatron.core.extensions.transformer_engine import TELayerNormColumnParallelLinear
++    from megatron.core.models.gpt.gpt_layer_specs import (
++        get_gpt_layer_with_transformer_engine_submodules,
++    )
++    from megatron.core.process_groups_config import ProcessGroupCollection
++    from megatron.core.tensor_parallel.random import prefetch_recompute
++    from megatron.core.tensor_parallel.random import get_recompute_checkpoint
++    from megatron.core.tensor_parallel.random import model_parallel_cuda_manual_seed
++    from megatron.core.transformer.attention import SelfAttention
++    from megatron.core.transformer.enums import AttnMaskType
++    from megatron.core.transformer.transformer_config import TransformerConfig
++    from megatron.core.utils import init_method_normal
++
++    torch.manual_seed(7193)
++    torch.cuda.manual_seed_all(7193)
++    model_parallel_cuda_manual_seed(7193, tp_rank=0, ep_rank=0, etp_rank=0, force_reset_rng=True)
++    config = TransformerConfig(
++        num_layers=1,
++        hidden_size=16,
++        num_attention_heads=4,
++        num_query_groups=4,
++        kv_channels=4,
++        ffn_hidden_size=32,
++        params_dtype=torch.bfloat16,
++        normalization="RMSNorm",
++        tensor_model_parallel_size=1,
++        gradient_accumulation_fusion=True,
++        transformer_impl="transformer_engine",
++        init_method=init_method_normal(0.02),
++        recompute_granularity="selective",
++        recompute_modules=["attn_qkv"],
++        proactive_recompute=True,
++    )
++    submodules = get_gpt_layer_with_transformer_engine_submodules(
++        qk_layernorm=False
++    ).self_attention.submodules
++    process_groups = ProcessGroupCollection()
++    process_groups.tp = None
++    process_groups.cp = None
++    template = SelfAttention(
++        config=config,
++        submodules=submodules,
++        layer_number=1,
++        attn_mask_type=AttnMaskType.causal,
++        pg_collection=process_groups,
++    ).cuda().to(torch.bfloat16).train()
++    assert isinstance(template.linear_qkv, TELayerNormColumnParallelLinear)
++    initial_state = copy.deepcopy(template.state_dict())
++    input_value = torch.randn(8, 2, 16, device="cuda", dtype=torch.bfloat16)
++
++    def run(mode):
++        attention = copy.deepcopy(template)
++        attention.load_state_dict(initial_state)
++        attention.linear_qkv.is_first_microbatch = True
++        for parameter in attention.parameters():
++            parameter.main_grad = torch.zeros_like(parameter)
++            parameter.grad_added_to_main_grad = False
++        if mode == "no_recompute":
++            attention.config.recompute_modules = []
++            attention.config.proactive_recompute = False
++        else:
++            attention.config.recompute_modules = ["attn_qkv"]
++            attention.config.proactive_recompute = mode == "proactive"
++        forward_count = [0]
++        attention.linear_qkv.register_forward_hook(
++            lambda *_: forward_count.__setitem__(0, forward_count[0] + 1)
++        )
++        hidden_states = input_value.detach().clone().requires_grad_(True)
++        mixed_qkv, _ = attention.get_query_key_value_tensors(
++            hidden_states, split_qkv=False
++        )
++        handle = None
++        if mode == "proactive":
++            checkpoint_id = pending_recompute_checkpoints()[0]
++            handle = get_recompute_checkpoint(checkpoint_id)
++            assert prefetch_recompute(checkpoint_id)
++            assert handle.state == "prefetch_complete"
++        loss = mixed_qkv.float().square().mean()
++        loss.backward()
++        grads = []
++        for parameter in attention.parameters():
++            if getattr(parameter, "grad_added_to_main_grad", False):
++                effective_grad = parameter.main_grad
++            else:
++                effective_grad = (
++                    parameter.grad
++                    if parameter.grad is not None
++                    else parameter.main_grad
++                )
++            grads.append(effective_grad.detach().clone())
++            # Match Megatron's optimizer interface, which consumes main_grad.
++            parameter.grad = effective_grad
++        torch.optim.SGD(attention.parameters(), lr=0.01).step()
++        updated = [parameter.detach().clone() for parameter in attention.parameters()]
++        return (
++            mixed_qkv.detach(),
++            hidden_states.grad.detach(),
++            grads,
++            updated,
++            loss.detach(),
++            forward_count[0],
++            handle,
++        )
++
++    no_recompute = run("no_recompute")
++    no_recompute_repeat = run("no_recompute")
++    on_demand = run("on_demand")
++    proactive = run("proactive")
++
++    # Establish the deterministic reference baseline before comparing modes.
++    for left, right in zip(no_recompute[:5], no_recompute_repeat[:5]):
++        if isinstance(left, list):
++            for left_value, right_value in zip(left, right):
++                if left_value is None:
++                    assert right_value is None
++                else:
++                    torch.testing.assert_close(left_value, right_value, rtol=0, atol=0)
++        else:
++            torch.testing.assert_close(left, right, rtol=0, atol=0)
++
++    for result in (on_demand, proactive):
++        for index in (0, 1, 4):
++            torch.testing.assert_close(result[index], no_recompute[index], rtol=0, atol=0)
++        for actual, expected in zip(result[2], no_recompute[2]):
++            if expected is None:
++                assert actual is None
++            else:
++                torch.testing.assert_close(actual, expected, rtol=0, atol=0)
++        for actual, expected in zip(result[3], no_recompute[3]):
++            torch.testing.assert_close(actual, expected, rtol=0, atol=0)
++    assert no_recompute[5] == 1
++    assert on_demand[5] == 2
++    assert proactive[5] == 2  # initial forward plus one proactive replay
++    assert proactive[6].state == "consumed"
++    event_names = [event["event"] for event in proactive[6].events]
++    assert event_names.count("cache_hit") == 1
++    assert event_names.count("cache_consumed") == 1
++    assert proactive[6]._cached_outputs is None
++
++
++def test_proactive_recompute_microbatch_identity_order_and_bounded_cache():
++    module = torch.nn.Linear(4, 4, bias=False).cuda()
++    set_proactive_recompute_cache_limit(1)
++    try:
++        x0 = torch.randn(3, 4, device="cuda", requires_grad=True)
++        x1 = torch.randn(3, 4, device="cuda", requires_grad=True)
++        with proactive_recompute_context(step=12, microbatch=0):
++            handle0 = ProactiveCheckpoint(module)
++            output0 = handle0(x0)
++        with proactive_recompute_context(step=12, microbatch=1):
++            handle1 = ProactiveCheckpoint(module)
++            output1 = handle1(x1)
++
++        assert handle0.metadata == {"step": 12, "microbatch": 0}
++        assert handle1.metadata == {"step": 12, "microbatch": 1}
++        assert handle0.checkpoint_id != handle1.checkpoint_id
++
++        # Trigger A: immediately after the checkpoint's original forward.
++        assert prefetch_recompute(handle0.checkpoint_id, trigger_site="after_forward")
++        assert proactive_recompute_cache_stats()["cached_checkpoint_count"] == 1
++        # A second graph is refused while the configured one-entry cache is occupied.
++        assert not prefetch_recompute(handle1.checkpoint_id, trigger_site="cache_limit_probe")
++        assert handle1.state == "forward_complete"
++
++        output0.sum().backward()
++        events0 = handle0.events
++        complete0 = next(event for event in events0 if event["event"] == "prefetch_complete")
++        consume0 = next(event for event in events0 if event["event"] == "cache_consumed")
++        assert complete0["timestamp"] < consume0["timestamp"]
++        assert handle0.state == "consumed"
++        assert proactive_recompute_cache_stats()["cached_checkpoint_count"] == 0
++
++        # Trigger B: an external caller schedules replay while another microbatch
++        # is doing independent work. All operations use the current CUDA stream.
++        _ = torch.sin(x1).sum()
++        assert prefetch_recompute(
++            handle1.checkpoint_id, trigger_site="other_microbatch_compute"
++        )
++        output1.sum().backward()
++        assert handle1.state == "consumed"
++        assert proactive_recompute_cache_stats()["saved_tensor_bytes"] == 0
++        assert_no_live_proactive_recompute_checkpoints()
++
++        # A new training step does not see the previous step's handle or graph.
++        with proactive_recompute_context(step=13, microbatch=0):
++            handle2 = ProactiveCheckpoint(module)
++            output2 = handle2(torch.randn(3, 4, device="cuda", requires_grad=True))
++        output2.sum().backward()  # omitted prefetch uses ordinary on-demand replay
++        assert any(event["event"] == "fallback" for event in handle2.events)
++        assert_no_live_proactive_recompute_checkpoints()
++    finally:
++        set_proactive_recompute_cache_limit(None)
++
++
+ def test_proactive_checkpoint_backward_exception_rolls_back_parameter_grads():
+     class FailBackward(torch.autograd.Function):
+         @staticmethod
+@@ -286,6 +490,35 @@ def test_proactive_checkpoint_backward_exception_rolls_back_parameter_grads():
+     assert handle._cached_outputs is None
+ 
+ 
++def test_proactive_checkpoint_backward_exception_with_main_grad_is_fatal():
++    class FailBackward(torch.autograd.Function):
++        @staticmethod
++        def forward(ctx, value):
++            return value
++
++        @staticmethod
++        def backward(ctx, grad_output):
++            raise RuntimeError("injected fused backward error")
++
++    module = torch.nn.Linear(4, 3).cuda()
++    for parameter in module.parameters():
++        parameter.main_grad = torch.zeros_like(parameter)
++
++    def run(value):
++        return FailBackward.apply(module(value))
++
++    x = torch.randn(2, 4, device="cuda", requires_grad=True)
++    handle = ProactiveCheckpoint(run, parameters=module.parameters())
++    output = handle(x)
++    assert handle.prefetch()
++    with pytest.raises(RuntimeError, match="terminate this training attempt"):
++        output.sum().backward()
++    assert handle.state == "backward_failed"
++    failure = next(event for event in handle.events if event["event"] == "backward_failed")
++    assert failure["main_grad_state_may_be_partial"] is True
++    assert handle._cached_outputs is None
++
++
+ def test_proactive_checkpoint_explicit_release_cleans_unconsumed_cache():
+     x = torch.randn(3, device="cuda", requires_grad=True)
+     handle = ProactiveCheckpoint(lambda value: value.sin())

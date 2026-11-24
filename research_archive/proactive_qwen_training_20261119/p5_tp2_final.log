@@ -1,0 +1,115 @@
+
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+Running 2 items in this shard
+Test data not found at /opt/data. Downloading...
+INFO:tests.test_utils.python_scripts.download_unit_tests_dataset:  Downloading datasets.zip...
+Running 2 items in this shard
+Test data not found at /opt/data. Downloading...
+INFO:tests.test_utils.python_scripts.download_unit_tests_dataset:  Downloading datasets.zip...
+ERROR:tests.test_utils.python_scripts.download_unit_tests_dataset:  Error downloading/extracting datasets.zip: [Errno 2] No such file or directory: '/opt/data/datasets.zip'
+INFO:tests.test_utils.python_scripts.download_unit_tests_dataset:  Downloading tokenizers.zip...
+ERROR:tests.test_utils.python_scripts.download_unit_tests_dataset:  Error downloading/extracting datasets.zip: [Errno 2] No such file or directory: '/opt/data/datasets.zip'
+INFO:tests.test_utils.python_scripts.download_unit_tests_dataset:  Downloading tokenizers.zip...
+ERROR:tests.test_utils.python_scripts.download_unit_tests_dataset:  Error downloading/extracting tokenizers.zip: [Errno 2] No such file or directory: '/opt/data/tokenizers.zip'
+Test data downloaded successfully.
+ERROR:tests.test_utils.python_scripts.download_unit_tests_dataset:  Error downloading/extracting tokenizers.zip: [Errno 2] No such file or directory: '/opt/data/tokenizers.zip'
+Test data downloaded successfully.
+NCCL version 2.26.3+cuda12.9
+INFO:megatron.core.tensor_parallel.random:PROACTIVE_RECOMPUTE_EVENT {"cache_lifetime_seconds": 0.004596315324306488, "checkpoint_id": 0, "events": [{"checkpoint_id": 0, "event": "forward_complete", "layer_number": 1, "module": "attn_qkv", "rank": 0, "timestamp": 39821470.627953164, "tp_size": 2}, {"checkpoint_id": 0, "event": "prefetch_start", "layer_number": 1, "module": "attn_qkv", "rank": 0, "timestamp": 39821470.648245975, "tp_size": 2, "trigger_site": "all_rank_tp_gate"}, {"allocated_bytes": 4232704, "checkpoint_id": 0, "event": "prefetch_complete", "layer_number": 1, "module": "attn_qkv", "output_bytes": 384, "rank": 0, "reserved_bytes": 23068672, "saved_tensor_bytes": 1776, "timestamp": 39821470.651748136, "tp_size": 2}, {"checkpoint_id": 0, "event": "cache_hit", "layer_number": 1, "module": "attn_qkv", "rank": 0, "timestamp": 39821470.652171105, "tp_size": 2}, {"checkpoint_id": 0, "event": "cache_consumed", "layer_number": 1, "module": "attn_qkv", "rank": 0, "timestamp": 39821470.652824074, "tp_size": 2}, {"cache_lifetime_seconds": 0.004596315324306488, "checkpoint_id": 0, "event": "released", "layer_number": 1, "memory": {"allocated_after": 4232704, "allocated_before": 4231168, "peak_allocated": 4233728, "peak_reserved": 23068672, "reserved_after": 23068672, "reserved_before": 23068672}, "module": "attn_qkv", "rank": 0, "timestamp": 39821470.65287322, "tp_size": 2}], "memory_snapshot": {"allocated_after": 4232704, "allocated_before": 4231168, "peak_allocated": 4233728, "peak_reserved": 23068672, "reserved_after": 23068672, "reserved_before": 23068672}, "metadata": {"layer_number": 1, "module": "attn_qkv", "rank": 0, "tp_size": 2}}
+INFO:megatron.core.tensor_parallel.random:PROACTIVE_RECOMPUTE_EVENT {"cache_lifetime_seconds": 0.00604933500289917, "checkpoint_id": 0, "events": [{"checkpoint_id": 0, "event": "forward_complete", "layer_number": 1, "module": "attn_qkv", "rank": 1, "timestamp": 39821470.62851227, "tp_size": 2}, {"checkpoint_id": 0, "event": "prefetch_start", "layer_number": 1, "module": "attn_qkv", "rank": 1, "timestamp": 39821470.65046016, "tp_size": 2, "trigger_site": "all_rank_tp_gate"}, {"allocated_bytes": 4232704, "checkpoint_id": 0, "event": "prefetch_complete", "layer_number": 1, "module": "attn_qkv", "output_bytes": 384, "rank": 1, "reserved_bytes": 23068672, "saved_tensor_bytes": 1776, "timestamp": 39821470.653597414, "tp_size": 2}, {"checkpoint_id": 0, "event": "cache_hit", "layer_number": 1, "module": "attn_qkv", "rank": 1, "timestamp": 39821470.65446739, "tp_size": 2}, {"checkpoint_id": 0, "event": "cache_consumed", "layer_number": 1, "module": "attn_qkv", "rank": 1, "timestamp": 39821470.65648523, "tp_size": 2}, {"cache_lifetime_seconds": 0.00604933500289917, "checkpoint_id": 0, "event": "released", "layer_number": 1, "memory": {"allocated_after": 4232704, "allocated_before": 4231168, "peak_allocated": 4233728, "peak_reserved": 23068672, "reserved_after": 23068672, "reserved_before": 23068672}, "module": "attn_qkv", "rank": 1, "timestamp": 39821470.65654204, "tp_size": 2}], "memory_snapshot": {"allocated_after": 4232704, "allocated_before": 4231168, "peak_allocated": 4233728, "peak_reserved": 23068672, "reserved_after": 23068672, "reserved_before": 23068672}, "metadata": {"layer_number": 1, "module": "attn_qkv", "rank": 1, "tp_size": 2}}
+.s
+=============================== warnings summary ===============================
+megatron/core/inference/contexts/__init__.py:9
+  /mnt/si002365wekc/zwx/code/recom/Megatron-LM-layerwise/megatron/core/inference/contexts/__init__.py:9: DeprecationWarning: The following imports from `dynamic_context.py` will be removed in this file in `megatron-core` 0.14. The imports here result in a cyclic import issue that causes rotary embeddings to import from Apex rather than Transformer Engine.
+    warnings.warn(
+
+<frozen importlib._bootstrap>:488
+  <frozen importlib._bootstrap>:488: DeprecationWarning: Type google._upb._message.MessageMapContainer uses PyType_Spec with a metaclass that has custom tp_new. This is deprecated and will no longer be allowed in Python 3.14.
+
+<frozen importlib._bootstrap>:488
+  <frozen importlib._bootstrap>:488: DeprecationWarning: Type google._upb._message.ScalarMapContainer uses PyType_Spec with a metaclass that has custom tp_new. This is deprecated and will no longer be allowed in Python 3.14.
+
+../../../../../../usr/local/lib/python3.12/dist-packages/google/protobuf/internal/well_known_types.py:93
+  /usr/local/lib/python3.12/dist-packages/google/protobuf/internal/well_known_types.py:93: DeprecationWarning: datetime.datetime.utcfromtimestamp() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.fromtimestamp(timestamp, datetime.UTC).
+    _EPOCH_DATETIME_NAIVE = datetime.datetime.utcfromtimestamp(0)
+
+../../../../../../usr/local/lib/python3.12/dist-packages/pydantic/_internal/_config.py:323
+  /usr/local/lib/python3.12/dist-packages/pydantic/_internal/_config.py:323: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.11/migration/
+    warnings.warn(DEPRECATION_MESSAGE, DeprecationWarning)
+
+tests/unit_tests/tensor_parallel/test_proactive_checkpoint_distributed.py::test_tp2_te_qkv_replay_matches
+  /mnt/si002365wekc/zwx/code/recom/Megatron-LM-layerwise/megatron/core/transformer/transformer_config.py:2426: UserWarning: full scope is deprecated. Use empty cuda_graph_modules to capture the whole layer.
+    warnings.warn(
+
+tests/unit_tests/tensor_parallel/test_proactive_checkpoint_distributed.py::test_tp2_te_qkv_replay_matches
+  /usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/base.py:804: UserWarning: To guarantee overlapping TP and SP collectives with the backwardGEMMs, set environment variable CUDA_DEVICE_MAX_CONNECTIONS = 1
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+==================================== PASSES ====================================
+________________________ test_tp2_te_qkv_replay_matches ________________________
+------------------------------ Captured log setup ------------------------------
+INFO     tests.test_utils.python_scripts.download_unit_tests_dataset:download_unit_tests_dataset.py:48   Downloading datasets.zip...
+ERROR    tests.test_utils.python_scripts.download_unit_tests_dataset:download_unit_tests_dataset.py:80   Error downloading/extracting datasets.zip: [Errno 2] No such file or directory: '/opt/data/datasets.zip'
+INFO     tests.test_utils.python_scripts.download_unit_tests_dataset:download_unit_tests_dataset.py:48   Downloading tokenizers.zip...
+ERROR    tests.test_utils.python_scripts.download_unit_tests_dataset:download_unit_tests_dataset.py:80   Error downloading/extracting tokenizers.zip: [Errno 2] No such file or directory: '/opt/data/tokenizers.zip'
+------------------------------ Captured log call -------------------------------
+INFO     megatron.core.tensor_parallel.random:random.py:1232 PROACTIVE_RECOMPUTE_EVENT {"cache_lifetime_seconds": 0.00604933500289917, "checkpoint_id": 0, "events": [{"checkpoint_id": 0, "event": "forward_complete", "layer_number": 1, "module": "attn_qkv", "rank": 1, "timestamp": 39821470.62851227, "tp_size": 2}, {"checkpoint_id": 0, "event": "prefetch_start", "layer_number": 1, "module": "attn_qkv", "rank": 1, "timestamp": 39821470.65046016, "tp_size": 2, "trigger_site": "all_rank_tp_gate"}, {"allocated_bytes": 4232704, "checkpoint_id": 0, "event": "prefetch_complete", "layer_number": 1, "module": "attn_qkv", "output_bytes": 384, "rank": 1, "reserved_bytes": 23068672, "saved_tensor_bytes": 1776, "timestamp": 39821470.653597414, "tp_size": 2}, {"checkpoint_id": 0, "event": "cache_hit", "layer_number": 1, "module": "attn_qkv", "rank": 1, "timestamp": 39821470.65446739, "tp_size": 2}, {"checkpoint_id": 0, "event": "cache_consumed", "layer_number": 1, "module": "attn_qkv", "rank": 1, "timestamp": 39821470.65648523, "tp_size": 2}, {"cache_lifetime_seconds": 0.00604933500289917, "checkpoint_id": 0, "event": "released", "layer_number": 1, "memory": {"allocated_after": 4232704, "allocated_before": 4231168, "peak_allocated": 4233728, "peak_reserved": 23068672, "reserved_after": 23068672, "reserved_before": 23068672}, "module": "attn_qkv", "rank": 1, "timestamp": 39821470.65654204, "tp_size": 2}], "memory_snapshot": {"allocated_after": 4232704, "allocated_before": 4231168, "peak_allocated": 4233728, "peak_reserved": 23068672, "reserved_after": 23068672, "reserved_before": 23068672}, "metadata": {"layer_number": 1, "module": "attn_qkv", "rank": 1, "tp_size": 2}}
+.s
+=============================== warnings summary ===============================
+megatron/core/inference/contexts/__init__.py:9
+  /mnt/si002365wekc/zwx/code/recom/Megatron-LM-layerwise/megatron/core/inference/contexts/__init__.py:9: DeprecationWarning: The following imports from `dynamic_context.py` will be removed in this file in `megatron-core` 0.14. The imports here result in a cyclic import issue that causes rotary embeddings to import from Apex rather than Transformer Engine.
+    warnings.warn(
+
+<frozen importlib._bootstrap>:488
+  <frozen importlib._bootstrap>:488: DeprecationWarning: Type google._upb._message.MessageMapContainer uses PyType_Spec with a metaclass that has custom tp_new. This is deprecated and will no longer be allowed in Python 3.14.
+
+<frozen importlib._bootstrap>:488
+  <frozen importlib._bootstrap>:488: DeprecationWarning: Type google._upb._message.ScalarMapContainer uses PyType_Spec with a metaclass that has custom tp_new. This is deprecated and will no longer be allowed in Python 3.14.
+
+../../../../../../usr/local/lib/python3.12/dist-packages/google/protobuf/internal/well_known_types.py:93
+  /usr/local/lib/python3.12/dist-packages/google/protobuf/internal/well_known_types.py:93: DeprecationWarning: datetime.datetime.utcfromtimestamp() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.fromtimestamp(timestamp, datetime.UTC).
+    _EPOCH_DATETIME_NAIVE = datetime.datetime.utcfromtimestamp(0)
+
+../../../../../../usr/local/lib/python3.12/dist-packages/pydantic/_internal/_config.py:323
+  /usr/local/lib/python3.12/dist-packages/pydantic/_internal/_config.py:323: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.11/migration/
+    warnings.warn(DEPRECATION_MESSAGE, DeprecationWarning)
+
+tests/unit_tests/tensor_parallel/test_proactive_checkpoint_distributed.py::test_tp2_te_qkv_replay_matches
+  /mnt/si002365wekc/zwx/code/recom/Megatron-LM-layerwise/megatron/core/transformer/transformer_config.py:2426: UserWarning: full scope is deprecated. Use empty cuda_graph_modules to capture the whole layer.
+    warnings.warn(
+
+tests/unit_tests/tensor_parallel/test_proactive_checkpoint_distributed.py::test_tp2_te_qkv_replay_matches
+  /usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/base.py:804: UserWarning: To guarantee overlapping TP and SP collectives with the backwardGEMMs, set environment variable CUDA_DEVICE_MAX_CONNECTIONS = 1
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+==================================== PASSES ====================================
+________________________ test_tp2_te_qkv_replay_matches ________________________
+------------------------------ Captured log setup ------------------------------
+INFO     tests.test_utils.python_scripts.download_unit_tests_dataset:download_unit_tests_dataset.py:48   Downloading datasets.zip...
+ERROR    tests.test_utils.python_scripts.download_unit_tests_dataset:download_unit_tests_dataset.py:80   Error downloading/extracting datasets.zip: [Errno 2] No such file or directory: '/opt/data/datasets.zip'
+INFO     tests.test_utils.python_scripts.download_unit_tests_dataset:download_unit_tests_dataset.py:48   Downloading tokenizers.zip...
+ERROR    tests.test_utils.python_scripts.download_unit_tests_dataset:download_unit_tests_dataset.py:80   Error downloading/extracting tokenizers.zip: [Errno 2] No such file or directory: '/opt/data/tokenizers.zip'
+------------------------------ Captured log call -------------------------------
+INFO     megatron.core.tensor_parallel.random:random.py:1232 PROACTIVE_RECOMPUTE_EVENT {"cache_lifetime_seconds": 0.004596315324306488, "checkpoint_id": 0, "events": [{"checkpoint_id": 0, "event": "forward_complete", "layer_number": 1, "module": "attn_qkv", "rank": 0, "timestamp": 39821470.627953164, "tp_size": 2}, {"checkpoint_id": 0, "event": "prefetch_start", "layer_number": 1, "module": "attn_qkv", "rank": 0, "timestamp": 39821470.648245975, "tp_size": 2, "trigger_site": "all_rank_tp_gate"}, {"allocated_bytes": 4232704, "checkpoint_id": 0, "event": "prefetch_complete", "layer_number": 1, "module": "attn_qkv", "output_bytes": 384, "rank": 0, "reserved_bytes": 23068672, "saved_tensor_bytes": 1776, "timestamp": 39821470.651748136, "tp_size": 2}, {"checkpoint_id": 0, "event": "cache_hit", "layer_number": 1, "module": "attn_qkv", "rank": 0, "timestamp": 39821470.652171105, "tp_size": 2}, {"checkpoint_id": 0, "event": "cache_consumed", "layer_number": 1, "module": "attn_qkv", "rank": 0, "timestamp": 39821470.652824074, "tp_size": 2}, {"cache_lifetime_seconds": 0.004596315324306488, "checkpoint_id": 0, "event": "released", "layer_number": 1, "memory": {"allocated_after": 4232704, "allocated_before": 4231168, "peak_allocated": 4233728, "peak_reserved": 23068672, "reserved_after": 23068672, "reserved_before": 23068672}, "module": "attn_qkv", "rank": 0, "timestamp": 39821470.65287322, "tp_size": 2}], "memory_snapshot": {"allocated_after": 4232704, "allocated_before": 4231168, "peak_allocated": 4233728, "peak_reserved": 23068672, "reserved_after": 23068672, "reserved_before": 23068672}, "metadata": {"layer_number": 1, "module": "attn_qkv", "rank": 0, "tp_size": 2}}
+============================= slowest 15 durations =============================
+2.42s setup    tests/unit_tests/tensor_parallel/test_proactive_checkpoint_distributed.py::test_tp2_te_qkv_replay_matches
+1.87s call     tests/unit_tests/tensor_parallel/test_proactive_checkpoint_distributed.py::test_tp2_te_qkv_replay_matches
+
+(4 durations < 0.005s hidden.  Use -vv to show these durations.)
+=========================== short test summary info ============================
+PASSED tests/unit_tests/tensor_parallel/test_proactive_checkpoint_distributed.py::test_tp2_te_qkv_replay_matches
+SKIPPED [1] tests/unit_tests/tensor_parallel/test_proactive_checkpoint_distributed.py:142: launch with eight ranks to exercise TP2/DP4
+1 passed, 1 skipped, 7 warnings in 4.43s
+============================= slowest 15 durations =============================
+2.65s setup    tests/unit_tests/tensor_parallel/test_proactive_checkpoint_distributed.py::test_tp2_te_qkv_replay_matches
+1.38s call     tests/unit_tests/tensor_parallel/test_proactive_checkpoint_distributed.py::test_tp2_te_qkv_replay_matches
+
+(4 durations < 0.005s hidden.  Use -vv to show these durations.)
+=========================== short test summary info ============================
+PASSED tests/unit_tests/tensor_parallel/test_proactive_checkpoint_distributed.py::test_tp2_te_qkv_replay_matches
+SKIPPED [1] tests/unit_tests/tensor_parallel/test_proactive_checkpoint_distributed.py:142: launch with eight ranks to exercise TP2/DP4
+1 passed, 1 skipped, 7 warnings in 4.16s

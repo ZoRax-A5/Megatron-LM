@@ -1,0 +1,208 @@
+{
+  "original": {
+    "peak_allocated": 4965376,
+    "peak_reserved": 23068672,
+    "cpu": {
+      "forward_A_start": 39825351.83930097,
+      "forward_A_end": 39825352.19311757,
+      "backward_0_start": 39825352.19320562,
+      "backward_0_end": 39825352.23969047,
+      "forward_B_start": 39825352.23980917,
+      "forward_B_end": 39825352.240993455,
+      "backward_1_start": 39825352.241085425,
+      "backward_1_end": 39825352.25073176
+    },
+    "counts": {
+      "forward": 4
+    },
+    "gpu_ms": {
+      "forward_A_start": 0.0,
+      "forward_A_end": 353.84906005859375,
+      "backward_0_start": 353.8754577636719,
+      "backward_0_end": 400.45330810546875,
+      "forward_B_start": 400.50177001953125,
+      "forward_B_end": 401.7240905761719,
+      "backward_1_start": 401.7760314941406,
+      "backward_1_end": 411.4477233886719
+    }
+  },
+  "baseline_repeat": {
+    "peak_allocated": 5100544,
+    "peak_reserved": 23068672,
+    "cpu": {
+      "forward_A_start": 39825352.27192023,
+      "forward_A_end": 39825352.27258772,
+      "backward_0_start": 39825352.27262202,
+      "backward_0_end": 39825352.273595385,
+      "forward_B_start": 39825352.27361709,
+      "forward_B_end": 39825352.273981474,
+      "backward_1_start": 39825352.27401102,
+      "backward_1_end": 39825352.27484614
+    },
+    "counts": {
+      "forward": 4
+    },
+    "gpu_ms": {
+      "forward_A_start": 0.0,
+      "forward_A_end": 0.6601600050926208,
+      "backward_0_start": 0.678272008895874,
+      "backward_0_end": 1.6588799953460693,
+      "forward_B_start": 1.672287940979004,
+      "forward_B_end": 2.050368070602417,
+      "backward_1_start": 2.0666239261627197,
+      "backward_1_end": 2.9074881076812744
+    }
+  },
+  "adjusted_on_demand": {
+    "peak_allocated": 5292032,
+    "peak_reserved": 23068672,
+    "cpu": {
+      "forward_A_start": 39825352.27707437,
+      "forward_A_end": 39825352.27746015,
+      "forward_B_start": 39825352.27749054,
+      "forward_B_end": 39825352.277813055,
+      "backward_0_start": 39825352.27784129,
+      "backward_0_end": 39825352.27864298,
+      "backward_1_start": 39825352.278662875,
+      "backward_1_end": 39825352.27946303
+    },
+    "counts": {
+      "forward": 4
+    },
+    "gpu_ms": {
+      "forward_A_start": 0.0,
+      "forward_A_end": 0.38524800539016724,
+      "forward_B_start": 0.4014720022678375,
+      "forward_B_end": 0.7360320091247559,
+      "backward_0_start": 0.7528960108757019,
+      "backward_0_end": 1.5605759620666504,
+      "backward_1_start": 1.5732159614562988,
+      "backward_1_end": 2.378592014312744
+    }
+  },
+  "adjusted_proactive": {
+    "peak_allocated": 5493248,
+    "peak_reserved": 23068672,
+    "cpu": {
+      "forward_A_start": 39825352.28166259,
+      "forward_A_end": 39825352.2821976,
+      "forward_B_start": 39825352.28222891,
+      "replay_start": 39825352.282390855,
+      "replay_end": 39825352.283540994,
+      "forward_B_end": 39825352.283839315,
+      "backward_0_start": 39825352.28386787,
+      "backward_0_end": 39825352.28497078,
+      "backward_1_start": 39825352.28500134,
+      "backward_1_end": 39825352.286999784
+    },
+    "counts": {
+      "forward": 4
+    },
+    "gpu_ms": {
+      "forward_A_start": 0.0,
+      "forward_A_end": 0.5350720286369324,
+      "forward_B_start": 0.5527999997138977,
+      "replay_start": 0.7202879786491394,
+      "replay_end": 1.863360047340393,
+      "forward_B_end": 2.1742401123046875,
+      "backward_0_start": 2.1911680698394775,
+      "backward_0_end": 3.310015916824341,
+      "backward_1_start": 3.3267838954925537,
+      "backward_1_end": 5.332736015319824
+    },
+    "cache_bytes": 0,
+    "saved_tensor_bytes": 0,
+    "memory": {
+      "allocated_before": 4934656,
+      "reserved_before": 23068672,
+      "allocated_after": 5000704,
+      "reserved_after": 23068672,
+      "peak_allocated": 5082112,
+      "peak_reserved": 23068672
+    },
+    "lifetime_s": 0.001996353268623352,
+    "events": [
+      {
+        "event": "forward_complete",
+        "checkpoint_id": 0,
+        "timestamp": 39825352.282068595,
+        "step": 7,
+        "microbatch": 0,
+        "layer_number": 1,
+        "module": "attn_qkv",
+        "tp_size": 1,
+        "rank": 0
+      },
+      {
+        "event": "prefetch_start",
+        "checkpoint_id": 0,
+        "timestamp": 39825352.28242208,
+        "trigger_site": "B_qkv_pre_hook",
+        "step": 7,
+        "microbatch": 0,
+        "layer_number": 1,
+        "module": "attn_qkv",
+        "tp_size": 1,
+        "rank": 0
+      },
+      {
+        "event": "prefetch_complete",
+        "checkpoint_id": 0,
+        "timestamp": 39825352.283533186,
+        "output_bytes": 49152,
+        "saved_tensor_bytes": 107520,
+        "allocated_bytes": 5000704,
+        "reserved_bytes": 23068672,
+        "step": 7,
+        "microbatch": 0,
+        "layer_number": 1,
+        "module": "attn_qkv",
+        "tp_size": 1,
+        "rank": 0
+      },
+      {
+        "event": "cache_hit",
+        "checkpoint_id": 0,
+        "timestamp": 39825352.28408479,
+        "step": 7,
+        "microbatch": 0,
+        "layer_number": 1,
+        "module": "attn_qkv",
+        "tp_size": 1,
+        "rank": 0
+      },
+      {
+        "event": "cache_consumed",
+        "checkpoint_id": 0,
+        "timestamp": 39825352.28441025,
+        "step": 7,
+        "microbatch": 0,
+        "layer_number": 1,
+        "module": "attn_qkv",
+        "tp_size": 1,
+        "rank": 0
+      },
+      {
+        "event": "released",
+        "checkpoint_id": 0,
+        "timestamp": 39825352.28442717,
+        "cache_lifetime_seconds": 0.001996353268623352,
+        "memory": {
+          "allocated_before": 4934656,
+          "reserved_before": 23068672,
+          "allocated_after": 5000704,
+          "reserved_after": 23068672,
+          "peak_allocated": 5082112,
+          "peak_reserved": 23068672
+        },
+        "step": 7,
+        "microbatch": 0,
+        "layer_number": 1,
+        "module": "attn_qkv",
+        "tp_size": 1,
+        "rank": 0
+      }
+    ]
+  },
+  "exact_equal": true
+}

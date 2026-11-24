@@ -1,0 +1,1390 @@
+
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+Running 1 items in this shard
+Test data not found at /opt/data. Downloading...
+INFO:tests.test_utils.python_scripts.download_unit_tests_dataset:  Downloading datasets.zip...
+Running 1 items in this shard
+Test data not found at /opt/data. Downloading...
+INFO:tests.test_utils.python_scripts.download_unit_tests_dataset:  Downloading datasets.zip...
+ERROR:tests.test_utils.python_scripts.download_unit_tests_dataset:  Error downloading/extracting datasets.zip: [Errno 2] No such file or directory: '/opt/data/datasets.zip'
+INFO:tests.test_utils.python_scripts.download_unit_tests_dataset:  Downloading tokenizers.zip...
+ERROR:tests.test_utils.python_scripts.download_unit_tests_dataset:  Error downloading/extracting datasets.zip: [Errno 2] No such file or directory: '/opt/data/datasets.zip'
+INFO:tests.test_utils.python_scripts.download_unit_tests_dataset:  Downloading tokenizers.zip...
+ERROR:tests.test_utils.python_scripts.download_unit_tests_dataset:  Error downloading/extracting tokenizers.zip: [Errno 2] No such file or directory: '/opt/data/tokenizers.zip'
+Test data downloaded successfully.
+F[rank1]:[W1119 15:19:31.453315958 ProcessGroupNCCL.cpp:4751] [PG ID 0 PG GUID 0 Rank 1]  using GPU 1 as device used by this process is currently unknown. This can potentially cause a hang if this rank to GPU mapping is incorrect. You can pecify device_id in init_process_group() to force use of a particular device.
+ERROR:tests.test_utils.python_scripts.download_unit_tests_dataset:  Error downloading/extracting tokenizers.zip: [Errno 2] No such file or directory: '/opt/data/tokenizers.zip'
+Test data downloaded successfully.
+F[rank0]:[W1119 15:19:32.486371847 ProcessGroupNCCL.cpp:4751] [PG ID 0 PG GUID 0 Rank 0]  using GPU 0 as device used by this process is currently unknown. This can potentially cause a hang if this rank to GPU mapping is incorrect. You can pecify device_id in init_process_group() to force use of a particular device.
+NCCL version 2.26.3+cuda12.9
+
+=================================== FAILURES ===================================
+_______________ test_tp2_sequence_parallel_te_qkv_replay_matches _______________
+
+
+    @pytest.mark.distributed
+    def test_tp2_sequence_parallel_te_qkv_replay_matches():
+        pytest.importorskip("transformer_engine")
+        if int(os.environ.get("WORLD_SIZE", "1")) != 2:
+            pytest.skip("launch with exactly two ranks to exercise TP2")
+    
+        from megatron.core.models.gpt.gpt_layer_specs import (
+            get_gpt_layer_with_transformer_engine_submodules,
+        )
+        from megatron.core.process_groups_config import ProcessGroupCollection
+        from megatron.core.tensor_parallel.random import (
+            get_recompute_checkpoint,
+=================================== FAILURES ===================================            model_parallel_cuda_manual_seed,
+
+            pending_recompute_checkpoints,
+            prefetch_recompute,
+        )
+        from megatron.core.transformer.attention import SelfAttention_______________ test_tp2_sequence_parallel_te_qkv_replay_matches _______________
+
+        from megatron.core.transformer.enums import AttnMaskType
+        from megatron.core.transformer.transformer_config import TransformerConfig
+        from megatron.core.utils import init_method_normal
+
+    
+        local_rank = int(os.environ["LOCAL_RANK"])
+        torch.cuda.set_device(local_rank)
+        if not dist.is_initialized():
+            dist.init_process_group("nccl")
+        model_parallel_cuda_manual_seed(
+            431,
+            tp_rank=dist.get_rank(),
+            ep_rank=0,
+            etp_rank=dist.get_rank(),
+            force_reset_rng=True,
+        )
+>       config = TransformerConfig(    @pytest.mark.distributed
+            num_layers=1,
+
+            hidden_size=16,
+            num_attention_heads=4,    def test_tp2_sequence_parallel_te_qkv_replay_matches():
+            num_query_groups=4,
+
+            kv_channels=4,        pytest.importorskip("transformer_engine")
+
+            ffn_hidden_size=32,
+        if int(os.environ.get("WORLD_SIZE", "1")) != 2:            params_dtype=torch.bfloat16,
+
+            normalization="RMSNorm",            pytest.skip("launch with exactly two ranks to exercise TP2")
+
+            tensor_model_parallel_size=2,
+                sequence_parallel=True,
+
+            gradient_accumulation_fusion=True,        from megatron.core.models.gpt.gpt_layer_specs import (
+
+            transformer_impl="transformer_engine",
+            get_gpt_layer_with_transformer_engine_submodules,            init_method=init_method_normal(0.02),
+
+            recompute_granularity="selective",        )
+            recompute_modules=["attn_qkv"],
+
+            proactive_recompute=True,        from megatron.core.process_groups_config import ProcessGroupCollection
+
+        )
+        from megatron.core.tensor_parallel.random import (
+
+tests/unit_tests/tensor_parallel/test_proactive_checkpoint_distributed.py            get_recompute_checkpoint,:43: 
+
+            model_parallel_cuda_manual_seed,_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+            pending_recompute_checkpoints,<string>
+:296: in __init__
+            prefetch_recompute,    ???
+
+        )_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+        from megatron.core.transformer.attention import SelfAttention
+
+self = TransformerConfig(tensor_model_parallel_size=2, pipeline_model_parallel_comm_backend=None, pipeline_model_parallel_siz...r_size_factor_cuda=1.1, moe_paged_stash_buffer_size_factor_cpu=0.0, fine_grained_offloading_max_inflight_offloads=None)        from megatron.core.transformer.enums import AttnMaskType
+
+
+        from megatron.core.transformer.transformer_config import TransformerConfig
+        from megatron.core.utils import init_method_normal
+    
+        local_rank = int(os.environ["LOCAL_RANK"])
+        torch.cuda.set_device(local_rank)
+        if not dist.is_initialized():
+            dist.init_process_group("nccl")
+        model_parallel_cuda_manual_seed(
+            431,
+    def __post_init__(self):            tp_rank=dist.get_rank(),
+
+        """Python dataclass method that is used to modify attributes after initialization.
+            ep_rank=0,        See https://docs.python.org/3/library/dataclasses.html#post-init-processing for more
+
+            etp_rank=dist.get_rank(),        details.
+
+            force_reset_rng=True,        """
+
+        )        super().__post_init__()
+
+>       config = TransformerConfig(    
+
+            num_layers=1,        # When fp32 residual connections are enabled, pipeline parallel communication must
+
+            hidden_size=16,        # use fp32 to match the dtype of the residual stream between pipeline stages.
+
+            num_attention_heads=4,        if self.fp32_residual_connection and self.pipeline_dtype is not None:
+
+            num_query_groups=4,            if self.pipeline_dtype != torch.float:
+
+            kv_channels=4,                log_single_rank(
+
+            ffn_hidden_size=32,                    logger,
+
+            params_dtype=torch.bfloat16,                    logging.WARNING,
+
+            normalization="RMSNorm",                    f"fp32_residual_connection is enabled, overriding pipeline_dtype "
+
+            tensor_model_parallel_size=2,                    f"from {self.pipeline_dtype} to torch.float to match the "
+
+            sequence_parallel=True,                    f"residual stream dtype between pipeline stages.",
+
+            gradient_accumulation_fusion=True,                )
+
+            transformer_impl="transformer_engine",            self.pipeline_dtype = torch.float
+
+            init_method=init_method_normal(0.02),    
+
+            recompute_granularity="selective",        if self.fp16 and self.bf16:
+
+            recompute_modules=["attn_qkv"],            raise ValueError(
+
+            proactive_recompute=True,                f"Only one of self.fp16: {self.fp16} and self.bf16 {self.bf16} should be True."
+
+        )            )
+
+    
+        # Apply BF16 matmul precision setting if needed
+        if self.bf16 and self.disable_bf16_reduced_precision_matmul:
+
+            torch.backends.cuda.matmul.allow_bf16_reduced_precision_reduction = False
+    
+tests/unit_tests/tensor_parallel/test_proactive_checkpoint_distributed.py        if self.num_attention_heads % self.tensor_model_parallel_size != 0:
+            raise ValueError(:43: 
+
+                f"num_attention_heads ({self.num_attention_heads}) must be a multiple of "
+                f"tensor_model_parallel_size ({self.tensor_model_parallel_size})."
+            )
+    
+        if self.ffn_hidden_size is None:
+            self.ffn_hidden_size = 4 * self.hidden_size
+    _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+        if self.kv_channels is None:
+
+            self.kv_channels = self.hidden_size // self.num_attention_heads
+    
+<string>        if self.num_query_groups is None:
+            self.num_query_groups = self.num_attention_heads:296: in __init__
+    
+
+        if (
+            self.num_query_groups % self.tensor_model_parallel_size != 0
+            and self.tensor_model_parallel_size % self.num_query_groups != 0
+        ):    ???
+            raise ValueError(
+
+                f"num_query_groups ({self.num_query_groups}) must be a multiple or divisor of "
+                f"tensor_model_parallel_size ({self.tensor_model_parallel_size})."
+            )
+    
+        if self.experimental_attention_variant == "gated_delta_net":
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _             assert (
+
+                self.linear_attention_freq is not None
+
+            ), f"linear_attention_freq must be set for linear gated_delta_net."
+    
+            # Check required parameters
+            assert (
+                self.linear_conv_kernel_dim is not Noneself = TransformerConfig(tensor_model_parallel_size=2, pipeline_model_parallel_comm_backend=None, pipeline_model_parallel_siz...r_size_factor_cuda=1.1, moe_paged_stash_buffer_size_factor_cpu=0.0, fine_grained_offloading_max_inflight_offloads=None)
+            ), "linear_conv_kernel_dim must be set for gated delta net."
+
+            assert (
+
+                self.linear_key_head_dim is not None
+            ), "linear_key_head_dim must be set for gated delta net."
+            assert (
+                self.linear_value_head_dim is not None
+            ), "linear_value_head_dim must be set for gated delta net."
+            assert (
+                self.linear_num_key_heads is not None
+            ), "linear_num_key_heads must be set for gated delta net."
+            assert (
+                self.linear_num_value_heads is not None
+            ), "linear_num_value_heads must be set for gated delta net."
+            assert self.linear_num_value_heads % self.linear_num_key_heads == 0, (
+                f"linear_num_value_heads ({self.linear_num_value_heads}) must be a multiple of "
+                f"linear_num_key_heads ({self.linear_num_key_heads})."
+            )
+    
+            # Check tensor parallelism compatibility
+            tp_cp_size = self.tensor_model_parallel_size * self.context_parallel_size
+            assert self.linear_num_key_heads % tp_cp_size == 0, (
+                f"{self.linear_num_key_heads=} must be a multiple of "
+                f"({self.tensor_model_parallel_size=} * {self.context_parallel_size=})."
+            )
+            assert self.linear_num_value_heads % tp_cp_size == 0, (
+                f"{self.linear_num_value_heads=} must be a multiple of "
+                f"({self.tensor_model_parallel_size=} * {self.context_parallel_size=})."
+            )
+        elif self.experimental_attention_variant == "dsa":
+            _validate_dsa_kernel_backend_dependencies(self.dsa_kernel_backend)
+            if self.add_bias_linear:
+                raise ValueError(
+                    "DSA uses AbsorbedMLASelfAttention, which requires add_bias_linear=False. "
+                    "Disable linear bias for DSA configs."
+                )
+            if self.dsa_indexer_topk_freq < 1:
+                raise ValueError(
+                    f"dsa_indexer_topk_freq must be positive, got {self.dsa_indexer_topk_freq}."
+                )
+            if self.dsa_indexer_skip_topk_offset < 0:
+                raise ValueError(
+                    "dsa_indexer_skip_topk_offset must be non-negative, got "
+                    f"{self.dsa_indexer_skip_topk_offset}."
+                )
+    
+        if self.fp8:
+            # cannot support first last layer bf16 with delayed scaling
+            if self.first_last_layers_bf16 and self.fp8_recipe == Fp8Recipe.delayed:
+                raise ValueError("Delayed scaling does not support first / last layer in BF16.")
+    
+            # max bf16 layers per pipeline stage
+            max_bf16_layers_per_pipeline_stage = (
+                self.num_layers // self.pipeline_model_parallel_size
+            )
+    
+            # check start/end bf16 layer counts are valid
+            if self.first_last_layers_bf16:
+                if (
+                    self.num_layers_at_start_in_bf16 < 0
+                    or self.num_layers_at_start_in_bf16 > max_bf16_layers_per_pipeline_stage
+                ):
+                    raise ValueError(
+                        f"num_layers_at_start_in_bf16 ({self.num_layers_at_start_in_bf16}) must be "
+                        f"between 0 and number of layers per pipeline stage "
+                        f"({max_bf16_layers_per_pipeline_stage})."
+                    )
+                if (
+                    self.num_layers_at_end_in_bf16 < 0
+                    or self.num_layers_at_end_in_bf16 > max_bf16_layers_per_pipeline_stage
+                ):
+                    raise ValueError(
+                        f"num_layers_at_end_in_bf16 ({self.num_layers_at_end_in_bf16}) must be "
+                        f"between 0 and number of layers per pipeline stage "
+                        f"({max_bf16_layers_per_pipeline_stage})."
+                    )
+    
+            if self.fp8_recipe == Fp8Recipe.custom:
+                if not self.fp8_quantizer_factory:
+                    raise ValueError(
+                        "fp8_quantizer_factory must be provided when fp8_recipe is 'custom'. "
+                        "Specify a Python import path (e.g., package.module.quantizer_factory) "
+                        "via --fp8-quantizer-factory."
+                    )
+    
+        if self.fp8_param and not self.fp8:
+            raise ValueError("fp8_param must be used together with fp8 mode.")
+    
+        if self.fp8_output_proj:
+            if not self.fp8:
+                raise ValueError("fp8_output_proj must be used together with fp8 mode.")
+            if self.fp8_recipe != Fp8Recipe.mxfp8:
+                raise ValueError(
+                    f"fp8_output_proj requires fp8_recipe='mxfp8', got " f"'{self.fp8_recipe}'."
+                )
+    
+        # FP4 validation
+        if self.fp4_param and not self.fp4:
+            raise ValueError("fp4_param must be used together with fp4 mode.")
+    
+        if self.fp4 and self.fp8:
+            raise ValueError("fp4 and fp8 cannot be used simultaneously. Please choose one.")
+    
+        if self.fp4 and self.fp4_recipe == Fp4Recipe.custom:
+            if not self.fp4_quantizer_factory:
+                raise ValueError(
+                    "fp4_quantizer_factory must be provided when fp4_recipe is 'custom'. "
+                    "Specify a Python import path (e.g., package.module.quantizer_factory) "
+                    "via --fp4-quantizer-factory."
+                )
+    
+        if self.apply_query_key_layer_scaling:
+            self.attention_softmax_in_fp32 = True
+        def __post_init__(self):
+        if self.expert_model_parallel_size > 1 and self.num_moe_experts is None:
+
+            raise ValueError("num_moe_experts must be non None to use expert-parallel.")        """Python dataclass method that is used to modify attributes after initialization.
+
+    
+        See https://docs.python.org/3/library/dataclasses.html#post-init-processing for more        if self.transformer_impl == "inference_optimized" and self.num_moe_experts is not None:
+
+            if self.expert_tensor_parallel_size > 1:        details.
+
+                raise ValueError(
+        """                    "Inference-optimized MoE layers does not support expert tensor parallelism."
+
+                )        super().__post_init__()
+
+            if self.moe_expert_capacity_factor is not None:
+                    raise ValueError("Inference-optimized MoE layers only support dropless MoE ")
+
+            if self.moe_router_padding_for_quantization:        # When fp32 residual connections are enabled, pipeline parallel communication must
+
+                raise ValueError(
+        # use fp32 to match the dtype of the residual stream between pipeline stages.                    "Inference-optimized MoE layers do not support padded "
+
+                    "routing map for quantization."        if self.fp32_residual_connection and self.pipeline_dtype is not None:
+
+                )
+            if self.pipeline_dtype != torch.float:            if self.moe_router_dtype != "fp32":
+
+                raise ValueError(                log_single_rank(
+
+                    "--transformer-impl='inference_optimized' requires --moe-router-dtype=fp32 "
+                    logger,                    "to avoid costly dtype conversions during decode."
+
+                )                    logging.WARNING,
+
+    
+                    f"fp32_residual_connection is enabled, overriding pipeline_dtype "            if self.gated_linear_unit:
+
+                    f"from {self.pipeline_dtype} to torch.float to match the "                raise ValueError(
+
+                    "--transformer-impl='inference_optimized' does not yet support "                    f"residual stream dtype between pipeline stages.",
+
+                    "gated linear units (SwiGLU/GeGLU)."
+                )                )
+
+                self.pipeline_dtype = torch.float
+
+            if self.fp8 == "mxfp8":
+                    if not self.fp8_param:
+
+                    raise ValueError(        if self.fp16 and self.bf16:
+
+                        "fp8_param must be enabled when using "
+            raise ValueError(                        "--transformer-impl='inference_optimized' with --fp8-recipe='mxfp8'. "
+
+                        "Please set --fp8-param-gather."                f"Only one of self.fp16: {self.fp16} and self.bf16 {self.bf16} should be True."
+
+                    )
+            )    
+
+                try:
+
+        # Apply BF16 matmul precision setting if needed                self.inference_grouped_gemm_backend = InferenceGroupedGemmBackend(
+
+                    self.inference_grouped_gemm_backend        if self.bf16 and self.disable_bf16_reduced_precision_matmul:
+
+                )
+            torch.backends.cuda.matmul.allow_bf16_reduced_precision_reduction = False            except ValueError:
+
+                raise ValueError(    
+
+                    f"inference_grouped_gemm_backend must be 'flashinfer', 'torch', or 'vllm', "
+        if self.num_attention_heads % self.tensor_model_parallel_size != 0:                    f"got '{self.inference_grouped_gemm_backend}'"
+
+                )            raise ValueError(
+
+    
+                f"num_attention_heads ({self.num_attention_heads}) must be a multiple of "            if (
+
+                self.inference_grouped_gemm_backend == InferenceGroupedGemmBackend.FLASHINFER                f"tensor_model_parallel_size ({self.tensor_model_parallel_size})."
+
+                and self.fp8 == "mxfp8"
+            )            ):
+
+                    raise ValueError(
+
+                    "FlashInfer is not compatible with MXFP8 quantization. "        if self.ffn_hidden_size is None:
+
+                    "Set inference_grouped_gemm_backend to 'torch'."
+            self.ffn_hidden_size = 4 * self.hidden_size                )
+
+        
+
+        if self.kv_channels is None:            if (
+
+                self.inference_grouped_gemm_backend == InferenceGroupedGemmBackend.VLLM            self.kv_channels = self.hidden_size // self.num_attention_heads
+
+                and self.fp8 == "mxfp8"    
+
+            ):
+        if self.num_query_groups is None:                raise ValueError(
+
+                    "vLLM Triton fused MoE only supports BF16. "            self.num_query_groups = self.num_attention_heads
+
+                    "Set inference_grouped_gemm_backend to 'torch' for MXFP8."    
+
+                )
+        if (    
+
+        if self.num_moe_experts is not None and self.num_moe_experts <= 0:            self.num_query_groups % self.tensor_model_parallel_size != 0
+
+            raise ValueError("num_moe_experts must be non-negative.")
+            and self.tensor_model_parallel_size % self.num_query_groups != 0    
+
+        if self.num_moe_experts is not None and self.moe_ffn_hidden_size is None:        ):
+
+            self.moe_ffn_hidden_size = self.ffn_hidden_size
+            raise ValueError(            warnings.warn("moe_ffn_hidden_size is not set, using ffn_hidden_size instead.")
+
+                    f"num_query_groups ({self.num_query_groups}) must be a multiple or divisor of "
+
+        if self.num_moe_experts is None and self.moe_ffn_hidden_size is not None:
+                f"tensor_model_parallel_size ({self.tensor_model_parallel_size})."            is_mixed_model = (
+
+            )                isinstance(self.moe_layer_freq, list) and 0 in self.moe_layer_freq
+
+                ) or (isinstance(self.moe_layer_freq, int) and self.moe_layer_freq > 1)
+
+        if self.experimental_attention_variant == "gated_delta_net":            if is_mixed_model:
+
+            assert (                warnings.warn(
+
+                self.linear_attention_freq is not None                    "moe_ffn_hidden_size is set but num_moe_experts is None. "
+
+                    "This is expected for dense layers in a mixed dense/MoE model "            ), f"linear_attention_freq must be set for linear gated_delta_net."
+
+                    "(moe_layer_freq indicates some layers remain dense). "    
+
+                    "moe_ffn_hidden_size will be ignored for this layer."
+            # Check required parameters                )
+
+            assert (                self.moe_ffn_hidden_size = None
+
+            else:                self.linear_conv_kernel_dim is not None
+                raise ValueError(
+
+                    "moe_ffn_hidden_size is set but num_moe_experts is None. "            ), "linear_conv_kernel_dim must be set for gated delta net."
+
+                    "Please set num_moe_experts or remove moe_ffn_hidden_size."
+            assert (                )
+
+                    self.linear_key_head_dim is not None
+
+        if self.moe_single_grouped_weight or self.moe_single_grouped_bias:
+            ), "linear_key_head_dim must be set for gated delta net."            if not self.moe_grouped_gemm:
+
+            assert (                raise ValueError(
+
+                self.linear_value_head_dim is not None                    "moe_single_grouped_weight and moe_single_grouped_bias require "
+
+                    "moe_grouped_gemm=True."            ), "linear_value_head_dim must be set for gated delta net."
+
+                )
+            assert (            if not is_te_min_version("2.14.0"):
+
+                raise ValueError(                self.linear_num_key_heads is not None
+
+                    "moe_single_grouped_weight and moe_single_grouped_bias require "
+            ), "linear_num_key_heads must be set for gated delta net."                    f"transformer-engine>=2.14.0, but your version is {get_te_version()}."
+
+            assert (                )
+
+                self.linear_num_value_heads is not None        if self.moe_single_grouped_weight:
+
+            ), "linear_num_value_heads must be set for gated delta net."            # The dist-optimizer's quantized-param shard path on the single-grouped-weight
+
+            # storage is only validated for fp8 mode with the mxfp8 recipe today; other            assert self.linear_num_value_heads % self.linear_num_key_heads == 0, (
+
+            # combinations have a known numerical issue tracked in upstream PR
+                f"linear_num_value_heads ({self.linear_num_value_heads}) must be a multiple of "            # NVIDIA/Megatron-LM#4621. Reject at construction time so users don't silently
+
+                f"linear_num_key_heads ({self.linear_num_key_heads})."            # train on a broken numerical path. (moe_single_grouped_bias is not gated:
+
+            # biases aren't quantized, so they don't enter the buggy code path.)            )
+
+            if self.fp4 or not self.fp8 or self.fp8_recipe != Fp8Recipe.mxfp8:    
+
+                raise ValueError(            # Check tensor parallelism compatibility
+
+                    "moe_single_grouped_weight is currently supported only with fp8 mode "
+            tp_cp_size = self.tensor_model_parallel_size * self.context_parallel_size                    "and fp8_recipe='mxfp8'."
+
+                )            assert self.linear_num_key_heads % tp_cp_size == 0, (
+
+        if self.moe_single_grouped_bias and not self.add_bias_linear:
+                f"{self.linear_num_key_heads=} must be a multiple of "            raise ValueError("moe_single_grouped_bias requires add_bias_linear=True.")
+
+                    f"({self.tensor_model_parallel_size=} * {self.context_parallel_size=})."
+
+        if self.moe_enable_deepep:
+            )            if self.moe_token_dispatcher_type != "flex":
+
+            assert self.linear_num_value_heads % tp_cp_size == 0, (                raise ValueError("DeepEP backend is only supported with flex token dispatcher.")
+
+            if self.moe_flex_dispatcher_backend == "hybridep":                f"{self.linear_num_value_heads=} must be a multiple of "
+
+                raise ValueError("Only one backend is supported for flex token dispatcher.")
+                f"({self.tensor_model_parallel_size=} * {self.context_parallel_size=})."            self.moe_flex_dispatcher_backend = "deepep"
+
+            )            warnings.warn(
+
+        elif self.experimental_attention_variant == "dsa":                "moe_enable_deepep is deprecated."
+
+                "Please use --moe-flex-dispatcher-backend=deepep instead."            _validate_dsa_kernel_backend_dependencies(self.dsa_kernel_backend)
+
+            )
+            if self.add_bias_linear:    
+
+                raise ValueError(        if self.moe_token_dispatcher_type == "flex":
+
+                    "DSA uses AbsorbedMLASelfAttention, which requires add_bias_linear=False. "            if self.moe_pad_expert_input_to_capacity and (
+
+                self.moe_enable_deepep or self.moe_flex_dispatcher_backend == "deepep"                    "Disable linear bias for DSA configs."
+
+            ):
+                )                raise ValueError(
+
+                    "Flex token dispatcher with deepep backend does not support "            if self.dsa_indexer_topk_freq < 1:
+
+                    "moe_pad_expert_input_to_capacity"
+                raise ValueError(                )
+
+                        f"dsa_indexer_topk_freq must be positive, got {self.dsa_indexer_topk_freq}."
+
+        if self.moe_shared_expert_intermediate_size is not None:                )
+
+            if self.moe_shared_expert_intermediate_size <= 0:
+            if self.dsa_indexer_skip_topk_offset < 0:                raise ValueError(
+
+                    f"moe_shared_expert_intermediate_size must be "                raise ValueError(
+
+                    f"num_shared_experts * ffn_size_of_each_shared_expert, "
+                    "dsa_indexer_skip_topk_offset must be non-negative, got "                    f"but got {self.moe_shared_expert_intermediate_size}"
+
+                )                    f"{self.dsa_indexer_skip_topk_offset}."
+
+            if self.moe_shared_expert_overlap and self.moe_token_dispatcher_type not in [
+                )                "alltoall",
+
+                    "flex",
+
+            ]:        if self.fp8:
+
+                raise ValueError(
+            # cannot support first last layer bf16 with delayed scaling                    f"moe_shared_expert_overlap only works with alltoall or flex token dispatcher."
+
+                )            if self.first_last_layers_bf16 and self.fp8_recipe == Fp8Recipe.delayed:
+
+    
+                raise ValueError("Delayed scaling does not support first / last layer in BF16.")        if isinstance(self.moe_router_load_balancing_type, list):
+
+                assert isinstance(self.moe_aux_loss_coeff, list) and len(
+
+            # max bf16 layers per pipeline stage                self.moe_aux_loss_coeff
+
+            max_bf16_layers_per_pipeline_stage = (            ) == len(self.moe_router_load_balancing_type), (
+
+                self.num_layers // self.pipeline_model_parallel_size                "moe_aux_loss_coeff must be a list of the same length as "
+
+            )                "moe_router_load_balancing_type"
+
+            )    
+
+    
+            # check start/end bf16 layer counts are valid        if self.moe_expert_capacity_factor is not None:
+
+            if self.first_last_layers_bf16:            if self.moe_expert_capacity_factor < 0:
+
+                self.moe_expert_capacity_factor = None                if (
+
+            if isinstance(self.moe_router_load_balancing_type, list):
+                    self.num_layers_at_start_in_bf16 < 0                for load_balancing_type in self.moe_router_load_balancing_type:
+
+                    if load_balancing_type not in [                    or self.num_layers_at_start_in_bf16 > max_bf16_layers_per_pipeline_stage
+
+                        "aux_loss",
+                ):                        "seq_aux_loss",
+
+                        "global_aux_loss",                    raise ValueError(
+
+                        "none",
+                        f"num_layers_at_start_in_bf16 ({self.num_layers_at_start_in_bf16}) must be "                    ]:
+
+                        raise ValueError(                        f"between 0 and number of layers per pipeline stage "
+
+                            "moe_expert_capacity_factor only works with aux_loss, "
+                        f"({max_bf16_layers_per_pipeline_stage})."                            "seq_aux_loss, global_aux_loss or none load balancing"
+
+                        )                    )
+
+            elif self.moe_router_load_balancing_type not in [
+                if (                "aux_loss",
+
+                "seq_aux_loss",                    self.num_layers_at_end_in_bf16 < 0
+
+                "global_aux_loss",
+                    or self.num_layers_at_end_in_bf16 > max_bf16_layers_per_pipeline_stage                "none",
+
+            ]:                ):
+
+                raise ValueError(
+                    raise ValueError(                    "moe_expert_capacity_factor only works with aux_loss, "
+
+                        f"num_layers_at_end_in_bf16 ({self.num_layers_at_end_in_bf16}) must be "                    "seq_aux_loss, global_aux_loss or none load balancing"
+
+                )                        f"between 0 and number of layers per pipeline stage "
+
+    
+                        f"({max_bf16_layers_per_pipeline_stage})."        if self.moe_pad_expert_input_to_capacity:
+
+                    )            if self.moe_expert_capacity_factor is None:
+
+                    raise ValueError(
+
+            if self.fp8_recipe == Fp8Recipe.custom:                    "moe_expert_capacity_factor must be set to use moe_pad_expert_input_to_capacity"
+
+                )                if not self.fp8_quantizer_factory:
+
+    
+                    raise ValueError(        if self.moe_expert_rank_capacity_factor is not None:
+
+            if not self.use_transformer_engine_op_fuser:                        "fp8_quantizer_factory must be provided when fp8_recipe is 'custom'. "
+
+                raise ValueError(
+                        "Specify a Python import path (e.g., package.module.quantizer_factory) "                    "moe_expert_rank_capacity_factor requires use_transformer_engine_op_fuser to "
+
+                    "be enabled."                        "via --fp8-quantizer-factory."
+
+                )
+                    )            if self.moe_flex_dispatcher_backend != "hybridep":
+
+                    raise ValueError(
+
+        if self.fp8_param and not self.fp8:                    "moe_expert_rank_capacity_factor requires moe_flex_dispatcher_backend to be "
+
+                    "'hybridep'."            raise ValueError("fp8_param must be used together with fp8 mode.")
+
+                )    
+
+    
+        if self.fp8_output_proj:        if self.cpu_offloading and (
+
+            self.cpu_offloading_num_layers < 0 or self.cpu_offloading_num_layers >= self.num_layers            if not self.fp8:
+
+        ):
+                raise ValueError("fp8_output_proj must be used together with fp8 mode.")            raise ValueError(
+
+            if self.fp8_recipe != Fp8Recipe.mxfp8:                f"CPU offloading can be done only for layers less than {self.num_layers}"
+
+            )                raise ValueError(
+
+    
+                    f"fp8_output_proj requires fp8_recipe='mxfp8', got " f"'{self.fp8_recipe}'."        if self.cpu_offloading and self.pipeline_model_parallel_size > 1:
+
+                )            raise ValueError(
+
+                    "Currently there is no support for Pipeline parallelism with CPU offloading"
+
+            )        # FP4 validation
+
+            if self.fp4_param and not self.fp4:
+
+        if self.cpu_offloading and self.recompute_granularity is not None:
+            raise ValueError("fp4_param must be used together with fp4 mode.")            raise ValueError(
+
+                    "CPU offloading does not work when activation recomputation is enabled"
+
+        if self.fp4 and self.fp8:            )
+
+                raise ValueError("fp4 and fp8 cannot be used simultaneously. Please choose one.")
+
+        if self.recompute_granularity is not None:
+                if self.recompute_granularity not in ["full", "selective"]:
+
+                raise ValueError(        if self.fp4 and self.fp4_recipe == Fp4Recipe.custom:
+
+                    f'When using recompute_granuarlity: {self.recompute_granularity} must be "full"'
+            if not self.fp4_quantizer_factory:                    'or "selective".'
+
+                )                raise ValueError(
+
+    
+                    "fp4_quantizer_factory must be provided when fp4_recipe is 'custom'. "            if self.recompute_method is not None:
+
+                if self.recompute_method not in ["block", "uniform"]:                    "Specify a Python import path (e.g., package.module.quantizer_factory) "
+
+                    raise ValueError(
+                    "via --fp4-quantizer-factory."                        f'recompute_method: {self.recompute_method} must be "block" or "uniform".'
+
+                )                    )
+
+                elif self.recompute_granularity != "selective":
+
+        if self.apply_query_key_layer_scaling:                raise ValueError(
+
+            self.attention_softmax_in_fp32 = True                    f"Using recompute_granularity: {self.recompute_granularity} so "
+
+                        'recompute_method must be "block" or "uniform"'
+
+                )        if self.expert_model_parallel_size > 1 and self.num_moe_experts is None:
+
+    
+            raise ValueError("num_moe_experts must be non None to use expert-parallel.")            if self.recompute_granularity != "selective" and self.recompute_num_layers is None:
+
+                    raise ValueError(
+
+                    f"When using recompute_granularity: {self.recompute_granularity} "        if self.transformer_impl == "inference_optimized" and self.num_moe_experts is not None:
+
+                    "recompute_num_layers must be between "
+            if self.expert_tensor_parallel_size > 1:                    "1 and num_layers_per_pipeline_rank: "
+
+                raise ValueError(                    f"{self.num_layers // self.pipeline_model_parallel_size}"
+
+                    "Inference-optimized MoE layers does not support expert tensor parallelism."                )
+
+            elif (                )
+
+                self.recompute_granularity == "selective" and self.recompute_num_layers is not None            if self.moe_expert_capacity_factor is not None:
+
+            ):
+                raise ValueError("Inference-optimized MoE layers only support dropless MoE ")                raise ValueError(
+
+            if self.moe_router_padding_for_quantization:                    f"When using recompute_granularity: {self.recompute_granularity} "
+
+                raise ValueError(                    "recompute_num_layers must be None."
+
+                )                    "Inference-optimized MoE layers do not support padded "
+
+                        "routing map for quantization."
+
+            if self.distribute_saved_activations and self.sequence_parallel:
+                )                raise ValueError(
+
+                    f"distribute_saved_activations: {self.distribute_saved_activations} must be "            if self.moe_router_dtype != "fp32":
+
+                    f"false when sequence parallel is enabled: {self.sequence_parallel}"
+                raise ValueError(                )
+
+                        "--transformer-impl='inference_optimized' requires --moe-router-dtype=fp32 "
+
+        if self.recompute_layer_config is not None:
+                    "to avoid costly dtype conversions during decode."            if self.recompute_granularity != "selective":
+
+                raise ValueError("recompute_layer_config requires selective recomputation")                )
+
+            if not isinstance(self.recompute_layer_config, dict):
+                    raise ValueError("recompute_layer_config must be an object")
+
+            if self.gated_linear_unit:            normalized = {}
+
+                raise ValueError(            for key, modules in self.recompute_layer_config.items():
+
+                    "--transformer-impl='inference_optimized' does not yet support "                if isinstance(key, bool) or not (
+
+                    "gated linear units (SwiGLU/GeGLU)."                    isinstance(key, int) or isinstance(key, str) and key.isdecimal()
+
+                ):                )
+
+                    raise ValueError(f"Invalid global layer index: {key!r}")    
+
+                index = int(key)
+            if self.fp8 == "mxfp8":                if index < 0 or index >= self.num_layers or index in normalized:
+
+                if not self.fp8_param:                    raise ValueError(f"Invalid or duplicate global layer index: {key!r}")
+
+                    raise ValueError(                if not isinstance(modules, list) or not all(isinstance(m, str) for m in modules):
+
+                        "fp8_param must be enabled when using "                    raise ValueError(f"Layer {index} requires a list of module names")
+
+                if len(modules) != len(set(modules)):                        "--transformer-impl='inference_optimized' with --fp8-recipe='mxfp8'. "
+
+                    raise ValueError(f"Duplicate module for layer {index}")
+                        "Please set --fp8-param-gather."                if "mlp" in modules and set(modules) & {"mlp_fc1", "mlp_act", "mlp_fc2"}:
+
+                    raise ValueError(                    )
+
+                        f"Layer {index}: cannot combine whole-MLP and fine MLP checkpointing"    
+
+                    )            try:
+
+                if "moe" in modules and set(modules) & {"moe_act", "moe_fc1", "moe_fc2", "shared_experts"}:
+                self.inference_grouped_gemm_backend = InferenceGroupedGemmBackend(                    raise ValueError(f"Layer {index}: cannot combine whole MoE and internal checkpoints")
+
+                    self.inference_grouped_gemm_backend                normalized[index] = list(modules)
+
+                )            self.recompute_layer_config = normalized
+
+            except ValueError:            # Validate and advertise the union at model level; layers receive their own lists.
+
+                raise ValueError(            self.recompute_modules = sorted({m for modules in normalized.values() for m in modules})
+
+                    f"inference_grouped_gemm_backend must be 'flashinfer', 'torch', or 'vllm', "        elif self.recompute_modules is None:
+
+            self.recompute_modules = ["core_attn"]                    f"got '{self.inference_grouped_gemm_backend}'"
+
+    
+                )        if self.proactive_recompute:
+
+                if self.recompute_granularity != "selective":
+
+            if (                raise ValueError("proactive_recompute requires selective recomputation")
+
+                self.inference_grouped_gemm_backend == InferenceGroupedGemmBackend.FLASHINFER            if "attn_qkv" not in self.recompute_modules:
+
+                and self.fp8 == "mxfp8"                raise ValueError("proactive_recompute currently requires attn_qkv recomputation")
+
+            if self.transformer_impl not in ("local", "transformer_engine") or self.fp8 or self.fp4:            ):
+
+                raise ValueError(
+                raise ValueError(                    "proactive_recompute supports local or Transformer Engine BF16/FP32 "
+
+                    "linear modules; FP8/FP4 is not supported"                    "FlashInfer is not compatible with MXFP8 quantization. "
+
+                )
+                    "Set inference_grouped_gemm_backend to 'torch'."            if (
+
+                )                self.pipeline_model_parallel_size != 1
+
+                    or self.context_parallel_size != 1
+
+            if (                or self.expert_model_parallel_size != 1
+
+            ):                self.inference_grouped_gemm_backend == InferenceGroupedGemmBackend.VLLM
+
+                raise ValueError(                and self.fp8 == "mxfp8"
+
+                    "proactive_recompute currently requires PP=CP=EP=1; TP/DP support "
+            ):                    "requires rank-synchronous prefetch calls"
+
+                )                raise ValueError(
+
+            if self.cuda_graph_impl != "none" or self.cpu_offloading or self.distribute_saved_activations:
+                    "vLLM Triton fused MoE only supports BF16. "                raise ValueError(
+
+                    "Set inference_grouped_gemm_backend to 'torch' for MXFP8."                    "proactive_recompute is incompatible with CUDA graphs, CPU offload, and distributed saved activations"
+
+                )                )
+
+        
+
+        if self.recompute_granularity == "selective":        if self.num_moe_experts is not None and self.num_moe_experts <= 0:
+
+            if len(self.recompute_modules) > 0:
+            raise ValueError("num_moe_experts must be non-negative.")                allowed_modules = {
+
+                        "core_attn",
+
+                    "moe_act",        if self.num_moe_experts is not None and self.moe_ffn_hidden_size is None:
+
+                    "moe_fc1",
+            self.moe_ffn_hidden_size = self.ffn_hidden_size                    "moe_fc2",
+
+            warnings.warn("moe_ffn_hidden_size is not set, using ffn_hidden_size instead.")                    "layernorm",
+
+                        "mla_up_proj",
+
+        if self.num_moe_experts is None and self.moe_ffn_hidden_size is not None:                    "mlp",
+
+            is_mixed_model = (                    "moe",
+
+                isinstance(self.moe_layer_freq, list) and 0 in self.moe_layer_freq                    "shared_experts",
+
+                    "gdn_norm_out",            ) or (isinstance(self.moe_layer_freq, int) and self.moe_layer_freq > 1)
+
+                    "attn_qkv",
+            if is_mixed_model:                    "attn_q_norm",
+
+                warnings.warn(                    "attn_k_norm",
+
+                    "moe_ffn_hidden_size is set but num_moe_experts is None. "                    "attn_rope_q",
+
+                    "This is expected for dense layers in a mixed dense/MoE model "                    "attn_rope_k",
+
+                    "(moe_layer_freq indicates some layers remain dense). "                    "attn_proj",
+
+                    "moe_ffn_hidden_size will be ignored for this layer."                    "mlp_fc1",
+
+                )                    "mlp_act",
+
+                self.moe_ffn_hidden_size = None                    "mlp_fc2",
+
+            else:                }
+
+                raise ValueError(                invalid_modules = set(self.recompute_modules) - allowed_modules
+
+                    "moe_ffn_hidden_size is set but num_moe_experts is None. "                assert not invalid_modules, (
+
+                    "Please set num_moe_experts or remove moe_ffn_hidden_size."                    f"Invalid choices for recompute_modules: {invalid_modules}. "
+
+                )                    f"Allowed modules are: {allowed_modules}"
+
+                    )
+
+        if self.moe_single_grouped_weight or self.moe_single_grouped_bias:    
+
+            if not self.moe_grouped_gemm:            fine_modules = {
+
+                raise ValueError(                "attn_qkv",
+
+                    "moe_single_grouped_weight and moe_single_grouped_bias require "                "attn_q_norm",
+
+                    "moe_grouped_gemm=True."                "attn_k_norm",
+
+                )                "attn_rope_q",
+
+            if not is_te_min_version("2.14.0"):                "attn_rope_k",
+
+                raise ValueError(                "attn_proj",
+
+                    "moe_single_grouped_weight and moe_single_grouped_bias require "                "mlp_fc1",
+
+                    f"transformer-engine>=2.14.0, but your version is {get_te_version()}."                "mlp_act",
+
+                )                "mlp_fc2",
+
+        if self.moe_single_grouped_weight:            }
+
+            # The dist-optimizer's quantized-param shard path on the single-grouped-weight            selected_fine = fine_modules.intersection(self.recompute_modules)
+
+            # storage is only validated for fp8 mode with the mxfp8 recipe today; other            moe_fine = {"moe_fc1", "moe_fc2"}.intersection(self.recompute_modules)
+
+            # combinations have a known numerical issue tracked in upstream PR            if moe_fine:
+
+            # NVIDIA/Megatron-LM#4621. Reject at construction time so users don't silently                if (not self.num_moe_experts or not self.moe_grouped_gemm or self.fp8 or self.fp4
+
+            # train on a broken numerical path. (moe_single_grouped_bias is not gated:                    or self.add_bias_linear or self.use_transformer_engine_op_fuser
+
+            # biases aren't quantized, so they don't enter the buggy code path.)                    or self.fine_grained_activation_offloading or self.cpu_offloading
+
+            if self.fp4 or not self.fp8 or self.fp8_recipe != Fp8Recipe.mxfp8:                    or self.cuda_graph_impl != "none" or self.overlap_moe_expert_parallel_comm):
+
+                raise ValueError(                    raise ValueError("MoE FC checkpoints require bias-free BF16/FP32 grouped experts without fused ops, offloading, CUDA graphs or EP overlap")
+
+                    "moe_single_grouped_weight is currently supported only with fp8 mode "            if "moe_act" in self.recompute_modules and self.use_transformer_engine_op_fuser:
+
+                    "and fp8_recipe='mxfp8'."                raise ValueError("moe_act checkpointing is unsupported with fused grouped MLP")
+
+                )            if self.recompute_layer_config is None and "moe" in self.recompute_modules and set(self.recompute_modules) & {"moe_act", "moe_fc1", "moe_fc2", "shared_experts"}:
+
+        if self.moe_single_grouped_bias and not self.add_bias_linear:                raise ValueError("Cannot combine whole MoE and internal checkpoints")
+
+            raise ValueError("moe_single_grouped_bias requires add_bias_linear=True.")            if selected_fine:
+
+                    if self.num_moe_experts and selected_fine.intersection({"mlp_fc1", "mlp_act", "mlp_fc2"}):
+
+        if self.moe_enable_deepep:                    raise ValueError("Use moe_fc1, moe_act or moe_fc2 for MoE experts")
+
+            if self.moe_token_dispatcher_type != "flex":                if (
+
+                raise ValueError("DeepEP backend is only supported with flex token dispatcher.")                    self.recompute_layer_config is None
+
+            if self.moe_flex_dispatcher_backend == "hybridep":                    and "mlp" in self.recompute_modules
+
+                raise ValueError("Only one backend is supported for flex token dispatcher.")                    and selected_fine.intersection({"mlp_fc1", "mlp_act", "mlp_fc2"})
+
+            self.moe_flex_dispatcher_backend = "deepep"                ):
+
+            warnings.warn(                    raise ValueError("Cannot combine whole-MLP and fine MLP checkpointing")
+
+                "moe_enable_deepep is deprecated."                if (
+
+                "Please use --moe-flex-dispatcher-backend=deepep instead."                    self.fp8
+
+            )                    or self.fp4
+
+                        or self.fine_grained_activation_offloading
+
+        if self.moe_token_dispatcher_type == "flex":                ):
+
+            if self.moe_pad_expert_input_to_capacity and (                    raise ValueError(
+
+                self.moe_enable_deepep or self.moe_flex_dispatcher_backend == "deepep"                        "Fine checkpointing currently supports BF16/FP32 without activation offloading"
+
+            ):                    )
+
+                raise ValueError(                if self.fused_single_qkv_rope and selected_fine.intersection(
+
+                    "Flex token dispatcher with deepep backend does not support "                    {"attn_rope_q", "attn_rope_k"}
+
+                    "moe_pad_expert_input_to_capacity"                ):
+
+                )                    raise ValueError("Separate RoPE checkpointing requires unfused QKV RoPE")
+
+                    if self.cpu_offloading:
+
+        if self.moe_shared_expert_intermediate_size is not None:                    raise ValueError("Fine checkpointing with CPU offloading is not supported")
+
+            if self.moe_shared_expert_intermediate_size <= 0:                if self.sequence_parallel or self.multi_latent_attention:
+
+                raise ValueError(>                   raise ValueError(
+
+                    f"moe_shared_expert_intermediate_size must be "                        "Fine checkpointing with sequence parallel or MLA is not supported"
+
+                    f"num_shared_experts * ffn_size_of_each_shared_expert, "                    )
+
+                    f"but got {self.moe_shared_expert_intermediate_size}"
+                )E                   ValueError: Fine checkpointing with sequence parallel or MLA is not supported
+
+            if self.moe_shared_expert_overlap and self.moe_token_dispatcher_type not in [
+                "alltoall",
+
+                "flex",megatron/core/transformer/transformer_config.py
+:1802: ValueError            ]:
+
+                raise ValueError(
+                    f"moe_shared_expert_overlap only works with alltoall or flex token dispatcher."
+                )
+    
+        if isinstance(self.moe_router_load_balancing_type, list):
+            assert isinstance(self.moe_aux_loss_coeff, list) and len(
+                self.moe_aux_loss_coeff
+            ) == len(self.moe_router_load_balancing_type), (
+------------------------------ Captured log setup ------------------------------                "moe_aux_loss_coeff must be a list of the same length as "
+
+INFO     tests.test_utils.python_scripts.download_unit_tests_dataset:download_unit_tests_dataset.py:48   Downloading datasets.zip...
+ERROR    tests.test_utils.python_scripts.download_unit_tests_dataset:download_unit_tests_dataset.py:80   Error downloading/extracting datasets.zip: [Errno 2] No such file or directory: '/opt/data/datasets.zip'
+INFO     tests.test_utils.python_scripts.download_unit_tests_dataset:download_unit_tests_dataset.py:48   Downloading tokenizers.zip...
+ERROR    tests.test_utils.python_scripts.download_unit_tests_dataset:download_unit_tests_dataset.py:80   Error downloading/extracting tokenizers.zip: [Errno 2] No such file or directory: '/opt/data/tokenizers.zip'                "moe_router_load_balancing_type"
+
+            )
+    
+        if self.moe_expert_capacity_factor is not None:
+            if self.moe_expert_capacity_factor < 0:
+                self.moe_expert_capacity_factor = None
+            if isinstance(self.moe_router_load_balancing_type, list):
+                for load_balancing_type in self.moe_router_load_balancing_type:
+                    if load_balancing_type not in [
+                        "aux_loss",
+                        "seq_aux_loss",
+                        "global_aux_loss",
+                        "none",
+                    ]:
+                        raise ValueError(
+                            "moe_expert_capacity_factor only works with aux_loss, "
+                            "seq_aux_loss, global_aux_loss or none load balancing"
+                        )
+            elif self.moe_router_load_balancing_type not in [
+                "aux_loss",
+                "seq_aux_loss",
+                "global_aux_loss",
+                "none",
+            ]:
+                raise ValueError(
+                    "moe_expert_capacity_factor only works with aux_loss, "
+                    "seq_aux_loss, global_aux_loss or none load balancing"
+                )
+    
+        if self.moe_pad_expert_input_to_capacity:
+            if self.moe_expert_capacity_factor is None:
+                raise ValueError(
+                    "moe_expert_capacity_factor must be set to use moe_pad_expert_input_to_capacity"
+                )
+    =============================== warnings summary ===============================
+
+        if self.moe_expert_rank_capacity_factor is not None:
+            if not self.use_transformer_engine_op_fuser:
+                raise ValueError(
+                    "moe_expert_rank_capacity_factor requires use_transformer_engine_op_fuser to "
+                    "be enabled."
+                )
+            if self.moe_flex_dispatcher_backend != "hybridep":
+                raise ValueError(
+                    "moe_expert_rank_capacity_factor requires moe_flex_dispatcher_backend to be "
+                    "'hybridep'."
+                )
+    
+        if self.cpu_offloading and (
+            self.cpu_offloading_num_layers < 0 or self.cpu_offloading_num_layers >= self.num_layers
+        ):
+            raise ValueError(
+                f"CPU offloading can be done only for layers less than {self.num_layers}"
+            )
+    
+        if self.cpu_offloading and self.pipeline_model_parallel_size > 1:
+            raise ValueError(
+                "Currently there is no support for Pipeline parallelism with CPU offloading"
+            )
+    
+        if self.cpu_offloading and self.recompute_granularity is not None:
+            raise ValueError(
+                "CPU offloading does not work when activation recomputation is enabled"
+            )
+    
+        if self.recompute_granularity is not None:
+            if self.recompute_granularity not in ["full", "selective"]:
+                raise ValueError(
+                    f'When using recompute_granuarlity: {self.recompute_granularity} must be "full"'
+                    'or "selective".'
+                )
+    
+            if self.recompute_method is not None:
+                if self.recompute_method not in ["block", "uniform"]:
+megatron/core/inference/contexts/__init__.py:9                    raise ValueError(
+
+                        f'recompute_method: {self.recompute_method} must be "block" or "uniform".'
+  /mnt/si002365wekc/zwx/code/recom/Megatron-LM-layerwise/megatron/core/inference/contexts/__init__.py:9: DeprecationWarning: The following imports from `dynamic_context.py` will be removed in this file in `megatron-core` 0.14. The imports here result in a cyclic import issue that causes rotary embeddings to import from Apex rather than Transformer Engine.
+    warnings.warn(                    )
+
+            elif self.recompute_granularity != "selective":
+
+                raise ValueError(
+                    f"Using recompute_granularity: {self.recompute_granularity} so "
+                    'recompute_method must be "block" or "uniform"'
+                )
+    
+            if self.recompute_granularity != "selective" and self.recompute_num_layers is None:
+                raise ValueError(
+                    f"When using recompute_granularity: {self.recompute_granularity} "
+                    "recompute_num_layers must be between "
+                    "1 and num_layers_per_pipeline_rank: "
+                    f"{self.num_layers // self.pipeline_model_parallel_size}"
+                )
+            elif (
+                self.recompute_granularity == "selective" and self.recompute_num_layers is not None
+<frozen importlib._bootstrap>:488            ):
+
+                raise ValueError(  <frozen importlib._bootstrap>:488: DeprecationWarning: Type google._upb._message.MessageMapContainer uses PyType_Spec with a metaclass that has custom tp_new. This is deprecated and will no longer be allowed in Python 3.14.
+
+                    f"When using recompute_granularity: {self.recompute_granularity} "
+
+                    "recompute_num_layers must be None."
+                )
+    
+            if self.distribute_saved_activations and self.sequence_parallel:
+                raise ValueError(
+                    f"distribute_saved_activations: {self.distribute_saved_activations} must be "
+                    f"false when sequence parallel is enabled: {self.sequence_parallel}"
+                )
+    
+        if self.recompute_layer_config is not None:
+            if self.recompute_granularity != "selective":
+                raise ValueError("recompute_layer_config requires selective recomputation")<frozen importlib._bootstrap>:488
+
+            if not isinstance(self.recompute_layer_config, dict):  <frozen importlib._bootstrap>:488: DeprecationWarning: Type google._upb._message.ScalarMapContainer uses PyType_Spec with a metaclass that has custom tp_new. This is deprecated and will no longer be allowed in Python 3.14.
+
+                raise ValueError("recompute_layer_config must be an object")
+
+            normalized = {}
+            for key, modules in self.recompute_layer_config.items():
+                if isinstance(key, bool) or not (
+                    isinstance(key, int) or isinstance(key, str) and key.isdecimal()
+                ):
+                    raise ValueError(f"Invalid global layer index: {key!r}")
+                index = int(key)
+                if index < 0 or index >= self.num_layers or index in normalized:
+                    raise ValueError(f"Invalid or duplicate global layer index: {key!r}")
+                if not isinstance(modules, list) or not all(isinstance(m, str) for m in modules):
+                    raise ValueError(f"Layer {index} requires a list of module names")
+                if len(modules) != len(set(modules)):
+                    raise ValueError(f"Duplicate module for layer {index}")
+                if "mlp" in modules and set(modules) & {"mlp_fc1", "mlp_act", "mlp_fc2"}:
+                    raise ValueError(
+                        f"Layer {index}: cannot combine whole-MLP and fine MLP checkpointing"
+                    )
+                if "moe" in modules and set(modules) & {"moe_act", "moe_fc1", "moe_fc2", "shared_experts"}:
+                    raise ValueError(f"Layer {index}: cannot combine whole MoE and internal checkpoints")
+../../../../../../usr/local/lib/python3.12/dist-packages/google/protobuf/internal/well_known_types.py:93                normalized[index] = list(modules)
+
+            self.recompute_layer_config = normalized  /usr/local/lib/python3.12/dist-packages/google/protobuf/internal/well_known_types.py:93: DeprecationWarning: datetime.datetime.utcfromtimestamp() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.fromtimestamp(timestamp, datetime.UTC).
+    _EPOCH_DATETIME_NAIVE = datetime.datetime.utcfromtimestamp(0)
+
+            # Validate and advertise the union at model level; layers receive their own lists.
+
+            self.recompute_modules = sorted({m for modules in normalized.values() for m in modules})
+        elif self.recompute_modules is None:
+            self.recompute_modules = ["core_attn"]
+    
+        if self.proactive_recompute:
+            if self.recompute_granularity != "selective":
+                raise ValueError("proactive_recompute requires selective recomputation")
+            if "attn_qkv" not in self.recompute_modules:
+                raise ValueError("proactive_recompute currently requires attn_qkv recomputation")
+            if self.transformer_impl not in ("local", "transformer_engine") or self.fp8 or self.fp4:
+                raise ValueError(
+                    "proactive_recompute supports local or Transformer Engine BF16/FP32 "
+                    "linear modules; FP8/FP4 is not supported"
+                )
+            if (
+                self.pipeline_model_parallel_size != 1
+                or self.context_parallel_size != 1
+                or self.expert_model_parallel_size != 1../../../../../../usr/local/lib/python3.12/dist-packages/pydantic/_internal/_config.py:323
+
+            ):  /usr/local/lib/python3.12/dist-packages/pydantic/_internal/_config.py:323: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.11/migration/
+    warnings.warn(DEPRECATION_MESSAGE, DeprecationWarning)
+
+                raise ValueError(
+
+                    "proactive_recompute currently requires PP=CP=EP=1; TP/DP support "
+                    "requires rank-synchronous prefetch calls"
+                )
+            if self.cuda_graph_impl != "none" or self.cpu_offloading or self.distribute_saved_activations:
+                raise ValueError(
+                    "proactive_recompute is incompatible with CUDA graphs, CPU offload, and distributed saved activations"
+                )
+    
+        if self.recompute_granularity == "selective":
+            if len(self.recompute_modules) > 0:
+                allowed_modules = {
+                    "core_attn",
+                    "moe_act",
+                    "moe_fc1",
+                    "moe_fc2",tests/unit_tests/tensor_parallel/test_proactive_checkpoint_distributed.py:11
+
+                    "layernorm",
+  /mnt/si002365wekc/zwx/code/recom/Megatron-LM-layerwise/tests/unit_tests/tensor_parallel/test_proactive_checkpoint_distributed.py:11: PytestUnknownMarkWarning: Unknown pytest.mark.distributed - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.distributed                    "mla_up_proj",
+
+
+                    "mlp",-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+
+                    "moe",
+                    "shared_experts",
+                    "gdn_norm_out",
+                    "attn_qkv",
+                    "attn_q_norm",
+                    "attn_k_norm",
+                    "attn_rope_q",
+                    "attn_rope_k",
+                    "attn_proj",
+                    "mlp_fc1",
+                    "mlp_act",
+                    "mlp_fc2",
+                }
+                invalid_modules = set(self.recompute_modules) - allowed_modules
+                assert not invalid_modules, (
+                    f"Invalid choices for recompute_modules: {invalid_modules}. "
+                    f"Allowed modules are: {allowed_modules}"
+                )
+    
+            fine_modules = {
+                "attn_qkv",
+                "attn_q_norm",
+                "attn_k_norm",
+                "attn_rope_q",
+                "attn_rope_k",
+                "attn_proj",
+                "mlp_fc1",
+                "mlp_act",
+                "mlp_fc2",
+            }
+            selected_fine = fine_modules.intersection(self.recompute_modules)
+            moe_fine = {"moe_fc1", "moe_fc2"}.intersection(self.recompute_modules)
+            if moe_fine:
+                if (not self.num_moe_experts or not self.moe_grouped_gemm or self.fp8 or self.fp4
+                    or self.add_bias_linear or self.use_transformer_engine_op_fuser
+                    or self.fine_grained_activation_offloading or self.cpu_offloading
+                    or self.cuda_graph_impl != "none" or self.overlap_moe_expert_parallel_comm):
+                    raise ValueError("MoE FC checkpoints require bias-free BF16/FP32 grouped experts without fused ops, offloading, CUDA graphs or EP overlap")
+            if "moe_act" in self.recompute_modules and self.use_transformer_engine_op_fuser:
+                raise ValueError("moe_act checkpointing is unsupported with fused grouped MLP")
+            if self.recompute_layer_config is None and "moe" in self.recompute_modules and set(self.recompute_modules) & {"moe_act", "moe_fc1", "moe_fc2", "shared_experts"}:
+                raise ValueError("Cannot combine whole MoE and internal checkpoints")
+            if selected_fine:
+                if self.num_moe_experts and selected_fine.intersection({"mlp_fc1", "mlp_act", "mlp_fc2"}):
+                    raise ValueError("Use moe_fc1, moe_act or moe_fc2 for MoE experts")
+                if (
+                    self.recompute_layer_config is None
+                    and "mlp" in self.recompute_modules
+                    and selected_fine.intersection({"mlp_fc1", "mlp_act", "mlp_fc2"})
+                ):
+                    raise ValueError("Cannot combine whole-MLP and fine MLP checkpointing")
+                if (
+                    self.fp8
+                    or self.fp4
+                    or self.fine_grained_activation_offloading
+                ):
+                    raise ValueError(
+                        "Fine checkpointing currently supports BF16/FP32 without activation offloading"
+                    )
+                if self.fused_single_qkv_rope and selected_fine.intersection(
+                    {"attn_rope_q", "attn_rope_k"}
+                ):
+                    raise ValueError("Separate RoPE checkpointing requires unfused QKV RoPE")
+                if self.cpu_offloading:
+                    raise ValueError("Fine checkpointing with CPU offloading is not supported")
+                if self.sequence_parallel or self.multi_latent_attention:
+>                   raise ValueError(
+                        "Fine checkpointing with sequence parallel or MLA is not supported"
+                    )
+E                   ValueError: Fine checkpointing with sequence parallel or MLA is not supported
+
+megatron/core/transformer/transformer_config.py:1802: ValueError
+------------------------------ Captured log setup ------------------------------
+INFO     tests.test_utils.python_scripts.download_unit_tests_dataset:download_unit_tests_dataset.py:48   Downloading datasets.zip...
+ERROR    tests.test_utils.python_scripts.download_unit_tests_dataset:download_unit_tests_dataset.py:80   Error downloading/extracting datasets.zip: [Errno 2] No such file or directory: '/opt/data/datasets.zip'
+INFO     tests.test_utils.python_scripts.download_unit_tests_dataset:download_unit_tests_dataset.py:48   Downloading tokenizers.zip...
+ERROR    tests.test_utils.python_scripts.download_unit_tests_dataset:download_unit_tests_dataset.py:80   Error downloading/extracting tokenizers.zip: [Errno 2] No such file or directory: '/opt/data/tokenizers.zip'
+=============================== warnings summary ===============================
+megatron/core/inference/contexts/__init__.py:9
+  /mnt/si002365wekc/zwx/code/recom/Megatron-LM-layerwise/megatron/core/inference/contexts/__init__.py:9: DeprecationWarning: The following imports from `dynamic_context.py` will be removed in this file in `megatron-core` 0.14. The imports here result in a cyclic import issue that causes rotary embeddings to import from Apex rather than Transformer Engine.
+    warnings.warn(
+
+<frozen importlib._bootstrap>:488
+  <frozen importlib._bootstrap>:488: DeprecationWarning: Type google._upb._message.MessageMapContainer uses PyType_Spec with a metaclass that has custom tp_new. This is deprecated and will no longer be allowed in Python 3.14.
+
+<frozen importlib._bootstrap>:488
+  <frozen importlib._bootstrap>:488: DeprecationWarning: Type google._upb._message.ScalarMapContainer uses PyType_Spec with a metaclass that has custom tp_new. This is deprecated and will no longer be allowed in Python 3.14.
+
+../../../../../../usr/local/lib/python3.12/dist-packages/google/protobuf/internal/well_known_types.py:93
+  /usr/local/lib/python3.12/dist-packages/google/protobuf/internal/well_known_types.py:93: DeprecationWarning: datetime.datetime.utcfromtimestamp() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.fromtimestamp(timestamp, datetime.UTC).
+    _EPOCH_DATETIME_NAIVE = datetime.datetime.utcfromtimestamp(0)
+
+../../../../../../usr/local/lib/python3.12/dist-packages/pydantic/_internal/_config.py:323
+  /usr/local/lib/python3.12/dist-packages/pydantic/_internal/_config.py:323: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.11/migration/
+    warnings.warn(DEPRECATION_MESSAGE, DeprecationWarning)
+
+tests/unit_tests/tensor_parallel/test_proactive_checkpoint_distributed.py:11
+  /mnt/si002365wekc/zwx/code/recom/Megatron-LM-layerwise/tests/unit_tests/tensor_parallel/test_proactive_checkpoint_distributed.py:11: PytestUnknownMarkWarning: Unknown pytest.mark.distributed - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.distributed
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+============================= slowest 15 durations =============================
+2.59s teardown tests/unit_tests/tensor_parallel/test_proactive_checkpoint_distributed.py::test_tp2_sequence_parallel_te_qkv_replay_matches
+2.24s setup    tests/unit_tests/tensor_parallel/test_proactive_checkpoint_distributed.py::test_tp2_sequence_parallel_te_qkv_replay_matches
+0.15s call     tests/unit_tests/tensor_parallel/test_proactive_checkpoint_distributed.py::test_tp2_sequence_parallel_te_qkv_replay_matches
+=========================== short test summary info ============================
+FAILED tests/unit_tests/tensor_parallel/test_proactive_checkpoint_distributed.py::test_tp2_sequence_parallel_te_qkv_replay_matches
+1 failed, 6 warnings in 5.18s
+============================= slowest 15 durations =============================
+2.68s setup    tests/unit_tests/tensor_parallel/test_proactive_checkpoint_distributed.py::test_tp2_sequence_parallel_te_qkv_replay_matches
+1.71s teardown tests/unit_tests/tensor_parallel/test_proactive_checkpoint_distributed.py::test_tp2_sequence_parallel_te_qkv_replay_matches
+0.01s call     tests/unit_tests/tensor_parallel/test_proactive_checkpoint_distributed.py::test_tp2_sequence_parallel_te_qkv_replay_matches
+=========================== short test summary info ============================
+FAILED tests/unit_tests/tensor_parallel/test_proactive_checkpoint_distributed.py::test_tp2_sequence_parallel_te_qkv_replay_matches
+1 failed, 6 warnings in 4.61s
+W1119 15:19:35.996000 44683 torch/distributed/elastic/multiprocessing/api.py:900] Sending process 45224 closing signal SIGTERM
+E1119 15:19:36.512000 44683 torch/distributed/elastic/multiprocessing/api.py:874] failed (exitcode: 1) local_rank: 1 (pid: 45227) of binary: /usr/bin/python
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 896, in <module>
+    main()
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 355, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 892, in main
+    run(args)
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/run.py", line 883, in run
+    elastic_launch(
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 139, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/torch/distributed/launcher/api.py", line 270, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+pytest FAILED
+------------------------------------------------------------
+Failures:
+  <NO_OTHER_FAILURES>
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-11-19_15:19:35
+  host      : NH-DC-NM129-A09-28U-GPU-25.inspur.com
+  rank      : 1 (local_rank: 1)
+  exitcode  : 1 (pid: 45227)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================

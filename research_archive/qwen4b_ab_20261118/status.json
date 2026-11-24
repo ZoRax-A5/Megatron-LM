@@ -1,0 +1,47 @@
+{
+  "state": "complete",
+  "completed": [
+    "stageA_s2048_m1_r1",
+    "probe_s2048_m2_r1",
+    "probe_s8192_m1_r1",
+    "probe_s8192_m2_r1",
+    "perf_s2048_m2_r1",
+    "perf_s2048_m1_r1",
+    "perf_s8192_m1_r1",
+    "perf_s8192_m2_r1",
+    "perf_s2048_m1_r2",
+    "perf_s2048_m2_r2",
+    "perf_s8192_m1_r2",
+    "perf_s8192_m2_r2",
+    "perf_s2048_m1_r3",
+    "perf_s8192_m1_r3",
+    "perf_s8192_m2_r3",
+    "perf_s2048_m2_r3",
+    "profile_s2048_m1_r1",
+    "profile_s2048_m2_r1",
+    "profile_s8192_m1_r1",
+    "profile_s8192_m2_r1",
+    "profile_s2048_m1_r2",
+    "profile_s2048_m2_r2",
+    "profile_s8192_m1_r2",
+    "profile_s8192_m2_r2",
+    "profile_s2048_m1_r3",
+    "profile_s2048_m2_r3",
+    "profile_s8192_m1_r3",
+    "profile_s8192_m2_r3"
+  ],
+  "failed": [
+    {
+      "run": "probe_s8192_m4_r1",
+      "oom": true,
+      "returncode": 1
+    }
+  ],
+  "skipped": [
+    {
+      "seq": 8192,
+      "mbs": 8,
+      "reason": "larger MBS after same-sequence OOM; not measured"
+    }
+  ]
+}

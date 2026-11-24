@@ -1,0 +1,35 @@
+{
+  "stage1": [
+    "B1",
+    "qkv_5",
+    "fc1_5"
+  ],
+  "coverage_prefixes": [
+    5,
+    9,
+    18,
+    36
+  ],
+  "coverage_rule": "prefix global layers 0..n-1; advance each module until first meaningful coverage; then stop; remaining percentages unmeasured",
+  "meaningful_rule": "all three paired allocated savings positive AND mean saving >=1 GiB AND >=1% B1 allocated AND saving >3 times paired sample SD",
+  "formal": {
+    "repeats": 3,
+    "warmup": 20,
+    "measured": 30
+  },
+  "verification": {
+    "steps": 3,
+    "full_owned_RS_gradients": true,
+    "full_parameters": true,
+    "grad_atol": 1e-05,
+    "grad_rtol": 0.001,
+    "param_atol": 0.001,
+    "param_rtol": 0.01,
+    "deterministic_only_verification": true
+  },
+  "profile_rule": "only first meaningful coverage per module plus B1; three independent captures, 5 warmup, steps6-8,10 total; FC1 narrow GEMM Event control if FC1 meaningful",
+  "mbs4_gate": "extrapolate B1 allocated MBS4 =2*B1_MBS2 -AB_MBS1; predict candidate subtract 2*measured MBS2 savings; probe only if predicted <=77 GiB; inference only, not memory feasibility proof",
+  "mbs4_rule": "at most one three-step probe per qualifying selected strategy; if runnable verify full gradients against recompute-free MBS4 memory-saving CPU gradient snapshot is unavailable so compare same MBS reference only if it runs; no full correctness claim from MBS2 transfer; formal3x20+30 only successful probes",
+  "no_scheduler": true,
+  "no_search": true
+}

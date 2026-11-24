@@ -1,0 +1,19 @@
+{
+  "failure": "AttributeError ctx=None in observation-only TE forward wrapper, before profiling warmup",
+  "fix": "guard ctx metadata assignment; original TE function and return values unchanged",
+  "production_code_changed": false,
+  "formal_runs_affected": false,
+  "primary_profiles_recollected": [
+    "profile_B1_m2_r1_obs2",
+    "profile_qkv_18_m2_r1_obs2",
+    "profile_fc1_18_m2_r1_obs2",
+    "profile_B1_m2_r2_obs2",
+    "profile_qkv_18_m2_r2_obs2",
+    "profile_fc1_18_m2_r2_obs2",
+    "profile_B1_m2_r3_obs2",
+    "profile_qkv_18_m2_r3_obs2",
+    "profile_fc1_18_m2_r3_obs2"
+  ],
+  "original_failure_retained": "profile_qkv_18_m2_r1",
+  "initial_valid_B1_retained_as_reference": "profile_B1_m2_r1"
+}

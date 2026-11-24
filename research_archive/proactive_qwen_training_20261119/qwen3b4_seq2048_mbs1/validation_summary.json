@@ -1,0 +1,344 @@
+{
+  "config": {
+    "model": "Qwen3-4B Dense",
+    "dtype": "BF16",
+    "tp": 2,
+    "dp": 4,
+    "pp": 1,
+    "seq": 2048,
+    "mbs": 1,
+    "gbs": 32,
+    "steps": 3,
+    "mapping": {
+      "0": [
+        "attn_qkv"
+      ]
+    },
+    "data": "mock",
+    "weights": "historical converted Qwen3-4B weights"
+  },
+  "modes": {
+    "no_recompute": {
+      "mode": "no_recompute",
+      "step_logs": [
+        {
+          "step": 1,
+          "elapsed_ms": 16693.4,
+          "loss": 9.929667
+        },
+        {
+          "step": 2,
+          "elapsed_ms": 13395.0,
+          "loss": 9.81741
+        },
+        {
+          "step": 3,
+          "elapsed_ms": 23023.0,
+          "loss": 11.73678
+        }
+      ],
+      "all_rank_check_summary": {
+        "checks": 0,
+        "kinds": [],
+        "total_bad_elements": 0,
+        "max_abs_max": 0,
+        "relative_l2_max": 0,
+        "elements_minmax": [
+          0,
+          0
+        ]
+      },
+      "replay_counter_per_rank": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
+      ],
+      "layer0_qkv_module_forward_calls_per_rank": [
+        24,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24
+      ],
+      "checkpoint_records_per_rank": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "memory_last_step_by_rank": {
+        "0": {
+          "allocated_mb": 17358.5,
+          "max_allocated_mb": 22886.95,
+          "reserved_mb": 24000.0,
+          "max_reserved_mb": 24000.0
+        },
+        "1": {
+          "allocated_mb": 17354.56,
+          "max_allocated_mb": 22881.62,
+          "reserved_mb": 23826.0,
+          "max_reserved_mb": 23826.0
+        }
+      }
+    },
+    "on_demand_qkv": {
+      "mode": "on_demand_qkv",
+      "step_logs": [
+        {
+          "step": 1,
+          "elapsed_ms": 42088.7,
+          "loss": 9.929667
+        },
+        {
+          "step": 2,
+          "elapsed_ms": 38688.5,
+          "loss": 9.81741
+        },
+        {
+          "step": 3,
+          "elapsed_ms": 34511.7,
+          "loss": 11.73678
+        }
+      ],
+      "all_rank_check_summary": {
+        "checks": 48,
+        "kinds": [
+          "parameters",
+          "reduced_gradients"
+        ],
+        "total_bad_elements": 0,
+        "max_abs_max": 0.0,
+        "relative_l2_max": 0.0,
+        "elements_minmax": [
+          502873984,
+          2011495936
+        ]
+      },
+      "replay_counter_per_rank": [
+        {
+          "1:0:qkv": 8,
+          "2:0:qkv": 8,
+          "3:0:qkv": 8
+        },
+        {
+          "1:0:qkv": 8,
+          "2:0:qkv": 8,
+          "3:0:qkv": 8
+        },
+        {
+          "1:0:qkv": 8,
+          "2:0:qkv": 8,
+          "3:0:qkv": 8
+        },
+        {
+          "1:0:qkv": 8,
+          "2:0:qkv": 8,
+          "3:0:qkv": 8
+        },
+        {
+          "1:0:qkv": 8,
+          "2:0:qkv": 8,
+          "3:0:qkv": 8
+        },
+        {
+          "1:0:qkv": 8,
+          "2:0:qkv": 8,
+          "3:0:qkv": 8
+        },
+        {
+          "1:0:qkv": 8,
+          "2:0:qkv": 8,
+          "3:0:qkv": 8
+        },
+        {
+          "1:0:qkv": 8,
+          "2:0:qkv": 8,
+          "3:0:qkv": 8
+        }
+      ],
+      "layer0_qkv_module_forward_calls_per_rank": [
+        48,
+        48,
+        48,
+        48,
+        48,
+        48,
+        48,
+        48
+      ],
+      "checkpoint_records_per_rank": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "memory_last_step_by_rank": {
+        "0": {
+          "allocated_mb": 17358.5,
+          "max_allocated_mb": 22877.99,
+          "reserved_mb": 24098.0,
+          "max_reserved_mb": 24098.0
+        },
+        "1": {
+          "allocated_mb": 17358.06,
+          "max_allocated_mb": 22876.61,
+          "reserved_mb": 23946.0,
+          "max_reserved_mb": 23946.0
+        }
+      }
+    },
+    "proactive_qkv": {
+      "mode": "proactive_qkv",
+      "step_logs": [
+        {
+          "step": 1,
+          "elapsed_ms": 39258.2,
+          "loss": 9.929667
+        },
+        {
+          "step": 2,
+          "elapsed_ms": 35821.5,
+          "loss": 9.81741
+        },
+        {
+          "step": 3,
+          "elapsed_ms": 31814.3,
+          "loss": 11.73678
+        }
+      ],
+      "all_rank_check_summary": {
+        "checks": 48,
+        "kinds": [
+          "parameters",
+          "reduced_gradients"
+        ],
+        "total_bad_elements": 0,
+        "max_abs_max": 0.0,
+        "relative_l2_max": 0.0,
+        "elements_minmax": [
+          502873984,
+          2011495936
+        ]
+      },
+      "replay_counter_per_rank": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
+      ],
+      "layer0_qkv_module_forward_calls_per_rank": [
+        48,
+        48,
+        48,
+        48,
+        48,
+        48,
+        48,
+        48
+      ],
+      "checkpoint_records_per_rank": [
+        24,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24,
+        24
+      ],
+      "lifecycle": {
+        "records": 192,
+        "metadata_examples": [
+          {
+            "step": 0,
+            "microbatch": 0,
+            "layer_number": 1,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          {
+            "step": 0,
+            "microbatch": 7,
+            "layer_number": 1,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          {
+            "step": 1,
+            "microbatch": 0,
+            "layer_number": 1,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          },
+          {
+            "step": 2,
+            "microbatch": 7,
+            "layer_number": 1,
+            "module": "attn_qkv",
+            "tp_size": 2,
+            "rank": 0
+          }
+        ],
+        "final_states": [
+          "consumed"
+        ],
+        "event_count_by_name": {
+          "cache_consumed": 192,
+          "cache_hit": 192,
+          "forward_complete": 192,
+          "prefetch_complete": 192,
+          "prefetch_start": 192,
+          "released": 192
+        },
+        "forward_complete": 192,
+        "prefetch_complete": 192,
+        "cache_consumed": 192,
+        "fallback": 0,
+        "max_saved_tensor_bytes": 24125440,
+        "max_reported_saved_tensor_bytes": 4056554496,
+        "cache_lifetime_seconds": {
+          "min": 0.06928838789463043,
+          "mean": 0.08985527643623452,
+          "max": 0.4036787450313568
+        }
+      },
+      "memory_last_step_by_rank": {
+        "0": {
+          "allocated_mb": 17361.5,
+          "max_allocated_mb": 22901.81,
+          "reserved_mb": 23900.0,
+          "max_reserved_mb": 23900.0
+        },
+        "1": {
+          "allocated_mb": 17361.56,
+          "max_allocated_mb": 22908.03,
+          "reserved_mb": 24766.0,
+          "max_reserved_mb": 24766.0
+        }
+      }
+    }
+  }
+}

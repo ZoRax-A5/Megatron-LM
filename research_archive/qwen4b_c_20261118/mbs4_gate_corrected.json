@@ -1,0 +1,21 @@
+{
+  "assumption": "affine baseline peak in MBS; checkpoint saving doubles; screening only, not proof of OOM or feasibility",
+  "baseline_estimate_gib": 109.4969760576884,
+  "formula": "3*M2-2*M1-2*saving_M2",
+  "cases": [
+    {
+      "strategy": "qkv_18",
+      "predicted_allocated_mbs4_gib": 106.67833216985068,
+      "probe_threshold_gib": 77,
+      "probe": false
+    },
+    {
+      "strategy": "fc1_18",
+      "predicted_allocated_mbs4_gib": 106.68162775039673,
+      "probe_threshold_gib": 77,
+      "probe": false
+    }
+  ],
+  "decisions_unchanged": true,
+  "correction_applied_in_continuation": true
+}

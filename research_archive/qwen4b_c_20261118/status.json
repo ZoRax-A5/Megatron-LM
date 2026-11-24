@@ -1,0 +1,133 @@
+{
+  "state": "complete",
+  "current": null,
+  "completed": [
+    "verify_B1_m2_r1",
+    "verify_B1_repeat_m2_r1",
+    "verify_qkv_5_m2_r1",
+    "verify_fc1_5_m2_r1",
+    "perf_fc1_5_m2_r1",
+    "perf_B1_m2_r1",
+    "perf_qkv_5_m2_r1",
+    "perf_B1_m2_r2",
+    "perf_fc1_5_m2_r2",
+    "perf_qkv_5_m2_r2",
+    "perf_qkv_5_m2_r3",
+    "perf_B1_m2_r3",
+    "perf_fc1_5_m2_r3",
+    "verify_qkv_9_m2_r1",
+    "verify_fc1_9_m2_r1",
+    "perf_qkv_9_m2_r1",
+    "perf_fc1_9_m2_r1",
+    "perf_fc1_9_m2_r2",
+    "perf_qkv_9_m2_r2",
+    "perf_fc1_9_m2_r3",
+    "perf_qkv_9_m2_r3",
+    "verify_qkv_18_m2_r1",
+    "verify_fc1_18_m2_r1",
+    "perf_fc1_18_m2_r1",
+    "perf_qkv_18_m2_r1",
+    "perf_qkv_18_m2_r2",
+    "perf_fc1_18_m2_r2",
+    "perf_qkv_18_m2_r3",
+    "perf_fc1_18_m2_r3",
+    "profile_B1_m2_r1",
+    "profile_B1_m2_r1_obs2",
+    "profile_qkv_18_m2_r1_obs2",
+    "profile_fc1_18_m2_r1_obs2",
+    "profile_B1_m2_r2_obs2",
+    "profile_qkv_18_m2_r2_obs2",
+    "profile_fc1_18_m2_r2_obs2",
+    "profile_B1_m2_r3_obs2",
+    "profile_qkv_18_m2_r3_obs2",
+    "profile_fc1_18_m2_r3_obs2",
+    "events_B1_m2_r1",
+    "events_fc1_18_m2_r1",
+    "events_B1_m2_r2",
+    "events_fc1_18_m2_r2",
+    "events_B1_m2_r3",
+    "events_fc1_18_m2_r3"
+  ],
+  "failed": [
+    {
+      "run": "profile_qkv_18_m2_r1",
+      "oom": false,
+      "returncode": 1
+    }
+  ],
+  "decisions": [
+    {
+      "strategy": "qkv_5",
+      "savings_gib": [
+        0.39044189453125,
+        0.3929438591003418,
+        0.3897705078125
+      ],
+      "mean_gib": 0.3910520871480306,
+      "sd_gib": 0.0016723608675139358,
+      "pct": 0.6299573702012939,
+      "meaningful": false
+    },
+    {
+      "strategy": "fc1_5",
+      "savings_gib": [
+        0.38983154296875,
+        0.39141845703125,
+        0.38775634765625
+      ],
+      "mean_gib": 0.3896687825520833,
+      "sd_gib": 0.0018364720208979097,
+      "pct": 0.6277289639247653,
+      "meaningful": false
+    },
+    {
+      "strategy": "qkv_9",
+      "savings_gib": [
+        0.7051997184753418,
+        0.70513916015625,
+        0.7039799690246582
+      ],
+      "mean_gib": 0.70477294921875,
+      "sd_gib": 0.0006874081892654494,
+      "pct": 1.1353395833194693,
+      "meaningful": false
+    },
+    {
+      "strategy": "fc1_9",
+      "savings_gib": [
+        0.7032465934753418,
+        0.70416259765625,
+        0.7031254768371582
+      ],
+      "mean_gib": 0.7035115559895834,
+      "sd_gib": 0.0005670615035543386,
+      "pct": 1.1333075676684834,
+      "meaningful": false
+    },
+    {
+      "strategy": "qkv_18",
+      "savings_gib": [
+        1.4093623161315918,
+        1.4098505973815918,
+        1.4087529182434082
+      ],
+      "mean_gib": 1.409321943918864,
+      "sd_gib": 0.0005499520972514581,
+      "pct": 2.2703183916827596,
+      "meaningful": true
+    },
+    {
+      "strategy": "fc1_18",
+      "savings_gib": [
+        1.4078369140625,
+        1.4083857536315918,
+        1.4067997932434082
+      ],
+      "mean_gib": 1.4076741536458333,
+      "sd_gib": 0.0008054103321580833,
+      "pct": 2.2676639176084428,
+      "meaningful": true
+    }
+  ],
+  "error": null
+}

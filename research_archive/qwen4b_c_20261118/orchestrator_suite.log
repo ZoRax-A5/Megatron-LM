@@ -1,0 +1,82 @@
+DEPRECATION: Loading egg at /usr/local/lib/python3.12/dist-packages/dill-0.3.9-py3.12.egg is deprecated. pip 25.1 will enforce this behaviour change. A possible replacement is to use pip for package installation. Discussion can be found at https://github.com/pypa/pip/issues/12330
+DEPRECATION: Loading egg at /usr/local/lib/python3.12/dist-packages/lightning_utilities-0.14.3-py3.12.egg is deprecated. pip 25.1 will enforce this behaviour change. A possible replacement is to use pip for package installation. Discussion can be found at https://github.com/pypa/pip/issues/12330
+DEPRECATION: Loading egg at /usr/local/lib/python3.12/dist-packages/opt_einsum-3.4.0-py3.12.egg is deprecated. pip 25.1 will enforce this behaviour change. A possible replacement is to use pip for package installation. Discussion can be found at https://github.com/pypa/pip/issues/12330
+DEPRECATION: Loading egg at /usr/local/lib/python3.12/dist-packages/nvfuser-0.2.27a0+5111d3b-py3.12-linux-x86_64.egg is deprecated. pip 25.1 will enforce this behaviour change. A possible replacement is to use pip for package installation. Discussion can be found at https://github.com/pypa/pip/issues/12330
+DEPRECATION: Loading egg at /usr/local/lib/python3.12/dist-packages/looseversion-1.3.0-py3.12.egg is deprecated. pip 25.1 will enforce this behaviour change. A possible replacement is to use pip for package installation. Discussion can be found at https://github.com/pypa/pip/issues/12330
+DEPRECATION: Loading egg at /usr/local/lib/python3.12/dist-packages/lightning_thunder-0.2.2.dev0-py3.12.egg is deprecated. pip 25.1 will enforce this behaviour change. A possible replacement is to use pip for package installation. Discussion can be found at https://github.com/pypa/pip/issues/12330
+START verify_B1_m2_r1
+DONE verify_B1_m2_r1
+START verify_B1_repeat_m2_r1
+DONE verify_B1_repeat_m2_r1
+START verify_qkv_5_m2_r1
+DONE verify_qkv_5_m2_r1
+START verify_fc1_5_m2_r1
+DONE verify_fc1_5_m2_r1
+START perf_fc1_5_m2_r1
+DONE perf_fc1_5_m2_r1
+START perf_B1_m2_r1
+DONE perf_B1_m2_r1
+START perf_qkv_5_m2_r1
+DONE perf_qkv_5_m2_r1
+START perf_B1_m2_r2
+DONE perf_B1_m2_r2
+START perf_fc1_5_m2_r2
+DONE perf_fc1_5_m2_r2
+START perf_qkv_5_m2_r2
+DONE perf_qkv_5_m2_r2
+START perf_qkv_5_m2_r3
+DONE perf_qkv_5_m2_r3
+START perf_B1_m2_r3
+DONE perf_B1_m2_r3
+START perf_fc1_5_m2_r3
+DONE perf_fc1_5_m2_r3
+GATE {"strategy": "qkv_5", "savings_gib": [0.39044189453125, 0.3929438591003418, 0.3897705078125], "mean_gib": 0.3910520871480306, "sd_gib": 0.0016723608675139358, "pct": 0.6299573702012939, "meaningful": false}
+GATE {"strategy": "fc1_5", "savings_gib": [0.38983154296875, 0.39141845703125, 0.38775634765625], "mean_gib": 0.3896687825520833, "sd_gib": 0.0018364720208979097, "pct": 0.6277289639247653, "meaningful": false}
+START verify_qkv_9_m2_r1
+DONE verify_qkv_9_m2_r1
+START verify_fc1_9_m2_r1
+DONE verify_fc1_9_m2_r1
+START perf_qkv_9_m2_r1
+DONE perf_qkv_9_m2_r1
+START perf_fc1_9_m2_r1
+DONE perf_fc1_9_m2_r1
+START perf_fc1_9_m2_r2
+DONE perf_fc1_9_m2_r2
+START perf_qkv_9_m2_r2
+DONE perf_qkv_9_m2_r2
+START perf_fc1_9_m2_r3
+DONE perf_fc1_9_m2_r3
+START perf_qkv_9_m2_r3
+DONE perf_qkv_9_m2_r3
+GATE {"strategy": "qkv_9", "savings_gib": [0.7051997184753418, 0.70513916015625, 0.7039799690246582], "mean_gib": 0.70477294921875, "sd_gib": 0.0006874081892654494, "pct": 1.1353395833194693, "meaningful": false}
+GATE {"strategy": "fc1_9", "savings_gib": [0.7032465934753418, 0.70416259765625, 0.7031254768371582], "mean_gib": 0.7035115559895834, "sd_gib": 0.0005670615035543386, "pct": 1.1333075676684834, "meaningful": false}
+START verify_qkv_18_m2_r1
+DONE verify_qkv_18_m2_r1
+START verify_fc1_18_m2_r1
+DONE verify_fc1_18_m2_r1
+START perf_fc1_18_m2_r1
+DONE perf_fc1_18_m2_r1
+START perf_qkv_18_m2_r1
+DONE perf_qkv_18_m2_r1
+START perf_qkv_18_m2_r2
+DONE perf_qkv_18_m2_r2
+START perf_fc1_18_m2_r2
+DONE perf_fc1_18_m2_r2
+START perf_qkv_18_m2_r3
+DONE perf_qkv_18_m2_r3
+START perf_fc1_18_m2_r3
+DONE perf_fc1_18_m2_r3
+GATE {"strategy": "qkv_18", "savings_gib": [1.4093623161315918, 1.4098505973815918, 1.4087529182434082], "mean_gib": 1.409321943918864, "sd_gib": 0.0005499520972514581, "pct": 2.2703183916827596, "meaningful": true}
+GATE {"strategy": "fc1_18", "savings_gib": [1.4078369140625, 1.4083857536315918, 1.4067997932434082], "mean_gib": 1.4076741536458333, "sd_gib": 0.0008054103321580833, "pct": 2.2676639176084428, "meaningful": true}
+START profile_B1_m2_r1
+DONE profile_B1_m2_r1
+START profile_qkv_18_m2_r1
+FAILED profile_qkv_18_m2_r1 False
+Traceback (most recent call last):
+  File "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/qwen4b_c/suite.py", line 85, in <module>
+    for mode in ['B1',*selected.values()]:assert run('profile',mode,rep)
+                                                 ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/qwen4b_c/suite.py", line 38, in run
+    if not oom:raise RuntimeError(name)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: profile_qkv_18_m2_r1
