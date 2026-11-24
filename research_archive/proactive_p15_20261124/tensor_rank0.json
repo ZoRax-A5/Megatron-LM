@@ -1,0 +1,5893 @@
+[
+  {
+    "kind": "qkv_input",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "layer": 1,
+    "tensor": {
+      "object_id": 139645001521648,
+      "storage_id": 0,
+      "storage_ptr": 139616522862592,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        1,
+        2560
+      ],
+      "stride": [
+        2560,
+        5242880,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": "MakeViewlessTensorBackward",
+      "is_view": false
+    },
+    "cpu_ns": 40245718928650528
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1119,
+    "tensor_before": {
+      "object_id": 139644954080304,
+      "storage_id": 1,
+      "storage_ptr": 139614498523136,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        1,
+        2560
+      ],
+      "stride": [
+        2560,
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/amp/autocast_mode.py",
+        "function": "decorate_bwd",
+        "line": 556
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/Megatron-LM-layerwise/megatron/core/tensor_parallel/layers.py",
+        "function": "backward",
+        "line": 565
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719054325567,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644954080304,
+      "storage_id": 1,
+      "storage_ptr": 139614498523136,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        1,
+        2560
+      ],
+      "stride": [
+        2560,
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719054856797
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1120,
+    "tensor_before": {
+      "object_id": 139644954049216,
+      "storage_id": 2,
+      "storage_ptr": 139634772279296,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719059562006,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644954049216,
+      "storage_id": 2,
+      "storage_ptr": 139634772279296,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719060063422
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1121,
+    "tensor_before": {
+      "object_id": 139644954617136,
+      "storage_id": 3,
+      "storage_ptr": 139635088949248,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719064750633,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644954617136,
+      "storage_id": 3,
+      "storage_ptr": 139635088949248,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719064905126
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1122,
+    "tensor_before": {
+      "object_id": 139644956001136,
+      "storage_id": 4,
+      "storage_ptr": 139635088949248,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719066392306,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644956001136,
+      "storage_id": 4,
+      "storage_ptr": 139635088949248,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719066550882
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1123,
+    "tensor_before": {
+      "object_id": 139644954482144,
+      "storage_id": 5,
+      "storage_ptr": 139635088949248,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719092670546,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644954482144,
+      "storage_id": 5,
+      "storage_ptr": 139635088949248,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719092815882
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1124,
+    "tensor_before": {
+      "object_id": 139644954615936,
+      "storage_id": 6,
+      "storage_ptr": 139635088949248,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719093792049,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644954615936,
+      "storage_id": 6,
+      "storage_ptr": 139635088949248,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719093939752
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1125,
+    "tensor_before": {
+      "object_id": 139644954821488,
+      "storage_id": 7,
+      "storage_ptr": 139635088949248,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719096878459,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644954821488,
+      "storage_id": 7,
+      "storage_ptr": 139635088949248,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719097034404
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1126,
+    "tensor_before": {
+      "object_id": 139644955811728,
+      "storage_id": 8,
+      "storage_ptr": 139634772279296,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719097979600,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644955811728,
+      "storage_id": 8,
+      "storage_ptr": 139634772279296,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719098120120
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1127,
+    "tensor_before": {
+      "object_id": 139644954756352,
+      "storage_id": 9,
+      "storage_ptr": 139634719850496,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719101528466,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644954756352,
+      "storage_id": 9,
+      "storage_ptr": 139634719850496,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719101671705
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1128,
+    "tensor_before": {
+      "object_id": 139644954821488,
+      "storage_id": 10,
+      "storage_ptr": 139613372678144,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719102629677,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644954821488,
+      "storage_id": 10,
+      "storage_ptr": 139613372678144,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719102778070
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1129,
+    "tensor_before": {
+      "object_id": 139644954481104,
+      "storage_id": 11,
+      "storage_ptr": 139635476922368,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719106644618,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644954481104,
+      "storage_id": 11,
+      "storage_ptr": 139635476922368,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719106815884
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1130,
+    "tensor_before": {
+      "object_id": 139645001523888,
+      "storage_id": 12,
+      "storage_ptr": 139613305569280,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719107774011,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139645001523888,
+      "storage_id": 12,
+      "storage_ptr": 139613305569280,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719107914274
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1131,
+    "tensor_before": {
+      "object_id": 139645001523888,
+      "storage_id": 13,
+      "storage_ptr": 139633545445376,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719112069234,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139645001523888,
+      "storage_id": 13,
+      "storage_ptr": 139633545445376,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719112235699
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1132,
+    "tensor_before": {
+      "object_id": 139644988590432,
+      "storage_id": 14,
+      "storage_ptr": 139633209901056,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719113193750,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644988590432,
+      "storage_id": 14,
+      "storage_ptr": 139633209901056,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719113358826
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1133,
+    "tensor_before": {
+      "object_id": 139644988590432,
+      "storage_id": 15,
+      "storage_ptr": 139633209901056,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719117405297,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644988590432,
+      "storage_id": 15,
+      "storage_ptr": 139633209901056,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719117578289
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1134,
+    "tensor_before": {
+      "object_id": 139644955782480,
+      "storage_id": 16,
+      "storage_ptr": 139633545445376,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719118538392,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644955782480,
+      "storage_id": 16,
+      "storage_ptr": 139633545445376,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719118700580
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1135,
+    "tensor_before": {
+      "object_id": 139644953962016,
+      "storage_id": 17,
+      "storage_ptr": 139633209901056,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719122645842,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644953962016,
+      "storage_id": 17,
+      "storage_ptr": 139633209901056,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719122794151
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1136,
+    "tensor_before": {
+      "object_id": 139644953957856,
+      "storage_id": 18,
+      "storage_ptr": 139633209901056,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719123768623,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644953957856,
+      "storage_id": 18,
+      "storage_ptr": 139633209901056,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719123909744
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1137,
+    "tensor_before": {
+      "object_id": 139644953957856,
+      "storage_id": 19,
+      "storage_ptr": 139635476922368,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719127138531,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644953957856,
+      "storage_id": 19,
+      "storage_ptr": 139635476922368,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719127283549
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1138,
+    "tensor_before": {
+      "object_id": 139644969222784,
+      "storage_id": 20,
+      "storage_ptr": 139613037133824,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719128257435,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644969222784,
+      "storage_id": 20,
+      "storage_ptr": 139613037133824,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719128407219
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1139,
+    "tensor_before": {
+      "object_id": 139645001523168,
+      "storage_id": 21,
+      "storage_ptr": 139635476922368,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719131667089,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139645001523168,
+      "storage_id": 21,
+      "storage_ptr": 139635476922368,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719131827366
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1140,
+    "tensor_before": {
+      "object_id": 139644953955456,
+      "storage_id": 22,
+      "storage_ptr": 139612970024960,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719132812309,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644953955456,
+      "storage_id": 22,
+      "storage_ptr": 139612970024960,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719132958779
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1141,
+    "tensor_before": {
+      "object_id": 139644956010576,
+      "storage_id": 23,
+      "storage_ptr": 139634990383104,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719136140498,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644956010576,
+      "storage_id": 23,
+      "storage_ptr": 139634990383104,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719136294546
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1142,
+    "tensor_before": {
+      "object_id": 139644969347632,
+      "storage_id": 24,
+      "storage_ptr": 139612902916096,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719137264520,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644969347632,
+      "storage_id": 24,
+      "storage_ptr": 139612902916096,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719137421106
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1143,
+    "tensor_before": {
+      "object_id": 139644953955456,
+      "storage_id": 25,
+      "storage_ptr": 139634302517248,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719140662017,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644953955456,
+      "storage_id": 25,
+      "storage_ptr": 139634302517248,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719140807534
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1144,
+    "tensor_before": {
+      "object_id": 139644954824928,
+      "storage_id": 26,
+      "storage_ptr": 139612835807232,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719141792149,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644954824928,
+      "storage_id": 26,
+      "storage_ptr": 139612835807232,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719141934612
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1145,
+    "tensor_before": {
+      "object_id": 139644954833808,
+      "storage_id": 27,
+      "storage_ptr": 139633597874176,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719145135737,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644954833808,
+      "storage_id": 27,
+      "storage_ptr": 139633597874176,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719145284629
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1146,
+    "tensor_before": {
+      "object_id": 139644969351072,
+      "storage_id": 28,
+      "storage_ptr": 139618179612672,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719146267834,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644969351072,
+      "storage_id": 28,
+      "storage_ptr": 139618179612672,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719146409815
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1147,
+    "tensor_before": {
+      "object_id": 139644953955456,
+      "storage_id": 29,
+      "storage_ptr": 139618569682944,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719149692927,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644953955456,
+      "storage_id": 29,
+      "storage_ptr": 139618569682944,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719149839740
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1148,
+    "tensor_before": {
+      "object_id": 139644956010736,
+      "storage_id": 30,
+      "storage_ptr": 139617250574336,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719150820146,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644956010736,
+      "storage_id": 30,
+      "storage_ptr": 139617250574336,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719150969388
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1149,
+    "tensor_before": {
+      "object_id": 139644954834128,
+      "storage_id": 31,
+      "storage_ptr": 139617250574336,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719154148020,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644954834128,
+      "storage_id": 31,
+      "storage_ptr": 139617250574336,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719154298334
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1150,
+    "tensor_before": {
+      "object_id": 139644953960816,
+      "storage_id": 32,
+      "storage_ptr": 139616814366720,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719155290750,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644953960816,
+      "storage_id": 32,
+      "storage_ptr": 139616814366720,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719155430048
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1151,
+    "tensor_before": {
+      "object_id": 139644953960816,
+      "storage_id": 33,
+      "storage_ptr": 139616690634752,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719158643937,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644953960816,
+      "storage_id": 33,
+      "storage_ptr": 139616690634752,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719158785829
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1152,
+    "tensor_before": {
+      "object_id": 139644956012336,
+      "storage_id": 34,
+      "storage_ptr": 139616690634752,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719159750859,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644956012336,
+      "storage_id": 34,
+      "storage_ptr": 139616690634752,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719159909933
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1153,
+    "tensor_before": {
+      "object_id": 139644954829168,
+      "storage_id": 35,
+      "storage_ptr": 139616814366720,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719163135044,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644954829168,
+      "storage_id": 35,
+      "storage_ptr": 139616814366720,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719163281922
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1154,
+    "tensor_before": {
+      "object_id": 139644954829168,
+      "storage_id": 36,
+      "storage_ptr": 139616814366720,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719164253064,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644954829168,
+      "storage_id": 36,
+      "storage_ptr": 139616814366720,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719164391928
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1155,
+    "tensor_before": {
+      "object_id": 139644953955456,
+      "storage_id": 37,
+      "storage_ptr": 139618649374720,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719167586801,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644953955456,
+      "storage_id": 37,
+      "storage_ptr": 139618649374720,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719167732663
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1156,
+    "tensor_before": {
+      "object_id": 139644956015856,
+      "storage_id": 38,
+      "storage_ptr": 139618649374720,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719168706986,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644956015856,
+      "storage_id": 38,
+      "storage_ptr": 139618649374720,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719168850085
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1157,
+    "tensor_before": {
+      "object_id": 139645001523888,
+      "storage_id": 39,
+      "storage_ptr": 139618649374720,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/Megatron-LM-layerwise/megatron/core/tensor_parallel/random.py",
+        "function": "backward",
+        "line": 661
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/__init__.py",
+        "function": "backward",
+        "line": 353
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/graph.py",
+        "function": "_engine_run_backward",
+        "line": 824
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719173438628,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139645001523888,
+      "storage_id": 39,
+      "storage_ptr": 139618649374720,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719173605006
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1158,
+    "tensor_before": {
+      "object_id": 139644956007536,
+      "storage_id": 40,
+      "storage_ptr": 139617797931008,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719174638646,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644956007536,
+      "storage_id": 40,
+      "storage_ptr": 139617797931008,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719174781143
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1159,
+    "tensor_before": {
+      "object_id": 139644955877584,
+      "storage_id": 41,
+      "storage_ptr": 139617743405056,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719177497664,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644955877584,
+      "storage_id": 41,
+      "storage_ptr": 139617743405056,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719177647246
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1160,
+    "tensor_before": {
+      "object_id": 139644955291600,
+      "storage_id": 42,
+      "storage_ptr": 139617797931008,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719178599938,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644955291600,
+      "storage_id": 42,
+      "storage_ptr": 139617797931008,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719178743914
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1161,
+    "tensor_before": {
+      "object_id": 139644954822608,
+      "storage_id": 43,
+      "storage_ptr": 139617743405056,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719182582866,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644954822608,
+      "storage_id": 43,
+      "storage_ptr": 139617743405056,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719182722581
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1162,
+    "tensor_before": {
+      "object_id": 139644954069504,
+      "storage_id": 44,
+      "storage_ptr": 139617797931008,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719183651042,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644954069504,
+      "storage_id": 44,
+      "storage_ptr": 139617797931008,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719183805286
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1163,
+    "tensor_before": {
+      "object_id": 139644954076704,
+      "storage_id": 45,
+      "storage_ptr": 139617743405056,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719187201755,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644954076704,
+      "storage_id": 45,
+      "storage_ptr": 139617743405056,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719187348687
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1164,
+    "tensor_before": {
+      "object_id": 139644954080784,
+      "storage_id": 46,
+      "storage_ptr": 139617743405056,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719188284165,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644954080784,
+      "storage_id": 46,
+      "storage_ptr": 139617743405056,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719188428896
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1165,
+    "tensor_before": {
+      "object_id": 139644954048176,
+      "storage_id": 47,
+      "storage_ptr": 139617743405056,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719191705589,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644954048176,
+      "storage_id": 47,
+      "storage_ptr": 139617743405056,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719192175428
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1166,
+    "tensor_before": {
+      "object_id": 139644954069104,
+      "storage_id": 48,
+      "storage_ptr": 139617743405056,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719193127000,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644954069104,
+      "storage_id": 48,
+      "storage_ptr": 139617743405056,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719193268194
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1167,
+    "tensor_before": {
+      "object_id": 139644954035456,
+      "storage_id": 49,
+      "storage_ptr": 139617743405056,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719196184064,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644954035456,
+      "storage_id": 49,
+      "storage_ptr": 139617743405056,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719196327898
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1168,
+    "tensor_before": {
+      "object_id": 139644954039376,
+      "storage_id": 50,
+      "storage_ptr": 139617474969600,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719197269843,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644954039376,
+      "storage_id": 50,
+      "storage_ptr": 139617474969600,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719197417718
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1169,
+    "tensor_before": {
+      "object_id": 139644954104272,
+      "storage_id": 51,
+      "storage_ptr": 139617474969600,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719200631437,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644954104272,
+      "storage_id": 51,
+      "storage_ptr": 139617474969600,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719200774474
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1170,
+    "tensor_before": {
+      "object_id": 139644954042016,
+      "storage_id": 52,
+      "storage_ptr": 139616791298048,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719201720505,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644954042016,
+      "storage_id": 52,
+      "storage_ptr": 139616791298048,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719201860747
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1171,
+    "tensor_before": {
+      "object_id": 139644954618016,
+      "storage_id": 53,
+      "storage_ptr": 139616791298048,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719205277034,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644954618016,
+      "storage_id": 53,
+      "storage_ptr": 139616791298048,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719205425591
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1172,
+    "tensor_before": {
+      "object_id": 139644954135360,
+      "storage_id": 54,
+      "storage_ptr": 139616904544256,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719206365296,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644954135360,
+      "storage_id": 54,
+      "storage_ptr": 139616904544256,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719206508776
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1173,
+    "tensor_before": {
+      "object_id": 139644954135360,
+      "storage_id": 55,
+      "storage_ptr": 139616791298048,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719210614270,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644954135360,
+      "storage_id": 55,
+      "storage_ptr": 139616791298048,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719210756795
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1174,
+    "tensor_before": {
+      "object_id": 139644954042736,
+      "storage_id": 56,
+      "storage_ptr": 139616904544256,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719211700765,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644954042736,
+      "storage_id": 56,
+      "storage_ptr": 139616904544256,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719211844029
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1175,
+    "tensor_before": {
+      "object_id": 139644954042736,
+      "storage_id": 57,
+      "storage_ptr": 139616791298048,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719216055253,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644954042736,
+      "storage_id": 57,
+      "storage_ptr": 139616791298048,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719216197863
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1176,
+    "tensor_before": {
+      "object_id": 139644954035376,
+      "storage_id": 58,
+      "storage_ptr": 139616233455616,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719217132604,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644954035376,
+      "storage_id": 58,
+      "storage_ptr": 139616233455616,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719217275144
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1177,
+    "tensor_before": {
+      "object_id": 139644954108032,
+      "storage_id": 59,
+      "storage_ptr": 139616233455616,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719221432461,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644954108032,
+      "storage_id": 59,
+      "storage_ptr": 139616233455616,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719221580419
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1178,
+    "tensor_before": {
+      "object_id": 139644954036416,
+      "storage_id": 60,
+      "storage_ptr": 139616233455616,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719222530738,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644954036416,
+      "storage_id": 60,
+      "storage_ptr": 139616233455616,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719222671909
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1179,
+    "tensor_before": {
+      "object_id": 139644954042416,
+      "storage_id": 61,
+      "storage_ptr": 139616233455616,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719225855495,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644954042416,
+      "storage_id": 61,
+      "storage_ptr": 139616233455616,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719226004779
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1180,
+    "tensor_before": {
+      "object_id": 139644955774480,
+      "storage_id": 62,
+      "storage_ptr": 139616233455616,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719226946201,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644955774480,
+      "storage_id": 62,
+      "storage_ptr": 139616233455616,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719227094740
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1181,
+    "tensor_before": {
+      "object_id": 139644955774480,
+      "storage_id": 63,
+      "storage_ptr": 139616233455616,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719230357219,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644955774480,
+      "storage_id": 63,
+      "storage_ptr": 139616233455616,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719230508797
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1182,
+    "tensor_before": {
+      "object_id": 139644954047136,
+      "storage_id": 64,
+      "storage_ptr": 139616233455616,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719231452397,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644954047136,
+      "storage_id": 64,
+      "storage_ptr": 139616233455616,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719231605915
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1183,
+    "tensor_before": {
+      "object_id": 139644954134080,
+      "storage_id": 65,
+      "storage_ptr": 139616233455616,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719234809303,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644954134080,
+      "storage_id": 65,
+      "storage_ptr": 139616233455616,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719234950633
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1184,
+    "tensor_before": {
+      "object_id": 139644955687056,
+      "storage_id": 66,
+      "storage_ptr": 139616233455616,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719235916760,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644955687056,
+      "storage_id": 66,
+      "storage_ptr": 139616233455616,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719236074513
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1185,
+    "tensor_before": {
+      "object_id": 139644954144560,
+      "storage_id": 67,
+      "storage_ptr": 139616233455616,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719239353650,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644954144560,
+      "storage_id": 67,
+      "storage_ptr": 139616233455616,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719239515023
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1186,
+    "tensor_before": {
+      "object_id": 139644969347632,
+      "storage_id": 68,
+      "storage_ptr": 139616233455616,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719240468915,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644969347632,
+      "storage_id": 68,
+      "storage_ptr": 139616233455616,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719240613142
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1187,
+    "tensor_before": {
+      "object_id": 139644954136000,
+      "storage_id": 69,
+      "storage_ptr": 139616233455616,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719243823693,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644954136000,
+      "storage_id": 69,
+      "storage_ptr": 139616233455616,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719243961876
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1188,
+    "tensor_before": {
+      "object_id": 139644955785760,
+      "storage_id": 70,
+      "storage_ptr": 139616233455616,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719244935965,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644955785760,
+      "storage_id": 70,
+      "storage_ptr": 139616233455616,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719245077818
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1189,
+    "tensor_before": {
+      "object_id": 139644954145120,
+      "storage_id": 71,
+      "storage_ptr": 139616355090432,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/Megatron-LM-layerwise/megatron/core/tensor_parallel/random.py",
+        "function": "backward",
+        "line": 661
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/__init__.py",
+        "function": "backward",
+        "line": 353
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/graph.py",
+        "function": "_engine_run_backward",
+        "line": 824
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719248907251,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644954145120,
+      "storage_id": 71,
+      "storage_ptr": 139616355090432,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719249060066
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1190,
+    "tensor_before": {
+      "object_id": 139644954147680,
+      "storage_id": 72,
+      "storage_ptr": 139616233455616,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719250060006,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644954147680,
+      "storage_id": 72,
+      "storage_ptr": 139616233455616,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719250200894
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1191,
+    "tensor_before": {
+      "object_id": 139644955683696,
+      "storage_id": 73,
+      "storage_ptr": 139616355090432,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": true,
+    "stack": [
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/Megatron-LM-layerwise/megatron/core/tensor_parallel/random.py",
+        "function": "backward",
+        "line": 661
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/__init__.py",
+        "function": "backward",
+        "line": 353
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/graph.py",
+        "function": "_engine_run_backward",
+        "line": 824
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+        "function": "apply",
+        "line": 307
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/module/layernorm_linear.py",
+        "function": "backward",
+        "line": 668
+      },
+      {
+        "file": "/usr/local/lib/python3.12/dist-packages/transformer_engine/pytorch/distributed.py",
+        "function": "allreduce",
+        "line": 1168
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719253612000,
+    "thread": 139638675719872,
+    "tensor_after": {
+      "object_id": 139644955683696,
+      "storage_id": 73,
+      "storage_ptr": 139616355090432,
+      "storage_bytes": 10485760,
+      "offset": 0,
+      "shape": [
+        2048,
+        2560
+      ],
+      "stride": [
+        2560,
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.bfloat16",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719253756454
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1192,
+    "tensor_before": {
+      "object_id": 139644954103552,
+      "storage_id": 74,
+      "storage_ptr": 139639775200768,
+      "storage_bytes": 36864,
+      "offset": 0,
+      "shape": [
+        9216
+      ],
+      "stride": [
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.float32",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": false,
+    "stack": [
+      {
+        "file": "<frozen runpy>",
+        "function": "run_path",
+        "line": 286
+      },
+      {
+        "file": "<frozen runpy>",
+        "function": "_run_module_code",
+        "line": 98
+      },
+      {
+        "file": "<frozen runpy>",
+        "function": "_run_code",
+        "line": 88
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/Megatron-LM-layerwise/pretrain_gpt.py",
+        "function": "<module>",
+        "line": 501
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/Megatron-LM-layerwise/megatron/training/training.py",
+        "function": "pretrain",
+        "line": 1410
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/Megatron-LM-layerwise/megatron/training/training.py",
+        "function": "train",
+        "line": 3732
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "train_step",
+        "line": 235
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/Megatron-LM-layerwise/megatron/training/training.py",
+        "function": "train_step",
+        "line": 2324
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/Megatron-LM-layerwise/megatron/core/pipeline_parallel/schedules.py",
+        "function": "forward_backward_no_pipelining",
+        "line": 1027
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/Megatron-LM-layerwise/megatron/core/distributed/finalize_model_grads.py",
+        "function": "finalize_model_grads",
+        "line": 523
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/Megatron-LM-layerwise/megatron/core/distributed/finalize_model_grads.py",
+        "function": "_allreduce_non_tensor_model_parallel_grads",
+        "line": 429
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719265050726,
+    "thread": 139651245466112,
+    "tensor_after": {
+      "object_id": 139644954103552,
+      "storage_id": 74,
+      "storage_ptr": 139639775200768,
+      "storage_bytes": 36864,
+      "offset": 0,
+      "shape": [
+        9216
+      ],
+      "stride": [
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.float32",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719265583870
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1193,
+    "tensor_before": {
+      "object_id": 139644955779280,
+      "storage_id": 75,
+      "storage_ptr": 139617604602880,
+      "storage_bytes": 4,
+      "offset": 0,
+      "shape": [
+        1
+      ],
+      "stride": [
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.int32",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": false,
+    "stack": [
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "<module>",
+        "line": 345
+      },
+      {
+        "file": "<frozen runpy>",
+        "function": "run_path",
+        "line": 286
+      },
+      {
+        "file": "<frozen runpy>",
+        "function": "_run_module_code",
+        "line": 98
+      },
+      {
+        "file": "<frozen runpy>",
+        "function": "_run_code",
+        "line": 88
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/Megatron-LM-layerwise/pretrain_gpt.py",
+        "function": "<module>",
+        "line": 501
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/Megatron-LM-layerwise/megatron/training/training.py",
+        "function": "pretrain",
+        "line": 1410
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/Megatron-LM-layerwise/megatron/training/training.py",
+        "function": "train",
+        "line": 3732
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "train_step",
+        "line": 235
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/Megatron-LM-layerwise/megatron/training/training.py",
+        "function": "train_step",
+        "line": 2417
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/Megatron-LM-layerwise/megatron/training/utils/common_utils.py",
+        "function": "logical_and_across_model_parallel_group",
+        "line": 293
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719362360127,
+    "thread": 139651245466112,
+    "tensor_after": {
+      "object_id": 139644955779280,
+      "storage_id": 75,
+      "storage_ptr": 139617604602880,
+      "storage_bytes": 4,
+      "offset": 0,
+      "shape": [
+        1
+      ],
+      "stride": [
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.int32",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719362531668
+  },
+  {
+    "kind": "all_reduce",
+    "rank": 0,
+    "step": 2,
+    "mb": 7,
+    "peers": [
+      0,
+      1
+    ],
+    "sequence": 1194,
+    "tensor_before": {
+      "object_id": 139644954034816,
+      "storage_id": 76,
+      "storage_ptr": 139617604602880,
+      "storage_bytes": 4,
+      "offset": 0,
+      "shape": [
+        1
+      ],
+      "stride": [
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.float32",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "async_op": false,
+    "stack": [
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "<module>",
+        "line": 345
+      },
+      {
+        "file": "<frozen runpy>",
+        "function": "run_path",
+        "line": 286
+      },
+      {
+        "file": "<frozen runpy>",
+        "function": "_run_module_code",
+        "line": 98
+      },
+      {
+        "file": "<frozen runpy>",
+        "function": "_run_code",
+        "line": 88
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/Megatron-LM-layerwise/pretrain_gpt.py",
+        "function": "<module>",
+        "line": 501
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/Megatron-LM-layerwise/megatron/training/training.py",
+        "function": "pretrain",
+        "line": 1410
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/Megatron-LM-layerwise/megatron/training/training.py",
+        "function": "train",
+        "line": 3732
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "train_step",
+        "line": 235
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/Megatron-LM-layerwise/megatron/training/training.py",
+        "function": "train_step",
+        "line": 2420
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/Megatron-LM-layerwise/megatron/training/utils/common_utils.py",
+        "function": "reduce_max_stat_across_model_parallel_group",
+        "line": 270
+      },
+      {
+        "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+        "function": "all_reduce",
+        "line": 323
+      }
+    ],
+    "cpu_start_ns": 40245719363298448,
+    "thread": 139651245466112,
+    "tensor_after": {
+      "object_id": 139644954034816,
+      "storage_id": 76,
+      "storage_ptr": 139617604602880,
+      "storage_bytes": 4,
+      "offset": 0,
+      "shape": [
+        1
+      ],
+      "stride": [
+        1
+      ],
+      "version": 0,
+      "dtype": "torch.float32",
+      "grad_fn": null,
+      "is_view": false
+    },
+    "cpu_end_ns": 40245719363439347
+  }
+]

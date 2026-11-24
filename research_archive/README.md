@@ -13,7 +13,7 @@
 | 跨 micro-batch | [P8](proactive_cross_microbatch_20261119/EXPERIMENT_REPORT.md)、[P9](proactive_p9_20261119/EXPERIMENT_REPORT.md) | 调度原型及正式训练接入 |
 | 通信并发 | [P10](proactive_p10_20261120/EXPERIMENT_REPORT.md)、[P11](proactive_p11_20261120/EXPERIMENT_REPORT.md) | GPU Kernel 并发与原生 PP1 |
 | 收益分析 | [P12](proactive_p12_20261120/EXPERIMENT_REPORT.md) | 空钩子对照、关键路径与候选窗口 |
-| TP 依赖分析 | [P13](proactive_p13_20261124/EXPERIMENT_REPORT.md)、[P14](proactive_p14_20261124/EXPERIMENT_REPORT.md) | Event 等待、TP4 与 PP2 依赖审计 |
+| TP 依赖分析 | [P13](proactive_p13_20261124/EXPERIMENT_REPORT.md)、[P14](proactive_p14_20261124/EXPERIMENT_REPORT.md)、[P15](proactive_p15_20261124/EXPERIMENT_REPORT.md) | Event 等待、张量依赖与 TP 路线决策 |
 
 ## 档案范围
 

@@ -1,0 +1,314 @@
+[
+  {
+    "rank": 0,
+    "tp_collective": {
+      "kind": "all_reduce",
+      "rank": 0,
+      "step": 2,
+      "mb": 7,
+      "peers": [
+        0,
+        1
+      ],
+      "sequence": 1119,
+      "tensor_before": {
+        "object_id": 139644954080304,
+        "storage_id": 1,
+        "storage_ptr": 139614498523136,
+        "storage_bytes": 10485760,
+        "offset": 0,
+        "shape": [
+          2048,
+          1,
+          2560
+        ],
+        "stride": [
+          2560,
+          2560,
+          1
+        ],
+        "version": 0,
+        "dtype": "torch.bfloat16",
+        "grad_fn": null,
+        "is_view": false
+      },
+      "async_op": true,
+      "stack": [
+        {
+          "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+          "function": "apply",
+          "line": 307
+        },
+        {
+          "file": "/usr/local/lib/python3.12/dist-packages/torch/amp/autocast_mode.py",
+          "function": "decorate_bwd",
+          "line": 556
+        },
+        {
+          "file": "/mnt/si002365wekc/zwx/code/recom/Megatron-LM-layerwise/megatron/core/tensor_parallel/layers.py",
+          "function": "backward",
+          "line": 565
+        },
+        {
+          "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+          "function": "all_reduce",
+          "line": 323
+        }
+      ],
+      "cpu_start_ns": 40245719054325567,
+      "thread": 139638675719872,
+      "tensor_after": {
+        "object_id": 139644954080304,
+        "storage_id": 1,
+        "storage_ptr": 139614498523136,
+        "storage_bytes": 10485760,
+        "offset": 0,
+        "shape": [
+          2048,
+          1,
+          2560
+        ],
+        "stride": [
+          2560,
+          2560,
+          1
+        ],
+        "version": 0,
+        "dtype": "torch.bfloat16",
+        "grad_fn": null,
+        "is_view": false
+      },
+      "cpu_end_ns": 40245719054856797
+    },
+    "qkv": {
+      "kind": "qkv_input",
+      "rank": 0,
+      "step": 2,
+      "mb": 7,
+      "layer": 1,
+      "tensor": {
+        "object_id": 139645001521648,
+        "storage_id": 0,
+        "storage_ptr": 139616522862592,
+        "storage_bytes": 10485760,
+        "offset": 0,
+        "shape": [
+          2048,
+          1,
+          2560
+        ],
+        "stride": [
+          2560,
+          5242880,
+          1
+        ],
+        "version": 0,
+        "dtype": "torch.bfloat16",
+        "grad_fn": "MakeViewlessTensorBackward",
+        "is_view": false
+      },
+      "cpu_ns": 40245718928650528
+    },
+    "scope": {
+      "start": 1950748397,
+      "end": 1951124560
+    },
+    "kernel": {
+      "submit": 1950986193,
+      "corr": 436351,
+      "gpu_start": 1952196229,
+      "gpu_end": 1952321926,
+      "stream": 39,
+      "name": "ncclDevKernel_AllReduce_Sum_bf16_RING_LL"
+    },
+    "event_candidates": [
+      {
+        "event": 54,
+        "sync": 11041,
+        "record": {
+          "stream": 39,
+          "start": 1951021466,
+          "end": 1951027357,
+          "corr": 436353
+        },
+        "wait": {
+          "stream": 151,
+          "start": 1951028154,
+          "end": 1951030540,
+          "corr": 436354
+        },
+        "launches_since_previous_record": [
+          {
+            "corr": 436351,
+            "name": "ncclDevKernel_AllReduce_Sum_bf16_RING_LL",
+            "gpu_start": 1952196229,
+            "gpu_end": 1952321926
+          }
+        ],
+        "unique_target_producer": true
+      }
+    ],
+    "unknown": [
+      "actual tensor consumer identity",
+      "QKV replay input readiness/alias at backward trigger",
+      "legal insertion boundary",
+      "critical path exposure"
+    ]
+  },
+  {
+    "rank": 1,
+    "tp_collective": {
+      "kind": "all_reduce",
+      "rank": 1,
+      "step": 2,
+      "mb": 7,
+      "peers": [
+        0,
+        1
+      ],
+      "sequence": 1119,
+      "tensor_before": {
+        "object_id": 140111594328448,
+        "storage_id": 1,
+        "storage_ptr": 140077566001152,
+        "storage_bytes": 10485760,
+        "offset": 0,
+        "shape": [
+          2048,
+          1,
+          2560
+        ],
+        "stride": [
+          2560,
+          2560,
+          1
+        ],
+        "version": 0,
+        "dtype": "torch.bfloat16",
+        "grad_fn": null,
+        "is_view": false
+      },
+      "async_op": true,
+      "stack": [
+        {
+          "file": "/usr/local/lib/python3.12/dist-packages/torch/autograd/function.py",
+          "function": "apply",
+          "line": 307
+        },
+        {
+          "file": "/usr/local/lib/python3.12/dist-packages/torch/amp/autocast_mode.py",
+          "function": "decorate_bwd",
+          "line": 556
+        },
+        {
+          "file": "/mnt/si002365wekc/zwx/code/recom/Megatron-LM-layerwise/megatron/core/tensor_parallel/layers.py",
+          "function": "backward",
+          "line": 565
+        },
+        {
+          "file": "/mnt/si002365wekc/zwx/code/recom/qwen3_bench/results/proactive_p15_20261124/poc_entry.py",
+          "function": "all_reduce",
+          "line": 323
+        }
+      ],
+      "cpu_start_ns": 40245719051936245,
+      "thread": 140105287444160,
+      "tensor_after": {
+        "object_id": 140111594328448,
+        "storage_id": 1,
+        "storage_ptr": 140077566001152,
+        "storage_bytes": 10485760,
+        "offset": 0,
+        "shape": [
+          2048,
+          1,
+          2560
+        ],
+        "stride": [
+          2560,
+          2560,
+          1
+        ],
+        "version": 0,
+        "dtype": "torch.bfloat16",
+        "grad_fn": null,
+        "is_view": false
+      },
+      "cpu_end_ns": 40245719052134413
+    },
+    "qkv": {
+      "kind": "qkv_input",
+      "rank": 1,
+      "step": 2,
+      "mb": 7,
+      "layer": 1,
+      "tensor": {
+        "object_id": 140111594331888,
+        "storage_id": 0,
+        "storage_ptr": 140078613528576,
+        "storage_bytes": 10485760,
+        "offset": 0,
+        "shape": [
+          2048,
+          1,
+          2560
+        ],
+        "stride": [
+          2560,
+          5242880,
+          1
+        ],
+        "version": 0,
+        "dtype": "torch.bfloat16",
+        "grad_fn": "MakeViewlessTensorBackward",
+        "is_view": false
+      },
+      "cpu_ns": 40245718935010302
+    },
+    "scope": {
+      "start": 1948293894,
+      "end": 1948442294
+    },
+    "kernel": {
+      "submit": 1948393833,
+      "corr": 433321,
+      "gpu_start": 1951421161,
+      "gpu_end": 1952324877,
+      "stream": 39,
+      "name": "ncclDevKernel_AllReduce_Sum_bf16_RING_LL"
+    },
+    "event_candidates": [
+      {
+        "event": 51,
+        "sync": 11009,
+        "record": {
+          "stream": 39,
+          "start": 1948407370,
+          "end": 1948409640,
+          "corr": 433323
+        },
+        "wait": {
+          "stream": 151,
+          "start": 1948409862,
+          "end": 1948410553,
+          "corr": 433324
+        },
+        "launches_since_previous_record": [
+          {
+            "corr": 433321,
+            "name": "ncclDevKernel_AllReduce_Sum_bf16_RING_LL",
+            "gpu_start": 1951421161,
+            "gpu_end": 1952324877
+          }
+        ],
+        "unique_target_producer": true
+      }
+    ],
+    "unknown": [
+      "actual tensor consumer identity",
+      "QKV replay input readiness/alias at backward trigger",
+      "legal insertion boundary",
+      "critical path exposure"
+    ]
+  }
+]
