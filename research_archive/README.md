@@ -32,3 +32,5 @@
 [P17 实验报告](proactive_p17_moe_ep_20261124/EXPERIMENT_REPORT.md) 建立了单机八卡 EP2/4/8 mock-data 基线，识别了 Dispatch/Combine 的实际通信并测量 `moe_fc1` 成本。阶段判定 **PARTIAL（未达到 PASS）**：独立运行的完整参数严格对照未通过，真实关键路径等待尚未知。P18 暂缓；候选输入是 EP8 token Dispatch/Combine 与 expert FC1 Replay，须先完成数值对照与可证明的依赖、等待验证。
 
 [P17 补充验收（2026-11-25）](proactive_p17_moe_ep_20261124/followup_20261125/EXPERIMENT_REPORT.md)：确定性 EP2 首步自对照与 `moe_fc1` 完整张量对照逐字节一致；稳态 EP8 样本识别到通信流与计算流事件依赖。0.43B 放大模型未见明确 `moe_fc1` 峰值显存收益；其余重计算额外步时未能因果分解，合法 Replay 窗口尚未证明，P17 仍为 PARTIAL、P18 暂为 NO-GO。
+
+[P17 提前 Replay 静态审查](proactive_p17_moe_ep_20261124/legality_audit_20261125/EXPERIMENT_REPORT.md)：确认原生 MoE checkpoint 缺少提前图消费接口；本轮运行时合法性及三次成本归因尚未完成，PARTIAL、P18 NO-GO。
