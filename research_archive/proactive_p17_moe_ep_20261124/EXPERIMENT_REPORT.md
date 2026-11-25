@@ -1,5 +1,7 @@
 # P17：MoE Expert Parallelism 基线与通信特征
 
+后续的确定性正确性对照和稳态通信依赖分析见[补充验收报告](followup_20261125/EXPERIMENT_REPORT.md)。
+
 ## 1. 核心摘要（Executive Summary）
 
 **P17 判定 PARTIAL（未达到 PASS）；P18 暂缓（NO-GO）。** 八卡真实 MoE EP2/4/8 已完成重复训练，识别到 dispatch 与 combine 的 GPU 通信，并测得现有 `moe_fc1` 的运行成本。当前尚未建立可通过逐元素参数容差的独立运行对照，也未量化可靠的关键路径暴露，因而不能据此启动主动调度或声称吞吐收益。

@@ -1,0 +1,452 @@
+[
+  {
+    "metadata": {
+      "rank": 0,
+      "step": 21,
+      "layer": 3,
+      "microbatch": 1,
+      "op": "token_dispatch",
+      "phase": "forward",
+      "shape": [
+        4096,
+        512
+      ],
+      "dtype": "torch.bfloat16",
+      "group": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "out_splits": [
+        653,
+        718,
+        674,
+        653,
+        676,
+        688,
+        758,
+        701
+      ],
+      "in_splits": [
+        653,
+        446,
+        482,
+        702,
+        521,
+        298,
+        313,
+        681
+      ]
+    },
+    "nccl_kernel": {
+      "start_ns": 43299362756,
+      "end_ns": 43300060066,
+      "stream": 51,
+      "kernel": "ncclDevKernel_SendRecv",
+      "correlation": 1600375
+    },
+    "launch_cpu_ns": 43299351527,
+    "candidates": [
+      {
+        "wait_runtime": [
+          [
+            43299364912,
+            43299365557
+          ]
+        ],
+        "previous_kernel_on_wait_stream": null,
+        "next_kernel_runtime": [],
+        "event": {
+          "event": 72,
+          "generation": 49582,
+          "record_cpu_ns": 43299362176,
+          "stream": 51,
+          "waits": [
+            {
+              "start_ns": 43299365050,
+              "end_ns": 43299365459,
+              "stream": 155,
+              "correlation": 1600378
+            }
+          ]
+        },
+        "wait": {
+          "start_ns": 43299365050,
+          "end_ns": 43299365459,
+          "stream": 155,
+          "correlation": 1600378
+        },
+        "launched_from_target_through_record": [
+          [
+            1600375,
+            "ncclDevKernel_SendRecv",
+            43299362756,
+            43300060066
+          ]
+        ],
+        "only_target_launch": true,
+        "next_non_nccl_kernel_after_target_on_wait_stream": null
+      },
+      {
+        "wait_runtime": [
+          [
+            43299393185,
+            43299394523
+          ]
+        ],
+        "previous_kernel_on_wait_stream": [
+          43299227236,
+          43299250468,
+          "indexSelectLargeIndex"
+        ],
+        "next_kernel_runtime": [
+          [
+            43299915161,
+            43299924862
+          ]
+        ],
+        "event": {
+          "event": 17,
+          "generation": 49583,
+          "record_cpu_ns": 43299367954,
+          "stream": 51,
+          "waits": [
+            {
+              "start_ns": 43299393508,
+              "end_ns": 43299394390,
+              "stream": 7,
+              "correlation": 1600393
+            }
+          ]
+        },
+        "wait": {
+          "start_ns": 43299393508,
+          "end_ns": 43299394390,
+          "stream": 7,
+          "correlation": 1600393
+        },
+        "launched_from_target_through_record": [
+          [
+            1600375,
+            "ncclDevKernel_SendRecv",
+            43299362756,
+            43300060066
+          ]
+        ],
+        "only_target_launch": true,
+        "next_non_nccl_kernel_after_target_on_wait_stream": [
+          43300298114,
+          43300328834,
+          7,
+          "vectorized_elementwise_kernel",
+          1600497
+        ]
+      }
+    ]
+  },
+  {
+    "metadata": {
+      "rank": 0,
+      "step": 21,
+      "layer": 3,
+      "microbatch": 1,
+      "op": "token_combine",
+      "phase": "forward",
+      "shape": [
+        5521,
+        512
+      ],
+      "dtype": "torch.bfloat16",
+      "group": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "out_splits": [
+        653,
+        446,
+        482,
+        702,
+        521,
+        298,
+        313,
+        681
+      ],
+      "in_splits": [
+        653,
+        718,
+        674,
+        653,
+        676,
+        688,
+        758,
+        701
+      ]
+    },
+    "nccl_kernel": {
+      "start_ns": 43300462241,
+      "end_ns": 43301110496,
+      "stream": 51,
+      "kernel": "ncclDevKernel_SendRecv",
+      "correlation": 1600569
+    },
+    "launch_cpu_ns": 43300359965,
+    "candidates": [
+      {
+        "wait_runtime": [
+          [
+            43300374857,
+            43300387266
+          ]
+        ],
+        "previous_kernel_on_wait_stream": null,
+        "next_kernel_runtime": [],
+        "event": {
+          "event": 72,
+          "generation": 49598,
+          "record_cpu_ns": 43300372369,
+          "stream": 51,
+          "waits": [
+            {
+              "start_ns": 43300375039,
+              "end_ns": 43300386977,
+              "stream": 155,
+              "correlation": 1600572
+            }
+          ]
+        },
+        "wait": {
+          "start_ns": 43300375039,
+          "end_ns": 43300386977,
+          "stream": 155,
+          "correlation": 1600572
+        },
+        "launched_from_target_through_record": [
+          [
+            1600569,
+            "ncclDevKernel_SendRecv",
+            43300462241,
+            43301110496
+          ]
+        ],
+        "only_target_launch": true,
+        "next_non_nccl_kernel_after_target_on_wait_stream": null
+      },
+      {
+        "wait_runtime": [
+          [
+            43300418338,
+            43300419799
+          ]
+        ],
+        "previous_kernel_on_wait_stream": [
+          43300330946,
+          43300383745,
+          "elementwise_kernel"
+        ],
+        "next_kernel_runtime": [
+          [
+            43300513826,
+            43300524573
+          ]
+        ],
+        "event": {
+          "event": 287,
+          "generation": 49599,
+          "record_cpu_ns": 43300390081,
+          "stream": 51,
+          "waits": [
+            {
+              "start_ns": 43300418669,
+              "end_ns": 43300419679,
+              "stream": 7,
+              "correlation": 1600587
+            }
+          ]
+        },
+        "wait": {
+          "start_ns": 43300418669,
+          "end_ns": 43300419679,
+          "stream": 7,
+          "correlation": 1600587
+        },
+        "launched_from_target_through_record": [
+          [
+            1600569,
+            "ncclDevKernel_SendRecv",
+            43300462241,
+            43301110496
+          ]
+        ],
+        "only_target_launch": true,
+        "next_non_nccl_kernel_after_target_on_wait_stream": [
+          43301122112,
+          43301124960,
+          7,
+          "vectorized_elementwise_kernel",
+          1600614
+        ]
+      }
+    ]
+  },
+  {
+    "metadata": {
+      "rank": 0,
+      "step": 21,
+      "layer": 3,
+      "microbatch": 1,
+      "op": "token_combine",
+      "phase": "backward",
+      "shape": [
+        5521,
+        512
+      ],
+      "dtype": "torch.bfloat16",
+      "group": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "out_splits": [
+        653,
+        446,
+        482,
+        702,
+        521,
+        298,
+        313,
+        681
+      ],
+      "in_splits": [
+        653,
+        718,
+        674,
+        653,
+        676,
+        688,
+        758,
+        701
+      ]
+    },
+    "nccl_kernel": {
+      "start_ns": 43337280468,
+      "end_ns": 43339091824,
+      "stream": 51,
+      "kernel": "ncclDevKernel_SendRecv",
+      "correlation": 1609964
+    },
+    "launch_cpu_ns": 43337235660,
+    "candidates": [
+      {
+        "wait_runtime": [
+          [
+            43337248361,
+            43337248972
+          ]
+        ],
+        "previous_kernel_on_wait_stream": null,
+        "next_kernel_runtime": [],
+        "event": {
+          "event": 72,
+          "generation": 49890,
+          "record_cpu_ns": 43337246006,
+          "stream": 51,
+          "waits": [
+            {
+              "start_ns": 43337248526,
+              "end_ns": 43337248888,
+              "stream": 155,
+              "correlation": 1609967
+            }
+          ]
+        },
+        "wait": {
+          "start_ns": 43337248526,
+          "end_ns": 43337248888,
+          "stream": 155,
+          "correlation": 1609967
+        },
+        "launched_from_target_through_record": [
+          [
+            1609964,
+            "ncclDevKernel_SendRecv",
+            43337280468,
+            43339091824
+          ]
+        ],
+        "only_target_launch": true,
+        "next_non_nccl_kernel_after_target_on_wait_stream": null
+      },
+      {
+        "wait_runtime": [
+          [
+            43337276363,
+            43337277973
+          ]
+        ],
+        "previous_kernel_on_wait_stream": [
+          43337259124,
+          43337272692,
+          "_scatter_gather_elementwise_kernel"
+        ],
+        "next_kernel_runtime": [
+          [
+            43337674963,
+            43337685481
+          ]
+        ],
+        "event": {
+          "event": 181,
+          "generation": 49891,
+          "record_cpu_ns": 43337251233,
+          "stream": 51,
+          "waits": [
+            {
+              "start_ns": 43337276723,
+              "end_ns": 43337277804,
+              "stream": 7,
+              "correlation": 1609982
+            }
+          ]
+        },
+        "wait": {
+          "start_ns": 43337276723,
+          "end_ns": 43337277804,
+          "stream": 7,
+          "correlation": 1609982
+        },
+        "launched_from_target_through_record": [
+          [
+            1609964,
+            "ncclDevKernel_SendRecv",
+            43337280468,
+            43339091824
+          ]
+        ],
+        "only_target_launch": true,
+        "next_non_nccl_kernel_after_target_on_wait_stream": [
+          43339264016,
+          43339299280,
+          7,
+          "vectorized_elementwise_kernel",
+          1610092
+        ]
+      }
+    ]
+  }
+]
