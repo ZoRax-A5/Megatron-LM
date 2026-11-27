@@ -703,7 +703,27 @@ class TEGroupedMLP(MegatronModule):
             if self.fc1_recompute and self.training and torch.is_grad_enabled():
                 def fc1(x):
                     return apply_module(self.linear_fc1)(x, tokens_per_expert)[0]
-                fc1_output = tensor_parallel.checkpoint(fc1, False, permuted_local_hidden_states)
+                if getattr(self, "p17_proactive_fc1", False):
+                    # Explicit experimental opt-in; ordinary MoE checkpoint stays unchanged.
+                    from megatron.core.tensor_parallel.random import ProactiveCheckpoint
+
+                    if self.config.expert_tensor_parallel_size != 1:
+                        raise NotImplementedError("P17 proactive expert FC1 requires ETP1")
+                    handle = ProactiveCheckpoint(
+                        fc1,
+                        parameters=self.linear_fc1.parameters(),
+                        buffers=self.linear_fc1.buffers(),
+                        metadata={"module": "moe_fc1", "layer_number": getattr(self, "p17_layer", None)},
+                        collective_group=None,
+                    )
+                    fc1_output = handle(permuted_local_hidden_states)
+                    trigger = getattr(self, "p17_fc1_prefetch", None)
+                    if trigger is None:
+                        handle.prefetch(trigger_site="p17_fc1_safe_immediate")
+                    else:
+                        trigger(handle)
+                else:
+                    fc1_output = tensor_parallel.checkpoint(fc1, False, permuted_local_hidden_states)
                 bias_parallel = None
             else:
                 fc1_output, bias_parallel = apply_module(self.linear_fc1)(

@@ -26,3 +26,27 @@ FC selections are rejected for non-TEGroupedMLP implementations. Attention
 fine boundaries may be used on MoE models subject to the existing restrictions;
 `mlp_fc1`, `mlp_act`, and `mlp_fc2` remain dense-only. Expert parallelism,
 other model architectures and attention boundaries on MoE require further validation.
+
+## P17 experimental proactive MoE FC1
+
+TEGroupedMLP has an opt-in `p17_proactive_fc1` instance attribute (default absent/false).
+With selective `moe_fc1` enabled, it creates the existing `ProactiveCheckpoint` with
+explicit FC1 parameters and buffers. The optional `p17_fc1_prefetch(handle)` callback
+receives that invocation's handle; without a callback it prefetches immediately.
+The ordinary checkpoint branch and Dense QKV integration are unchanged.
+
+This experiment requires ETP1 and inherits the existing bias-free BF16/FP32 grouped
+expert restrictions. Only the BF16 TP1/EP2 and TP1/EP8 configurations in the P17
+archive have been validated. The attribute is not a general training scheduler.
+The fixed-instance experiment entries and commands are in
+`research_archive/proactive_p17_moe_ep_20261124/gate_a_20261126/`,
+`gate_b_20261126/`, and `gate_c_20261126/`.
+
+The EP8 entry selects layer 1, micro-batch 0 and layer 3 forward Combine. Its replay
+stream waits for the original FC1 ready event, not the Combine completion. Before
+consumption, the compute stream waits for replay completion and the replay stream
+waits for incoming gradient work; the compute stream waits for replay-backward work
+before subsequent gradient use. Inputs and incoming gradients are recorded on the
+replay stream for allocator lifetime tracking. Every step checks the existing global
+checkpoint registry and cache accounting are empty. Changing these boundaries or
+parallel settings requires fresh full-gradient and lifecycle validation.

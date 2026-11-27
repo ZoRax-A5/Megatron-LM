@@ -1,0 +1,711 @@
+{
+  "summary": {
+    "samples": 24,
+    "combine_end_to_consumer_kernel_us": {
+      "mean": 586.336375,
+      "median": 255.9635,
+      "min": 0.96,
+      "max": 2203.663
+    },
+    "samples_with_kernels_between": 10,
+    "note": "A gap with no CUDA kernel is not by itself proof of whole-GPU idleness or end-to-end critical-path exposure."
+  },
+  "samples": [
+    {
+      "pid": 318044962291712,
+      "step": 20,
+      "combine_streams": [
+        51
+      ],
+      "combine_kernel": "ncclDevKernel_SendRecv",
+      "combine_kernel_us": 1071.34,
+      "consumer_stream": 7,
+      "first_consumer_kernel": "vectorized_elementwise_kernel",
+      "combine_end_to_consumer_kernel_us": 1.152,
+      "kernels_between_comm_end_and_consumer": 0,
+      "replay_kernels": [
+        {
+          "start": 46451062829,
+          "end": 46451073517,
+          "stream": 55,
+          "name": "vectorized_elementwise_kernel"
+        },
+        {
+          "start": 46451137740,
+          "end": 46451190475,
+          "stream": 157,
+          "name": "ampere_bf16_s16816gemm_bf16_256x128_ldg8_f2f_stages_32x3_tn"
+        }
+      ],
+      "consumer_nvtx_start_minus_combine_kernel_end_us": -223.249,
+      "combine_nvtx_cpu_end_to_kernel_end_us": 1535.985
+    },
+    {
+      "pid": 318047629869056,
+      "step": 20,
+      "combine_streams": [
+        51
+      ],
+      "combine_kernel": "ncclDevKernel_SendRecv",
+      "combine_kernel_us": 1066.313,
+      "consumer_stream": 7,
+      "first_consumer_kernel": "vectorized_elementwise_kernel",
+      "combine_end_to_consumer_kernel_us": 0.992,
+      "kernels_between_comm_end_and_consumer": 0,
+      "replay_kernels": [
+        {
+          "start": 46451040512,
+          "end": 46451052768,
+          "stream": 55,
+          "name": "vectorized_elementwise_kernel"
+        },
+        {
+          "start": 46451112671,
+          "end": 46451165853,
+          "stream": 157,
+          "name": "ampere_bf16_s16816gemm_bf16_256x128_ldg8_f2f_stages_32x3_tn"
+        }
+      ],
+      "consumer_nvtx_start_minus_combine_kernel_end_us": -238.242,
+      "combine_nvtx_cpu_end_to_kernel_end_us": 1517.705
+    },
+    {
+      "pid": 318046942003200,
+      "step": 20,
+      "combine_streams": [
+        51
+      ],
+      "combine_kernel": "ncclDevKernel_SendRecv",
+      "combine_kernel_us": 1157.034,
+      "consumer_stream": 7,
+      "first_consumer_kernel": "vectorized_elementwise_kernel",
+      "combine_end_to_consumer_kernel_us": 0.96,
+      "kernels_between_comm_end_and_consumer": 0,
+      "replay_kernels": [
+        {
+          "start": 46451121208,
+          "end": 46451132952,
+          "stream": 55,
+          "name": "vectorized_elementwise_kernel"
+        },
+        {
+          "start": 46451198871,
+          "end": 46451252022,
+          "stream": 157,
+          "name": "ampere_bf16_s16816gemm_bf16_256x128_ldg8_f2f_stages_32x3_tn"
+        }
+      ],
+      "consumer_nvtx_start_minus_combine_kernel_end_us": -171.937,
+      "combine_nvtx_cpu_end_to_kernel_end_us": 1487.082
+    },
+    {
+      "pid": 318045968924672,
+      "step": 20,
+      "combine_streams": [
+        51
+      ],
+      "combine_kernel": "ncclDevKernel_SendRecv",
+      "combine_kernel_us": 1047.627,
+      "consumer_stream": 7,
+      "first_consumer_kernel": "vectorized_elementwise_kernel",
+      "combine_end_to_consumer_kernel_us": 1.056,
+      "kernels_between_comm_end_and_consumer": 0,
+      "replay_kernels": [
+        {
+          "start": 46451178659,
+          "end": 46451189442,
+          "stream": 55,
+          "name": "vectorized_elementwise_kernel"
+        },
+        {
+          "start": 46451252481,
+          "end": 46451305376,
+          "stream": 157,
+          "name": "ampere_bf16_s16816gemm_bf16_256x128_ldg8_f2f_stages_32x3_tn"
+        }
+      ],
+      "consumer_nvtx_start_minus_combine_kernel_end_us": -54.615,
+      "combine_nvtx_cpu_end_to_kernel_end_us": 1475.645
+    },
+    {
+      "pid": 318044710633472,
+      "step": 20,
+      "combine_streams": [
+        51
+      ],
+      "combine_kernel": "ncclDevKernel_SendRecv",
+      "combine_kernel_us": 1082.791,
+      "consumer_stream": 7,
+      "first_consumer_kernel": "vectorized_elementwise_kernel",
+      "combine_end_to_consumer_kernel_us": 109.086,
+      "kernels_between_comm_end_and_consumer": 0,
+      "replay_kernels": [
+        {
+          "start": 46451301544,
+          "end": 46451314247,
+          "stream": 55,
+          "name": "vectorized_elementwise_kernel"
+        },
+        {
+          "start": 46451385318,
+          "end": 46451454628,
+          "stream": 157,
+          "name": "ampere_bf16_s16816gemm_bf16_256x128_ldg8_f2f_stages_32x3_tn"
+        }
+      ],
+      "consumer_nvtx_start_minus_combine_kernel_end_us": 65.677,
+      "combine_nvtx_cpu_end_to_kernel_end_us": 1401.117
+    },
+    {
+      "pid": 318047059443712,
+      "step": 20,
+      "combine_streams": [
+        51
+      ],
+      "combine_kernel": "ncclDevKernel_SendRecv",
+      "combine_kernel_us": 1080.14,
+      "consumer_stream": 7,
+      "first_consumer_kernel": "vectorized_elementwise_kernel",
+      "combine_end_to_consumer_kernel_us": 402.841,
+      "kernels_between_comm_end_and_consumer": 0,
+      "replay_kernels": [
+        {
+          "start": 46451602084,
+          "end": 46451615876,
+          "stream": 55,
+          "name": "vectorized_elementwise_kernel"
+        },
+        {
+          "start": 46451672163,
+          "end": 46451742049,
+          "stream": 157,
+          "name": "ampere_bf16_s16816gemm_bf16_256x128_ldg8_f2f_stages_32x3_tn"
+        }
+      ],
+      "consumer_nvtx_start_minus_combine_kernel_end_us": 347.365,
+      "combine_nvtx_cpu_end_to_kernel_end_us": 1027.862
+    },
+    {
+      "pid": 318044291203072,
+      "step": 20,
+      "combine_streams": [
+        51
+      ],
+      "combine_kernel": "ncclDevKernel_SendRecv",
+      "combine_kernel_us": 52.767,
+      "consumer_stream": 7,
+      "first_consumer_kernel": "vectorized_elementwise_kernel",
+      "combine_end_to_consumer_kernel_us": 2203.663,
+      "kernels_between_comm_end_and_consumer": 2,
+      "replay_kernels": [
+        {
+          "start": 46452990362,
+          "end": 46452999642,
+          "stream": 55,
+          "name": "vectorized_elementwise_kernel"
+        },
+        {
+          "start": 46453086072,
+          "end": 46453139255,
+          "stream": 157,
+          "name": "ampere_bf16_s16816gemm_bf16_256x128_ldg8_f2f_stages_32x3_tn"
+        }
+      ],
+      "consumer_nvtx_start_minus_combine_kernel_end_us": 2152.294,
+      "combine_nvtx_cpu_end_to_kernel_end_us": -21.594
+    },
+    {
+      "pid": 318046388355072,
+      "step": 20,
+      "combine_streams": [
+        51
+      ],
+      "combine_kernel": "ncclDevKernel_SendRecv",
+      "combine_kernel_us": 55.295,
+      "consumer_stream": 7,
+      "first_consumer_kernel": "vectorized_elementwise_kernel",
+      "combine_end_to_consumer_kernel_us": 2200.983,
+      "kernels_between_comm_end_and_consumer": 2,
+      "replay_kernels": [
+        {
+          "start": 46452992003,
+          "end": 46453000451,
+          "stream": 55,
+          "name": "vectorized_elementwise_kernel"
+        },
+        {
+          "start": 46453086401,
+          "end": 46453139648,
+          "stream": 157,
+          "name": "ampere_bf16_s16816gemm_bf16_256x128_ldg8_f2f_stages_32x3_tn"
+        }
+      ],
+      "consumer_nvtx_start_minus_combine_kernel_end_us": 2149.896,
+      "combine_nvtx_cpu_end_to_kernel_end_us": -20.021
+    },
+    {
+      "pid": 318044291203072,
+      "step": 21,
+      "combine_streams": [
+        51
+      ],
+      "combine_kernel": "ncclDevKernel_SendRecv",
+      "combine_kernel_us": 721.904,
+      "consumer_stream": 7,
+      "first_consumer_kernel": "vectorized_elementwise_kernel",
+      "combine_end_to_consumer_kernel_us": 672.113,
+      "kernels_between_comm_end_and_consumer": 0,
+      "replay_kernels": [
+        {
+          "start": 46926373232,
+          "end": 46926384912,
+          "stream": 55,
+          "name": "vectorized_elementwise_kernel"
+        },
+        {
+          "start": 46926449966,
+          "end": 46926503149,
+          "stream": 157,
+          "name": "ampere_bf16_s16816gemm_bf16_256x128_ldg8_f2f_stages_32x3_tn"
+        }
+      ],
+      "consumer_nvtx_start_minus_combine_kernel_end_us": 629.956,
+      "combine_nvtx_cpu_end_to_kernel_end_us": 691.92
+    },
+    {
+      "pid": 318047629869056,
+      "step": 21,
+      "combine_streams": [
+        51
+      ],
+      "combine_kernel": "ncclDevKernel_SendRecv",
+      "combine_kernel_us": 692.401,
+      "consumer_stream": 7,
+      "first_consumer_kernel": "vectorized_elementwise_kernel",
+      "combine_end_to_consumer_kernel_us": 737.424,
+      "kernels_between_comm_end_and_consumer": 1,
+      "replay_kernels": [
+        {
+          "start": 46926437727,
+          "end": 46926453982,
+          "stream": 55,
+          "name": "vectorized_elementwise_kernel"
+        },
+        {
+          "start": 46926515933,
+          "end": 46926569276,
+          "stream": 157,
+          "name": "ampere_bf16_s16816gemm_bf16_256x128_ldg8_f2f_stages_32x3_tn"
+        }
+      ],
+      "consumer_nvtx_start_minus_combine_kernel_end_us": 696.388,
+      "combine_nvtx_cpu_end_to_kernel_end_us": 641.706
+    },
+    {
+      "pid": 318044710633472,
+      "step": 21,
+      "combine_streams": [
+        51
+      ],
+      "combine_kernel": "ncclDevKernel_SendRecv",
+      "combine_kernel_us": 654.897,
+      "consumer_stream": 7,
+      "first_consumer_kernel": "vectorized_elementwise_kernel",
+      "combine_end_to_consumer_kernel_us": 819.246,
+      "kernels_between_comm_end_and_consumer": 2,
+      "replay_kernels": [
+        {
+          "start": 46926504643,
+          "end": 46926514243,
+          "stream": 55,
+          "name": "vectorized_elementwise_kernel"
+        },
+        {
+          "start": 46926584002,
+          "end": 46926637632,
+          "stream": 157,
+          "name": "ampere_bf16_s16816gemm_bf16_256x128_ldg8_f2f_stages_32x3_tn"
+        }
+      ],
+      "consumer_nvtx_start_minus_combine_kernel_end_us": 776.593,
+      "combine_nvtx_cpu_end_to_kernel_end_us": 602.54
+    },
+    {
+      "pid": 318044962291712,
+      "step": 21,
+      "combine_streams": [
+        51
+      ],
+      "combine_kernel": "ncclDevKernel_SendRecv",
+      "combine_kernel_us": 676.627,
+      "consumer_stream": 7,
+      "first_consumer_kernel": "vectorized_elementwise_kernel",
+      "combine_end_to_consumer_kernel_us": 819.057,
+      "kernels_between_comm_end_and_consumer": 2,
+      "replay_kernels": [
+        {
+          "start": 46926523038,
+          "end": 46926531294,
+          "stream": 55,
+          "name": "vectorized_elementwise_kernel"
+        },
+        {
+          "start": 46926593053,
+          "end": 46926645788,
+          "stream": 157,
+          "name": "ampere_bf16_s16816gemm_bf16_256x128_ldg8_f2f_stages_32x3_tn"
+        }
+      ],
+      "consumer_nvtx_start_minus_combine_kernel_end_us": 774.692,
+      "combine_nvtx_cpu_end_to_kernel_end_us": 624.129
+    },
+    {
+      "pid": 318047059443712,
+      "step": 21,
+      "combine_streams": [
+        51
+      ],
+      "combine_kernel": "ncclDevKernel_SendRecv",
+      "combine_kernel_us": 634.804,
+      "consumer_stream": 7,
+      "first_consumer_kernel": "vectorized_elementwise_kernel",
+      "combine_end_to_consumer_kernel_us": 756.69,
+      "kernels_between_comm_end_and_consumer": 2,
+      "replay_kernels": [
+        {
+          "start": 46926474195,
+          "end": 46926485747,
+          "stream": 55,
+          "name": "vectorized_elementwise_kernel"
+        },
+        {
+          "start": 46926540306,
+          "end": 46926594321,
+          "stream": 157,
+          "name": "ampere_bf16_s16816gemm_bf16_256x128_ldg8_f2f_stages_32x3_tn"
+        }
+      ],
+      "consumer_nvtx_start_minus_combine_kernel_end_us": 715.601,
+      "combine_nvtx_cpu_end_to_kernel_end_us": 585.466
+    },
+    {
+      "pid": 318046942003200,
+      "step": 21,
+      "combine_streams": [
+        51
+      ],
+      "combine_kernel": "ncclDevKernel_SendRecv",
+      "combine_kernel_us": 432.056,
+      "consumer_stream": 7,
+      "first_consumer_kernel": "vectorized_elementwise_kernel",
+      "combine_end_to_consumer_kernel_us": 995.276,
+      "kernels_between_comm_end_and_consumer": 2,
+      "replay_kernels": [
+        {
+          "start": 46926708749,
+          "end": 46926718509,
+          "stream": 55,
+          "name": "vectorized_elementwise_kernel"
+        },
+        {
+          "start": 46926781675,
+          "end": 46926834922,
+          "stream": 157,
+          "name": "ampere_bf16_s16816gemm_bf16_256x128_ldg8_f2f_stages_32x3_tn"
+        }
+      ],
+      "consumer_nvtx_start_minus_combine_kernel_end_us": 953.587,
+      "combine_nvtx_cpu_end_to_kernel_end_us": 379.311
+    },
+    {
+      "pid": 318046388355072,
+      "step": 21,
+      "combine_streams": [
+        51
+      ],
+      "combine_kernel": "ncclDevKernel_SendRecv",
+      "combine_kernel_us": 432.312,
+      "consumer_stream": 7,
+      "first_consumer_kernel": "vectorized_elementwise_kernel",
+      "combine_end_to_consumer_kernel_us": 967.79,
+      "kernels_between_comm_end_and_consumer": 2,
+      "replay_kernels": [
+        {
+          "start": 46926689583,
+          "end": 46926697839,
+          "stream": 55,
+          "name": "vectorized_elementwise_kernel"
+        },
+        {
+          "start": 46926758989,
+          "end": 46926811884,
+          "stream": 157,
+          "name": "ampere_bf16_s16816gemm_bf16_256x128_ldg8_f2f_stages_32x3_tn"
+        }
+      ],
+      "consumer_nvtx_start_minus_combine_kernel_end_us": 926.996,
+      "combine_nvtx_cpu_end_to_kernel_end_us": 370.548
+    },
+    {
+      "pid": 318045968924672,
+      "step": 21,
+      "combine_streams": [
+        51
+      ],
+      "combine_kernel": "ncclDevKernel_SendRecv",
+      "combine_kernel_us": 55.742,
+      "consumer_stream": 7,
+      "first_consumer_kernel": "vectorized_elementwise_kernel",
+      "combine_end_to_consumer_kernel_us": 1447.523,
+      "kernels_between_comm_end_and_consumer": 2,
+      "replay_kernels": [
+        {
+          "start": 46927101971,
+          "end": 46927110450,
+          "stream": 55,
+          "name": "vectorized_elementwise_kernel"
+        },
+        {
+          "start": 46927177873,
+          "end": 46927230576,
+          "stream": 157,
+          "name": "ampere_bf16_s16816gemm_bf16_256x128_ldg8_f2f_stages_32x3_tn"
+        }
+      ],
+      "consumer_nvtx_start_minus_combine_kernel_end_us": 1405.357,
+      "combine_nvtx_cpu_end_to_kernel_end_us": 2.935
+    },
+    {
+      "pid": 318044291203072,
+      "step": 22,
+      "combine_streams": [
+        51
+      ],
+      "combine_kernel": "ncclDevKernel_SendRecv",
+      "combine_kernel_us": 1331.202,
+      "consumer_stream": 7,
+      "first_consumer_kernel": "vectorized_elementwise_kernel",
+      "combine_end_to_consumer_kernel_us": 1.216,
+      "kernels_between_comm_end_and_consumer": 0,
+      "replay_kernels": [
+        {
+          "start": 47379613027,
+          "end": 47379622179,
+          "stream": 55,
+          "name": "vectorized_elementwise_kernel"
+        },
+        {
+          "start": 47379628418,
+          "end": 47379701409,
+          "stream": 157,
+          "name": "ampere_bf16_s16816gemm_bf16_256x128_ldg8_f2f_stages_32x3_tn"
+        }
+      ],
+      "consumer_nvtx_start_minus_combine_kernel_end_us": -780.405,
+      "combine_nvtx_cpu_end_to_kernel_end_us": 2057.549
+    },
+    {
+      "pid": 318046388355072,
+      "step": 22,
+      "combine_streams": [
+        51
+      ],
+      "combine_kernel": "ncclDevKernel_SendRecv",
+      "combine_kernel_us": 1381.35,
+      "consumer_stream": 7,
+      "first_consumer_kernel": "vectorized_elementwise_kernel",
+      "combine_end_to_consumer_kernel_us": 1.248,
+      "kernels_between_comm_end_and_consumer": 0,
+      "replay_kernels": [
+        {
+          "start": 47379580352,
+          "end": 47379588672,
+          "stream": 55,
+          "name": "vectorized_elementwise_kernel"
+        },
+        {
+          "start": 47379595456,
+          "end": 47379655807,
+          "stream": 157,
+          "name": "ampere_bf16_s16816gemm_bf16_256x128_ldg8_f2f_stages_32x3_tn"
+        }
+      ],
+      "consumer_nvtx_start_minus_combine_kernel_end_us": -808.879,
+      "combine_nvtx_cpu_end_to_kernel_end_us": 2049.13
+    },
+    {
+      "pid": 318046942003200,
+      "step": 22,
+      "combine_streams": [
+        51
+      ],
+      "combine_kernel": "ncclDevKernel_SendRecv",
+      "combine_kernel_us": 1454.5,
+      "consumer_stream": 7,
+      "first_consumer_kernel": "vectorized_elementwise_kernel",
+      "combine_end_to_consumer_kernel_us": 1.024,
+      "kernels_between_comm_end_and_consumer": 0,
+      "replay_kernels": [
+        {
+          "start": 47379591338,
+          "end": 47379604489,
+          "stream": 55,
+          "name": "vectorized_elementwise_kernel"
+        },
+        {
+          "start": 47379664200,
+          "end": 47379720423,
+          "stream": 157,
+          "name": "ampere_bf16_s16816gemm_bf16_256x128_ldg8_f2f_stages_32x3_tn"
+        }
+      ],
+      "consumer_nvtx_start_minus_combine_kernel_end_us": -658.941,
+      "combine_nvtx_cpu_end_to_kernel_end_us": 1978.9
+    },
+    {
+      "pid": 318047629869056,
+      "step": 22,
+      "combine_streams": [
+        51
+      ],
+      "combine_kernel": "ncclDevKernel_SendRecv",
+      "combine_kernel_us": 1331.203,
+      "consumer_stream": 7,
+      "first_consumer_kernel": "vectorized_elementwise_kernel",
+      "combine_end_to_consumer_kernel_us": 1.088,
+      "kernels_between_comm_end_and_consumer": 0,
+      "replay_kernels": [
+        {
+          "start": 47379590677,
+          "end": 47379599829,
+          "stream": 55,
+          "name": "vectorized_elementwise_kernel"
+        },
+        {
+          "start": 47379657492,
+          "end": 47379713843,
+          "stream": 157,
+          "name": "ampere_bf16_s16816gemm_bf16_256x128_ldg8_f2f_stages_32x3_tn"
+        }
+      ],
+      "consumer_nvtx_start_minus_combine_kernel_end_us": -643.711,
+      "combine_nvtx_cpu_end_to_kernel_end_us": 1944.058
+    },
+    {
+      "pid": 318044710633472,
+      "step": 22,
+      "combine_streams": [
+        51
+      ],
+      "combine_kernel": "ncclDevKernel_SendRecv",
+      "combine_kernel_us": 1383.328,
+      "consumer_stream": 7,
+      "first_consumer_kernel": "vectorized_elementwise_kernel",
+      "combine_end_to_consumer_kernel_us": 1.12,
+      "kernels_between_comm_end_and_consumer": 0,
+      "replay_kernels": [
+        {
+          "start": 47379650365,
+          "end": 47379666044,
+          "stream": 55,
+          "name": "vectorized_elementwise_kernel"
+        },
+        {
+          "start": 47379720347,
+          "end": 47379775162,
+          "stream": 157,
+          "name": "ampere_bf16_s16816gemm_bf16_256x128_ldg8_f2f_stages_32x3_tn"
+        }
+      ],
+      "consumer_nvtx_start_minus_combine_kernel_end_us": -537.56,
+      "combine_nvtx_cpu_end_to_kernel_end_us": 1962.254
+    },
+    {
+      "pid": 318044962291712,
+      "step": 22,
+      "combine_streams": [
+        51
+      ],
+      "combine_kernel": "ncclDevKernel_SendRecv",
+      "combine_kernel_us": 1379.751,
+      "consumer_stream": 7,
+      "first_consumer_kernel": "vectorized_elementwise_kernel",
+      "combine_end_to_consumer_kernel_us": 1.024,
+      "kernels_between_comm_end_and_consumer": 0,
+      "replay_kernels": [
+        {
+          "start": 47379658127,
+          "end": 47379669007,
+          "stream": 55,
+          "name": "vectorized_elementwise_kernel"
+        },
+        {
+          "start": 47379728590,
+          "end": 47379784365,
+          "stream": 157,
+          "name": "ampere_bf16_s16816gemm_bf16_256x128_ldg8_f2f_stages_32x3_tn"
+        }
+      ],
+      "consumer_nvtx_start_minus_combine_kernel_end_us": -575.591,
+      "combine_nvtx_cpu_end_to_kernel_end_us": 1946.274
+    },
+    {
+      "pid": 318045968924672,
+      "step": 22,
+      "combine_streams": [
+        51
+      ],
+      "combine_kernel": "ncclDevKernel_SendRecv",
+      "combine_kernel_us": 1311.205,
+      "consumer_stream": 7,
+      "first_consumer_kernel": "vectorized_elementwise_kernel",
+      "combine_end_to_consumer_kernel_us": 1.184,
+      "kernels_between_comm_end_and_consumer": 0,
+      "replay_kernels": [
+        {
+          "start": 47379685456,
+          "end": 47379696464,
+          "stream": 55,
+          "name": "vectorized_elementwise_kernel"
+        },
+        {
+          "start": 47379762127,
+          "end": 47379814830,
+          "stream": 157,
+          "name": "ampere_bf16_s16816gemm_bf16_256x128_ldg8_f2f_stages_32x3_tn"
+        }
+      ],
+      "consumer_nvtx_start_minus_combine_kernel_end_us": -465.23,
+      "combine_nvtx_cpu_end_to_kernel_end_us": 1909.972
+    },
+    {
+      "pid": 318047059443712,
+      "step": 22,
+      "combine_streams": [
+        51
+      ],
+      "combine_kernel": "ncclDevKernel_SendRecv",
+      "combine_kernel_us": 101.854,
+      "consumer_stream": 7,
+      "first_consumer_kernel": "vectorized_elementwise_kernel",
+      "combine_end_to_consumer_kernel_us": 1928.317,
+      "kernels_between_comm_end_and_consumer": 2,
+      "replay_kernels": [
+        {
+          "start": 47381783606,
+          "end": 47381794614,
+          "stream": 55,
+          "name": "vectorized_elementwise_kernel"
+        },
+        {
+          "start": 47381894708,
+          "end": 47381948563,
+          "stream": 157,
+          "name": "ampere_bf16_s16816gemm_bf16_256x128_ldg8_f2f_stages_32x3_tn"
+        }
+      ],
+      "consumer_nvtx_start_minus_combine_kernel_end_us": 1872.486,
+      "combine_nvtx_cpu_end_to_kernel_end_us": 24.799
+    }
+  ]
+}

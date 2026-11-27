@@ -1,0 +1,927 @@
+{
+  "summary": {
+    "samples": 24,
+    "overlapped_samples": 0,
+    "overlapped_gemm_samples": 0,
+    "combine_us": {
+      "mean": 594.0442083333334,
+      "median": 650.6614999999999,
+      "min": 56.348,
+      "max": 799.757
+    },
+    "replay_us": {
+      "mean": 61.67070833333334,
+      "median": 62.108000000000004,
+      "min": 46.301,
+      "max": 65.468
+    },
+    "overlap_us": {
+      "mean": 0.0,
+      "median": 0.0,
+      "min": 0.0,
+      "max": 0.0
+    },
+    "gemm_us": {
+      "mean": 52.234,
+      "median": 52.781,
+      "min": 37.565,
+      "max": 54.173
+    },
+    "gemm_overlap_us": {
+      "mean": 0.0,
+      "median": 0.0,
+      "min": 0.0,
+      "max": 0.0
+    }
+  },
+  "samples": [
+    {
+      "pid": 294039836426240,
+      "step": 20,
+      "combine": [
+        {
+          "start": 44888752681,
+          "end": 44889471129,
+          "stream": 51,
+          "name": "ncclDevKernel_SendRecv",
+          "cpu_submit_start": 44888631487,
+          "cpu_submit_end": 44888638182
+        }
+      ],
+      "replay": [
+        {
+          "start": 44866045738,
+          "end": 44866055273,
+          "stream": 7,
+          "name": "vectorized_elementwise_kernel",
+          "cpu_submit_start": 44866031224,
+          "cpu_submit_end": 44866044478
+        },
+        {
+          "start": 44866112549,
+          "end": 44866165730,
+          "stream": 157,
+          "name": "ampere_bf16_s16816gemm_bf16_256x128_ldg8_f2f_stages_32x3_tn",
+          "cpu_submit_start": 44866103156,
+          "cpu_submit_end": 44866110691
+        }
+      ],
+      "gemm_us": 53.181,
+      "gemm_overlap_us": 0.0,
+      "overlap_us": 0.0,
+      "combine_us": 718.448,
+      "replay_us": 62.716
+    },
+    {
+      "pid": 294038594912256,
+      "step": 20,
+      "combine": [
+        {
+          "start": 44888744879,
+          "end": 44889470529,
+          "stream": 51,
+          "name": "ncclDevKernel_SendRecv",
+          "cpu_submit_start": 44888657358,
+          "cpu_submit_end": 44888664497
+        }
+      ],
+      "replay": [
+        {
+          "start": 44866137282,
+          "end": 44866145505,
+          "stream": 7,
+          "name": "vectorized_elementwise_kernel",
+          "cpu_submit_start": 44866122468,
+          "cpu_submit_end": 44866136189
+        },
+        {
+          "start": 44866208701,
+          "end": 44866260890,
+          "stream": 157,
+          "name": "ampere_bf16_s16816gemm_bf16_256x128_ldg8_f2f_stages_32x3_tn",
+          "cpu_submit_start": 44866198535,
+          "cpu_submit_end": 44866207039
+        }
+      ],
+      "gemm_us": 52.189,
+      "gemm_overlap_us": 0.0,
+      "overlap_us": 0.0,
+      "combine_us": 725.65,
+      "replay_us": 60.412
+    },
+    {
+      "pid": 294039232446464,
+      "step": 20,
+      "combine": [
+        {
+          "start": 44888672820,
+          "end": 44889472577,
+          "stream": 51,
+          "name": "ncclDevKernel_SendRecv",
+          "cpu_submit_start": 44888664158,
+          "cpu_submit_end": 44888676683
+        }
+      ],
+      "replay": [
+        {
+          "start": 44866242026,
+          "end": 44866251530,
+          "stream": 7,
+          "name": "vectorized_elementwise_kernel",
+          "cpu_submit_start": 44866226932,
+          "cpu_submit_end": 44866240430
+        },
+        {
+          "start": 44866321093,
+          "end": 44866374178,
+          "stream": 157,
+          "name": "ampere_bf16_s16816gemm_bf16_256x128_ldg8_f2f_stages_32x3_tn",
+          "cpu_submit_start": 44866311552,
+          "cpu_submit_end": 44866319430
+        }
+      ],
+      "gemm_us": 53.085,
+      "gemm_overlap_us": 0.0,
+      "overlap_us": 0.0,
+      "combine_us": 799.757,
+      "replay_us": 62.589
+    },
+    {
+      "pid": 294039064674304,
+      "step": 20,
+      "combine": [
+        {
+          "start": 44888745875,
+          "end": 44889460294,
+          "stream": 51,
+          "name": "ncclDevKernel_SendRecv",
+          "cpu_submit_start": 44888672820,
+          "cpu_submit_end": 44888680012
+        }
+      ],
+      "replay": [
+        {
+          "start": 44866380951,
+          "end": 44866389590,
+          "stream": 7,
+          "name": "vectorized_elementwise_kernel",
+          "cpu_submit_start": 44866366062,
+          "cpu_submit_end": 44866379780
+        },
+        {
+          "start": 44866453362,
+          "end": 44866505871,
+          "stream": 157,
+          "name": "ampere_bf16_s16816gemm_bf16_256x128_ldg8_f2f_stages_32x3_tn",
+          "cpu_submit_start": 44866443780,
+          "cpu_submit_end": 44866451808
+        }
+      ],
+      "gemm_us": 52.509,
+      "gemm_overlap_us": 0.0,
+      "overlap_us": 0.0,
+      "combine_us": 714.419,
+      "replay_us": 61.148
+    },
+    {
+      "pid": 294038712352768,
+      "step": 20,
+      "combine": [
+        {
+          "start": 44888766850,
+          "end": 44889478356,
+          "stream": 51,
+          "name": "ncclDevKernel_SendRecv",
+          "cpu_submit_start": 44888682267,
+          "cpu_submit_end": 44888689578
+        }
+      ],
+      "replay": [
+        {
+          "start": 44866193815,
+          "end": 44866202679,
+          "stream": 7,
+          "name": "vectorized_elementwise_kernel",
+          "cpu_submit_start": 44866179091,
+          "cpu_submit_end": 44866192672
+        },
+        {
+          "start": 44866263763,
+          "end": 44866316239,
+          "stream": 157,
+          "name": "ampere_bf16_s16816gemm_bf16_256x128_ldg8_f2f_stages_32x3_tn",
+          "cpu_submit_start": 44866254532,
+          "cpu_submit_end": 44866262099
+        }
+      ],
+      "gemm_us": 52.476,
+      "gemm_overlap_us": 0.0,
+      "overlap_us": 0.0,
+      "combine_us": 711.506,
+      "replay_us": 61.34
+    },
+    {
+      "pid": 294037386952704,
+      "step": 20,
+      "combine": [
+        {
+          "start": 44888772569,
+          "end": 44889470634,
+          "stream": 51,
+          "name": "ncclDevKernel_SendRecv",
+          "cpu_submit_start": 44888690371,
+          "cpu_submit_end": 44888698123
+        }
+      ],
+      "replay": [
+        {
+          "start": 44867133953,
+          "end": 44867143104,
+          "stream": 7,
+          "name": "vectorized_elementwise_kernel",
+          "cpu_submit_start": 44867118386,
+          "cpu_submit_end": 44867133168
+        },
+        {
+          "start": 44867283159,
+          "end": 44867335795,
+          "stream": 157,
+          "name": "ampere_bf16_s16816gemm_bf16_256x128_ldg8_f2f_stages_32x3_tn",
+          "cpu_submit_start": 44867273057,
+          "cpu_submit_end": 44867281619
+        }
+      ],
+      "gemm_us": 52.636,
+      "gemm_overlap_us": 0.0,
+      "overlap_us": 0.0,
+      "combine_us": 698.065,
+      "replay_us": 61.787
+    },
+    {
+      "pid": 294039484104704,
+      "step": 20,
+      "combine": [
+        {
+          "start": 44888730484,
+          "end": 44889470629,
+          "stream": 51,
+          "name": "ncclDevKernel_SendRecv",
+          "cpu_submit_start": 44888721958,
+          "cpu_submit_end": 44888729136
+        }
+      ],
+      "replay": [
+        {
+          "start": 44866926033,
+          "end": 44866937328,
+          "stream": 7,
+          "name": "vectorized_elementwise_kernel",
+          "cpu_submit_start": 44866907089,
+          "cpu_submit_end": 44866926307
+        },
+        {
+          "start": 44867054601,
+          "end": 44867108774,
+          "stream": 157,
+          "name": "ampere_bf16_s16816gemm_bf16_256x128_ldg8_f2f_stages_32x3_tn",
+          "cpu_submit_start": 44867042319,
+          "cpu_submit_end": 44867053732
+        }
+      ],
+      "gemm_us": 54.173,
+      "gemm_overlap_us": 0.0,
+      "overlap_us": 0.0,
+      "combine_us": 740.145,
+      "replay_us": 65.468
+    },
+    {
+      "pid": 294037856714752,
+      "step": 20,
+      "combine": [
+        {
+          "start": 44889423600,
+          "end": 44889482572,
+          "stream": 51,
+          "name": "ncclDevKernel_SendRecv",
+          "cpu_submit_start": 44889413524,
+          "cpu_submit_end": 44889421847
+        }
+      ],
+      "replay": [
+        {
+          "start": 44866186828,
+          "end": 44866197419,
+          "stream": 7,
+          "name": "vectorized_elementwise_kernel",
+          "cpu_submit_start": 44866171926,
+          "cpu_submit_end": 44866185393
+        },
+        {
+          "start": 44866258279,
+          "end": 44866311555,
+          "stream": 157,
+          "name": "ampere_bf16_s16816gemm_bf16_256x128_ldg8_f2f_stages_32x3_tn",
+          "cpu_submit_start": 44866248696,
+          "cpu_submit_end": 44866256564
+        }
+      ],
+      "gemm_us": 53.276,
+      "gemm_overlap_us": 0.0,
+      "overlap_us": 0.0,
+      "combine_us": 58.972,
+      "replay_us": 63.867
+    },
+    {
+      "pid": 294039064674304,
+      "step": 21,
+      "combine": [
+        {
+          "start": 45284086225,
+          "end": 45284771750,
+          "stream": 51,
+          "name": "ncclDevKernel_SendRecv",
+          "cpu_submit_start": 45284036300,
+          "cpu_submit_end": 45284043472
+        }
+      ],
+      "replay": [
+        {
+          "start": 45269613763,
+          "end": 45269622083,
+          "stream": 7,
+          "name": "vectorized_elementwise_kernel",
+          "cpu_submit_start": 45269598505,
+          "cpu_submit_end": 45269613100
+        },
+        {
+          "start": 45269688286,
+          "end": 45269740731,
+          "stream": 157,
+          "name": "ampere_bf16_s16816gemm_bf16_256x128_ldg8_f2f_stages_32x3_tn",
+          "cpu_submit_start": 45269678357,
+          "cpu_submit_end": 45269686826
+        }
+      ],
+      "gemm_us": 52.445,
+      "gemm_overlap_us": 0.0,
+      "overlap_us": 0.0,
+      "combine_us": 685.525,
+      "replay_us": 60.765
+    },
+    {
+      "pid": 294039232446464,
+      "step": 21,
+      "combine": [
+        {
+          "start": 45284059955,
+          "end": 45284769094,
+          "stream": 51,
+          "name": "ncclDevKernel_SendRecv",
+          "cpu_submit_start": 45284050791,
+          "cpu_submit_end": 45284057863
+        }
+      ],
+      "replay": [
+        {
+          "start": 45268258179,
+          "end": 45268267683,
+          "stream": 7,
+          "name": "vectorized_elementwise_kernel",
+          "cpu_submit_start": 45267901318,
+          "cpu_submit_end": 45267914726
+        },
+        {
+          "start": 45268276194,
+          "end": 45268329119,
+          "stream": 157,
+          "name": "ampere_bf16_s16816gemm_bf16_256x128_ldg8_f2f_stages_32x3_tn",
+          "cpu_submit_start": 45267979875,
+          "cpu_submit_end": 45267987621
+        }
+      ],
+      "gemm_us": 52.925,
+      "gemm_overlap_us": 0.0,
+      "overlap_us": 0.0,
+      "combine_us": 709.139,
+      "replay_us": 62.429
+    },
+    {
+      "pid": 294039836426240,
+      "step": 21,
+      "combine": [
+        {
+          "start": 45284100822,
+          "end": 45284761898,
+          "stream": 51,
+          "name": "ncclDevKernel_SendRecv",
+          "cpu_submit_start": 45284077200,
+          "cpu_submit_end": 45284084228
+        }
+      ],
+      "replay": [
+        {
+          "start": 45268257520,
+          "end": 45268267471,
+          "stream": 7,
+          "name": "vectorized_elementwise_kernel",
+          "cpu_submit_start": 45268097603,
+          "cpu_submit_end": 45268111015
+        },
+        {
+          "start": 45268275950,
+          "end": 45268328971,
+          "stream": 157,
+          "name": "ampere_bf16_s16816gemm_bf16_256x128_ldg8_f2f_stages_32x3_tn",
+          "cpu_submit_start": 45268198112,
+          "cpu_submit_end": 45268205880
+        }
+      ],
+      "gemm_us": 53.021,
+      "gemm_overlap_us": 0.0,
+      "overlap_us": 0.0,
+      "combine_us": 661.076,
+      "replay_us": 62.972
+    },
+    {
+      "pid": 294038712352768,
+      "step": 21,
+      "combine": [
+        {
+          "start": 45284124115,
+          "end": 45284763785,
+          "stream": 51,
+          "name": "ncclDevKernel_SendRecv",
+          "cpu_submit_start": 45284104238,
+          "cpu_submit_end": 45284112225
+        }
+      ],
+      "replay": [
+        {
+          "start": 45268256502,
+          "end": 45268265397,
+          "stream": 7,
+          "name": "vectorized_elementwise_kernel",
+          "cpu_submit_start": 45268061624,
+          "cpu_submit_end": 45268097433
+        },
+        {
+          "start": 45268273684,
+          "end": 45268326033,
+          "stream": 157,
+          "name": "ampere_bf16_s16816gemm_bf16_256x128_ldg8_f2f_stages_32x3_tn",
+          "cpu_submit_start": 45268176945,
+          "cpu_submit_end": 45268185281
+        }
+      ],
+      "gemm_us": 52.349,
+      "gemm_overlap_us": 0.0,
+      "overlap_us": 0.0,
+      "combine_us": 639.67,
+      "replay_us": 61.244
+    },
+    {
+      "pid": 294037856714752,
+      "step": 21,
+      "combine": [
+        {
+          "start": 45284115601,
+          "end": 45284766981,
+          "stream": 51,
+          "name": "ncclDevKernel_SendRecv",
+          "cpu_submit_start": 45284106405,
+          "cpu_submit_end": 45284113676
+        }
+      ],
+      "replay": [
+        {
+          "start": 45268259132,
+          "end": 45268268955,
+          "stream": 7,
+          "name": "vectorized_elementwise_kernel",
+          "cpu_submit_start": 45267874116,
+          "cpu_submit_end": 45267886823
+        },
+        {
+          "start": 45268277563,
+          "end": 45268330615,
+          "stream": 157,
+          "name": "ampere_bf16_s16816gemm_bf16_256x128_ldg8_f2f_stages_32x3_tn",
+          "cpu_submit_start": 45267954684,
+          "cpu_submit_end": 45267962695
+        }
+      ],
+      "gemm_us": 53.052,
+      "gemm_overlap_us": 0.0,
+      "overlap_us": 0.0,
+      "combine_us": 651.38,
+      "replay_us": 62.875
+    },
+    {
+      "pid": 294037386952704,
+      "step": 21,
+      "combine": [
+        {
+          "start": 45284132012,
+          "end": 45284764162,
+          "stream": 51,
+          "name": "ncclDevKernel_SendRecv",
+          "cpu_submit_start": 45284122615,
+          "cpu_submit_end": 45284130252
+        }
+      ],
+      "replay": [
+        {
+          "start": 45268256050,
+          "end": 45268265074,
+          "stream": 7,
+          "name": "vectorized_elementwise_kernel",
+          "cpu_submit_start": 45267929336,
+          "cpu_submit_end": 45267943214
+        },
+        {
+          "start": 45268273425,
+          "end": 45268326190,
+          "stream": 157,
+          "name": "ampere_bf16_s16816gemm_bf16_256x128_ldg8_f2f_stages_32x3_tn",
+          "cpu_submit_start": 45268012594,
+          "cpu_submit_end": 45268021057
+        }
+      ],
+      "gemm_us": 52.765,
+      "gemm_overlap_us": 0.0,
+      "overlap_us": 0.0,
+      "combine_us": 632.15,
+      "replay_us": 61.789
+    },
+    {
+      "pid": 294038594912256,
+      "step": 21,
+      "combine": [
+        {
+          "start": 45284130943,
+          "end": 45284763608,
+          "stream": 51,
+          "name": "ncclDevKernel_SendRecv",
+          "cpu_submit_start": 45284121423,
+          "cpu_submit_end": 45284128890
+        }
+      ],
+      "replay": [
+        {
+          "start": 45268282375,
+          "end": 45268290407,
+          "stream": 7,
+          "name": "vectorized_elementwise_kernel",
+          "cpu_submit_start": 45268267335,
+          "cpu_submit_end": 45268281158
+        },
+        {
+          "start": 45268384641,
+          "end": 45268436894,
+          "stream": 157,
+          "name": "ampere_bf16_s16816gemm_bf16_256x128_ldg8_f2f_stages_32x3_tn",
+          "cpu_submit_start": 45268374546,
+          "cpu_submit_end": 45268382943
+        }
+      ],
+      "gemm_us": 52.253,
+      "gemm_overlap_us": 0.0,
+      "overlap_us": 0.0,
+      "combine_us": 632.665,
+      "replay_us": 60.285
+    },
+    {
+      "pid": 294039484104704,
+      "step": 21,
+      "combine": [
+        {
+          "start": 45284725888,
+          "end": 45284784476,
+          "stream": 51,
+          "name": "ncclDevKernel_SendRecv",
+          "cpu_submit_start": 45284717128,
+          "cpu_submit_end": 45284724123
+        }
+      ],
+      "replay": [
+        {
+          "start": 45269508063,
+          "end": 45269519422,
+          "stream": 7,
+          "name": "vectorized_elementwise_kernel",
+          "cpu_submit_start": 45269489372,
+          "cpu_submit_end": 45269508061
+        },
+        {
+          "start": 45269600249,
+          "end": 45269654070,
+          "stream": 157,
+          "name": "ampere_bf16_s16816gemm_bf16_256x128_ldg8_f2f_stages_32x3_tn",
+          "cpu_submit_start": 45269589379,
+          "cpu_submit_end": 45269620457
+        }
+      ],
+      "gemm_us": 53.821,
+      "gemm_overlap_us": 0.0,
+      "overlap_us": 0.0,
+      "combine_us": 58.588,
+      "replay_us": 65.18
+    },
+    {
+      "pid": 294039064674304,
+      "step": 22,
+      "combine": [
+        {
+          "start": 45663871174,
+          "end": 45664526653,
+          "stream": 51,
+          "name": "ncclDevKernel_SendRecv",
+          "cpu_submit_start": 45663793045,
+          "cpu_submit_end": 45663799684
+        }
+      ],
+      "replay": [
+        {
+          "start": 45648638888,
+          "end": 45648647111,
+          "stream": 7,
+          "name": "vectorized_elementwise_kernel",
+          "cpu_submit_start": 45648624527,
+          "cpu_submit_end": 45648637940
+        },
+        {
+          "start": 45648708324,
+          "end": 45648760480,
+          "stream": 157,
+          "name": "ampere_bf16_s16816gemm_bf16_256x128_ldg8_f2f_stages_32x3_tn",
+          "cpu_submit_start": 45648698702,
+          "cpu_submit_end": 45648717208
+        }
+      ],
+      "gemm_us": 52.156,
+      "gemm_overlap_us": 0.0,
+      "overlap_us": 0.0,
+      "combine_us": 655.479,
+      "replay_us": 60.379
+    },
+    {
+      "pid": 294037386952704,
+      "step": 22,
+      "combine": [
+        {
+          "start": 45663904114,
+          "end": 45664527593,
+          "stream": 51,
+          "name": "ncclDevKernel_SendRecv",
+          "cpu_submit_start": 45663829956,
+          "cpu_submit_end": 45663837207
+        }
+      ],
+      "replay": [
+        {
+          "start": 45647548888,
+          "end": 45647558072,
+          "stream": 7,
+          "name": "vectorized_elementwise_kernel",
+          "cpu_submit_start": 45647531747,
+          "cpu_submit_end": 45647546418
+        },
+        {
+          "start": 45647653841,
+          "end": 45647706542,
+          "stream": 157,
+          "name": "ampere_bf16_s16816gemm_bf16_256x128_ldg8_f2f_stages_32x3_tn",
+          "cpu_submit_start": 45647642658,
+          "cpu_submit_end": 45647651955
+        }
+      ],
+      "gemm_us": 52.701,
+      "gemm_overlap_us": 0.0,
+      "overlap_us": 0.0,
+      "combine_us": 623.479,
+      "replay_us": 61.885
+    },
+    {
+      "pid": 294037856714752,
+      "step": 22,
+      "combine": [
+        {
+          "start": 45663885406,
+          "end": 45664533427,
+          "stream": 51,
+          "name": "ncclDevKernel_SendRecv",
+          "cpu_submit_start": 45663876007,
+          "cpu_submit_end": 45663883322
+        }
+      ],
+      "replay": [
+        {
+          "start": 45648164096,
+          "end": 45648174496,
+          "stream": 7,
+          "name": "vectorized_elementwise_kernel",
+          "cpu_submit_start": 45648149723,
+          "cpu_submit_end": 45648163214
+        },
+        {
+          "start": 45648234716,
+          "end": 45648287864,
+          "stream": 157,
+          "name": "ampere_bf16_s16816gemm_bf16_256x128_ldg8_f2f_stages_32x3_tn",
+          "cpu_submit_start": 45648225087,
+          "cpu_submit_end": 45648232742
+        }
+      ],
+      "gemm_us": 53.148,
+      "gemm_overlap_us": 0.0,
+      "overlap_us": 0.0,
+      "combine_us": 648.021,
+      "replay_us": 63.548
+    },
+    {
+      "pid": 294038594912256,
+      "step": 22,
+      "combine": [
+        {
+          "start": 45663888554,
+          "end": 45664538497,
+          "stream": 51,
+          "name": "ncclDevKernel_SendRecv",
+          "cpu_submit_start": 45663879375,
+          "cpu_submit_end": 45663886525
+        }
+      ],
+      "replay": [
+        {
+          "start": 45647547121,
+          "end": 45647555728,
+          "stream": 7,
+          "name": "vectorized_elementwise_kernel",
+          "cpu_submit_start": 45647173099,
+          "cpu_submit_end": 45647187127
+        },
+        {
+          "start": 45647563920,
+          "end": 45647616300,
+          "stream": 157,
+          "name": "ampere_bf16_s16816gemm_bf16_256x128_ldg8_f2f_stages_32x3_tn",
+          "cpu_submit_start": 45647334115,
+          "cpu_submit_end": 45647342217
+        }
+      ],
+      "gemm_us": 52.38,
+      "gemm_overlap_us": 0.0,
+      "overlap_us": 0.0,
+      "combine_us": 649.943,
+      "replay_us": 60.987
+    },
+    {
+      "pid": 294039484104704,
+      "step": 22,
+      "combine": [
+        {
+          "start": 45663904880,
+          "end": 45664531560,
+          "stream": 51,
+          "name": "ncclDevKernel_SendRecv",
+          "cpu_submit_start": 45663895455,
+          "cpu_submit_end": 45663902679
+        }
+      ],
+      "replay": [
+        {
+          "start": 45647552406,
+          "end": 45647563861,
+          "stream": 7,
+          "name": "vectorized_elementwise_kernel",
+          "cpu_submit_start": 45647050307,
+          "cpu_submit_end": 45647063315
+        },
+        {
+          "start": 45647572373,
+          "end": 45647626066,
+          "stream": 157,
+          "name": "ampere_bf16_s16816gemm_bf16_256x128_ldg8_f2f_stages_32x3_tn",
+          "cpu_submit_start": 45647124672,
+          "cpu_submit_end": 45647131875
+        }
+      ],
+      "gemm_us": 53.693,
+      "gemm_overlap_us": 0.0,
+      "overlap_us": 0.0,
+      "combine_us": 626.68,
+      "replay_us": 65.148
+    },
+    {
+      "pid": 294039836426240,
+      "step": 22,
+      "combine": [
+        {
+          "start": 45663915592,
+          "end": 45664534303,
+          "stream": 51,
+          "name": "ncclDevKernel_SendRecv",
+          "cpu_submit_start": 45663905987,
+          "cpu_submit_end": 45663913821
+        }
+      ],
+      "replay": [
+        {
+          "start": 45647549733,
+          "end": 45647559588,
+          "stream": 7,
+          "name": "vectorized_elementwise_kernel",
+          "cpu_submit_start": 45647101619,
+          "cpu_submit_end": 45647115416
+        },
+        {
+          "start": 45647568131,
+          "end": 45647620928,
+          "stream": 157,
+          "name": "ampere_bf16_s16816gemm_bf16_256x128_ldg8_f2f_stages_32x3_tn",
+          "cpu_submit_start": 45647177675,
+          "cpu_submit_end": 45647185259
+        }
+      ],
+      "gemm_us": 52.797,
+      "gemm_overlap_us": 0.0,
+      "overlap_us": 0.0,
+      "combine_us": 618.711,
+      "replay_us": 62.652
+    },
+    {
+      "pid": 294038712352768,
+      "step": 22,
+      "combine": [
+        {
+          "start": 45663994286,
+          "end": 45664535531,
+          "stream": 51,
+          "name": "ncclDevKernel_SendRecv",
+          "cpu_submit_start": 45663984893,
+          "cpu_submit_end": 45663992566
+        }
+      ],
+      "replay": [
+        {
+          "start": 45647943964,
+          "end": 45647952700,
+          "stream": 7,
+          "name": "vectorized_elementwise_kernel",
+          "cpu_submit_start": 45647928108,
+          "cpu_submit_end": 45647942905
+        },
+        {
+          "start": 45648077300,
+          "end": 45648114865,
+          "stream": 157,
+          "name": "ampere_bf16_s16816gemm_bf16_256x128_ldg8_f2f_stages_32x3_tn",
+          "cpu_submit_start": 45648066377,
+          "cpu_submit_end": 45648075853
+        }
+      ],
+      "gemm_us": 37.565,
+      "gemm_overlap_us": 0.0,
+      "overlap_us": 0.0,
+      "combine_us": 541.245,
+      "replay_us": 46.301
+    },
+    {
+      "pid": 294039232446464,
+      "step": 22,
+      "combine": [
+        {
+          "start": 45664491789,
+          "end": 45664548137,
+          "stream": 51,
+          "name": "ncclDevKernel_SendRecv",
+          "cpu_submit_start": 45664482686,
+          "cpu_submit_end": 45664489750
+        }
+      ],
+      "replay": [
+        {
+          "start": 45647650239,
+          "end": 45647659550,
+          "stream": 7,
+          "name": "vectorized_elementwise_kernel",
+          "cpu_submit_start": 45647636194,
+          "cpu_submit_end": 45647657885
+        },
+        {
+          "start": 45647747065,
+          "end": 45647800085,
+          "stream": 157,
+          "name": "ampere_bf16_s16816gemm_bf16_256x128_ldg8_f2f_stages_32x3_tn",
+          "cpu_submit_start": 45647737563,
+          "cpu_submit_end": 45647745249
+        }
+      ],
+      "gemm_us": 53.02,
+      "gemm_overlap_us": 0.0,
+      "overlap_us": 0.0,
+      "combine_us": 56.348,
+      "replay_us": 62.331
+    }
+  ]
+}

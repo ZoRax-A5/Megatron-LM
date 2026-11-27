@@ -34,3 +34,5 @@
 [P17 补充验收（2026-11-25）](proactive_p17_moe_ep_20261124/followup_20261125/EXPERIMENT_REPORT.md)：确定性 EP2 首步自对照与 `moe_fc1` 完整张量对照逐字节一致；稳态 EP8 样本识别到通信流与计算流事件依赖。0.43B 放大模型未见明确 `moe_fc1` 峰值显存收益；其余重计算额外步时未能因果分解，合法 Replay 窗口尚未证明，P17 仍为 PARTIAL、P18 暂为 NO-GO。
 
 [P17 提前 Replay 静态审查](proactive_p17_moe_ep_20261124/legality_audit_20261125/EXPERIMENT_REPORT.md)：确认原生 MoE checkpoint 缺少提前图消费接口；本轮运行时合法性及三次成本归因尚未完成，PARTIAL、P18 NO-GO。
+
+[P17 MoE FC1 主动 Replay 与 EP Combine 并发（2026-11-27）](proactive_p17_moe_ep_20261124/active_fc1_overlap_20261127/EXPERIMENT_REPORT.md)：将现有 ProactiveCheckpoint 扩展到 TEGroupedMLP FC1。EP2 安全位置、EP8 完整张量正确性和缓存生命周期通过；EP8 前向 Combine 与早层 FC1 Replay 在真实 GPU Kernel 时间线上发生并发，同触发点串行对照无交叠。三次正常训练中并发配置比串行控制慢约 4.2%，整步差额尚未归因；本补充阶段 Gate A/B/C PASS，但没有加速结论。P18 **GO（窄范围）**，仅建议继续受控测量 EP8 Combine × FC1 Replay 的竞争，不启动通用调度器或完整矩阵。
